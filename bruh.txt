@@ -1,0 +1,14 @@
+#include <iostream>
+#include <string>
+
+int main() {
+
+string a = "jinil";
+string b = "hirav";
+string c = "harsimran";
+
+cout << "this project is run by" + a + " " + b + " " + c + "." << endl;
+
+}
+
+
