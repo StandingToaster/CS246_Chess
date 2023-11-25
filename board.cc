@@ -1,4 +1,5 @@
 #include "board.h"
+#include <iostream>
 
 using namespace std;
 
@@ -10,38 +11,48 @@ Board::~Board() {}
 void Board::setBoard() {
 
     // Resizing the board and each row to be size 8 in length
-    board.resize(boardSize);
+    theBoard.resize(boardSize);
     for (int i = 0; i < boardSize; i++) {
-        board[i].resize(boardSize);
+        theBoard[i].resize(boardSize);
     }
 
+    bool whiteFirst = true;;
     for (int i = 0; i < boardSize; i++) {
         for (int j = 0; j < boardSize; j++) {
-            board[i][j].setCoords(i, j);
+            theBoard[i][j].setCoords(i, j);
 
-            if (j % 2 == 0) {
-                board[i][j].setColour(Colour::White);
+            if (j % 2 == 0 && whiteFirst) {
+                theBoard[i][j].setColour(Colour::White);
+            } else if (j % 2 != 0 && whiteFirst) {
+                theBoard[i][j].setColour(Colour::Black);
+            } else if (j % 2 == 0 && !whiteFirst) {
+                theBoard[i][j].setColour(Colour::Black);
             } else {
-                board[i][j].setColour(Colour::Black);
+                theBoard[i][j].setColour(Colour::White);
             }
+
+        
         }
+        whiteFirst = !whiteFirst;
     }
 
 
 }
 
 ostream& operator<<(ostream &out, const Board &b) {
-
+    int row = 8;
     for (int i = 0; i < b.boardSize; i++) {
+        out << row << " ";
+        row--;
         for (int j = 0; j < b.boardSize; j++) {
-
-            out << b.board[i][j];
-
-
+            out << b.theBoard[i][j];
         }
-        
         out << endl;
     }
+
+    out << endl;
+
+    out << "  abcdefgh" << endl;
 
     return out;
 }

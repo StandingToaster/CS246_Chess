@@ -1,14 +1,17 @@
 #ifndef __BOARD_H__
 #define __BOARD_H__
 #include "cell.h"
+#include <vector>
+#include <iostream>
 
+using namespace std;
 
 class Board {
 
     // Computer c;
 
-    int boardSize = 8;
-    vector<vector<Cell>> board; // the actual chess board
+    const int boardSize = 8;
+    vector<vector<Cell>> theBoard; // the actual chess board
 
     // vector<Cell> whitePieceCells; // at most 16
 

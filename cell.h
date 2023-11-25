@@ -3,6 +3,8 @@
 #include <iostream>
 #include <vector>
 
+using namespace std;
+
 enum class Colour { White, Black };
 
 class Cell {

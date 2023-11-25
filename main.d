@@ -1,1 +1,1 @@
-main.o: main.cc
+main.o: main.cc board.h cell.h

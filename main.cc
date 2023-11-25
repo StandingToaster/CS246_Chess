@@ -6,7 +6,9 @@ using namespace std;
 int main() {
 
 
-    cout << "quack" << endl;
+    Board b;
+    b.setBoard();
+    cout << b << endl;
 
 
 }
