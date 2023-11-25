@@ -13,5 +13,6 @@ Pawn::Pawn(Colour colour): ChessPiece{colour} {
 Pawn::~Pawn() {}
 
 bool Pawn::movePiece(Cell & start, Cell & destination) {
+    cout << "s";
     return false;
 }
