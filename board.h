@@ -27,7 +27,8 @@ class Board {
     Board();
     ~Board();
 
-    Cell & getCell(int x, int y);
+    // !!!!!!!      ENSURE IN HARNESS THAT 0 <= X,Y <= 7      !!!!!!!
+    Cell & getCell(int x, int y); 
     bool cellEmpty(int x, int y); // Empty (true) if there is no chesspiece on it
 
     void setEmptyBoard(); // prepares the board (no chess piece on it yet)
