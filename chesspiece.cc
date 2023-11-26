@@ -156,28 +156,36 @@ bool Rook::movePiece(Cell & start, Cell & destination, Board & b) {
         if (dy < sy) {
             int y = sy - 1;
 
-            while (y != dy && y >= 0) {
-                if (!b.cellEmpty(sx, y)) {
+            while (y >= 0) {
+                if (!b.cellEmpty(sx, y) && y != dy) {
                     return false;
+                }
+
+                if (y == dy) {
+                    destination.deleteChessPiece();
+                    destination.addChessPiece(this);
+                    start.removeChessPiece();
+                    return true;
                 }
                 y--;
             }
-            destination.deleteChessPiece();
-            destination.addChessPiece(this);
-            start.removeChessPiece();
-            return true;
+
         } else { // moving down
             int y = sy + 1;
-            while (y != dy && y <= 7) {
-                if (!b.cellEmpty(sx, y)) {
+            while (y <= 7) {
+                if (!b.cellEmpty(sx, y) && y != dy) {
                     return false;
+                }
+
+                if (y == dy) {
+                    destination.deleteChessPiece();
+                    destination.addChessPiece(this);
+                    start.removeChessPiece();
+                    return true;
                 }
                 y++;
             }
-            destination.deleteChessPiece();
-            destination.addChessPiece(this);
-            start.removeChessPiece();
-            return true;
+
         }
 
     } else if (sy == dy) { // moving horizontally
@@ -186,28 +194,36 @@ bool Rook::movePiece(Cell & start, Cell & destination, Board & b) {
         if (dx < sx) {
             int x = sx - 1;
 
-            while (x != dy && x >= 0) {
-                if (!b.cellEmpty(x, dy)) {
+            while (x >= 0) {
+                if (!b.cellEmpty(x, dy) && x != dx) {
                     return false;
+                }
+
+                if (x == dx) {
+                    destination.deleteChessPiece();
+                    destination.addChessPiece(this);
+                    start.removeChessPiece();
+                    return true;
                 }
                 x--;
             }
-            destination.deleteChessPiece();
-            destination.addChessPiece(this);
-            start.removeChessPiece();
-            return true;
+
         } else { // moving right
             int x = sx + 1;
-            while (x != dy && x <= 7) {
-                if (!b.cellEmpty(x, dy)) {
+            while (x <= 7) {
+                if (!b.cellEmpty(x, dy) && x != dx) {
                     return false;
+                }
+
+                if (x == dx) {
+                    destination.deleteChessPiece();
+                    destination.addChessPiece(this);
+                    start.removeChessPiece();
+                    return true;
                 }
                 x++;
             }
-            destination.deleteChessPiece();
-            destination.addChessPiece(this);
-            start.removeChessPiece();
-            return true;
+
         }
 
 
@@ -427,6 +443,193 @@ bool Bishop::movePiece(Cell & start, Cell & destination, Board & b) {
 Queen::Queen(Colour colour): ChessPiece{colour, Piece::Queen, colour == Colour::White ? 'Q' : 'q'} {}
 Queen::~Queen() {}
 bool Queen::movePiece(Cell & start, Cell & destination, Board & b) {
+    int sx = start.getX();
+    int sy = start.getY();
+    int dx = destination.getX();
+    int dy = destination.getY();
+
+    if (start.getChessPiece() == nullptr) { // start piece non-existant
+        return false;
+    }
+    if (start.getChessPiece()->getPiece() != Piece::Queen) { // start piece is not queen
+        return false;
+    }
+    if (destination.getChessPiece() != nullptr && start.getChessPiece()->getColour() == destination.getChessPiece()->getColour()) { // moving into destination with same color piece
+        return false;
+    }
+    if (sx == dx && sy == dy) { // start cell == destination cell
+        return false;
+    }
+
+    // going top right
+    if (dx > sx && dy < sy) {
+
+        int x = sx + 1;
+        int y = sy - 1;
+
+        while (x <= 7 && y >= 0) {
+            if (!b.cellEmpty(x,y) && x != dx && y != dy) {
+                return false;
+            }
+
+            if (x == dx && y == dy) {
+                destination.deleteChessPiece();
+                destination.addChessPiece(this);
+                start.removeChessPiece();
+                return true;
+            }
+
+            x++;
+            y--;
+
+        }
+
+    } else if (dx > sx && dy > sy) { // going bottom right
+        int x = sx + 1;
+        int y = sy + 1;
+
+        while (x <= 7 && y <= 7) {
+            if (!b.cellEmpty(x,y) && x != dx && y != dy) {
+                return false;
+            }
+
+            if (x == dx && y == dy) {
+                destination.deleteChessPiece();
+                destination.addChessPiece(this);
+                start.removeChessPiece();
+                return true;
+            }
+
+            x++;
+            y++;
+
+        }
+
+    } else if (dx < sx && dy > sy) { // going bottom left
+
+        int x = sx - 1;
+        int y = sy + 1;
+
+        while (x >= 0 && y <= 7) {
+            if (!b.cellEmpty(x,y) && x != dx && y != dy) {
+                return false;
+            }
+
+            if (x == dx && y == dy) {
+                destination.deleteChessPiece();
+                destination.addChessPiece(this);
+                start.removeChessPiece();
+                return true;
+            }
+
+            x--;
+            y++;
+
+        }
+
+
+    } else if (dx < sx && dy < sy) { // going top left
+
+        int x = sx - 1;
+        int y = sy - 1;
+
+        while (x >= 0 && y >= 0) {
+            if (!b.cellEmpty(x,y) && x != dx && y != dy) {
+                return false;
+            }
+
+            if (x == dx && y == dy) {
+                destination.deleteChessPiece();
+                destination.addChessPiece(this);
+                start.removeChessPiece();
+                return true;
+            }
+
+            x--;
+            y--;
+
+        }
+
+    }
+
+    // moving vertically
+    if (sx == dx) {
+
+        // moving up
+        if (dy < sy) {
+            int y = sy - 1;
+
+            while (y >= 0) {
+                if (!b.cellEmpty(sx, y) && y != dy) {
+                    return false;
+                }
+
+                if (y == dy) {
+                    destination.deleteChessPiece();
+                    destination.addChessPiece(this);
+                    start.removeChessPiece();
+                    return true;
+                }
+                y--;
+            }
+
+        } else { // moving down
+            int y = sy + 1;
+            while (y <= 7) {
+                if (!b.cellEmpty(sx, y) && y != dy) {
+                    return false;
+                }
+
+                if (y == dy) {
+                    destination.deleteChessPiece();
+                    destination.addChessPiece(this);
+                    start.removeChessPiece();
+                    return true;
+                }
+                y++;
+            }
+
+        }
+
+    } else if (sy == dy) { // moving horizontally
+
+        // moving left
+        if (dx < sx) {
+            int x = sx - 1;
+
+            while (x >= 0) {
+                if (!b.cellEmpty(x, dy) && x != dx) {
+                    return false;
+                }
+
+                if (x == dx) {
+                    destination.deleteChessPiece();
+                    destination.addChessPiece(this);
+                    start.removeChessPiece();
+                    return true;
+                }
+                x--;
+            }
+
+        } else { // moving right
+            int x = sx + 1;
+            while (x <= 7) {
+                if (!b.cellEmpty(x, dy) && x != dx) {
+                    return false;
+                }
+
+                if (x == dx) {
+                    destination.deleteChessPiece();
+                    destination.addChessPiece(this);
+                    start.removeChessPiece();
+                    return true;
+                }
+                x++;
+            }
+        }
+    }
+
+
     return false;
 }
 
