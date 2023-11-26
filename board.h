@@ -25,6 +25,8 @@ class Board {
     ~Board();
 
     void setEmptyBoard(); // prepares the board (no chess piece on it yet)
+    void setDefaultBoard(); // prepares board with a standard game start
+
     void setPieceOnBoard(ChessPiece * piece, int x, int y); // Places a chess piece on a specific square of the board.
     void removePieceFromBoard(int x, int y); // Removes chess piece from the specified square 
 

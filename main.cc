@@ -8,9 +8,9 @@ using namespace std;
 int main() {
 
 
-    // Board b;
-    // b.setEmptyBoard();
-    // cout << b << endl << endl;
+    Board b;
+    b.setDefaultBoard();
+    cout << b;
 
 
 }

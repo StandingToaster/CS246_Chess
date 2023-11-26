@@ -12,9 +12,40 @@ ostream& operator<<(ostream &out, const ChessPiece &cp) {
 
 
 Pawn::Pawn(Colour colour): ChessPiece{colour, colour == Colour::White ? 'P' : 'p'} {}
-
 Pawn::~Pawn() {}
-
 bool Pawn::movePiece(Cell & start, Cell & destination) {
     return false;
 }
+
+
+Rook::Rook(Colour colour): ChessPiece{colour, colour == Colour::White ? 'R' : 'r'} {}
+Rook::~Rook() {}
+bool Rook::movePiece(Cell & start, Cell & destination) {
+    return false;
+}
+
+Knight::Knight(Colour colour): ChessPiece{colour, colour == Colour::White ? 'N' : 'n'} {}
+Knight::~Knight() {}
+bool Knight::movePiece(Cell & start, Cell & destination) {
+    return false;
+}
+
+Bishop::Bishop(Colour colour): ChessPiece{colour, colour == Colour::White ? 'B' : 'b'} {}
+Bishop::~Bishop() {}
+bool Bishop::movePiece(Cell & start, Cell & destination) {
+    return false;
+}
+
+Queen::Queen(Colour colour): ChessPiece{colour, colour == Colour::White ? 'Q' : 'q'} {}
+Queen::~Queen() {}
+bool Queen::movePiece(Cell & start, Cell & destination) {
+    return false;
+}
+
+King::King(Colour colour): ChessPiece{colour, colour == Colour::White ? 'K' : 'k'} {}
+King::~King() {}
+bool King::movePiece(Cell & start, Cell & destination) {
+    return false;
+}
+
+
