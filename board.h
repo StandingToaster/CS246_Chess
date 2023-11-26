@@ -24,9 +24,9 @@ class Board {
     Board();
     ~Board();
 
-    void setBoard(); // prepares the board (no chess piece on it yet)
-    // void setPieceOnBoard(Colour c, ChessPiece * chessP, int x, int y) // Places a chess piece on a specific square of the board.
-    // void removePieceFromBoard(int x, int y); // Removes chess piece from the specified square 
+    void setEmptyBoard(); // prepares the board (no chess piece on it yet)
+    void setPieceOnBoard(ChessPiece * piece, int x, int y); // Places a chess piece on a specific square of the board.
+    void removePieceFromBoard(int x, int y); // Removes chess piece from the specified square 
 
     friend ostream& operator<<(ostream &out, const Board &b);
 

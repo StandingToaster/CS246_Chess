@@ -8,7 +8,7 @@ Board::Board() {}
 
 Board::~Board() {}
 
-void Board::setBoard() {
+void Board::setEmptyBoard() {
 
     // Resizing the board and each row to be size 8 in length
     theBoard.resize(boardSize);
@@ -35,8 +35,19 @@ void Board::setBoard() {
         }
         whiteFirst = !whiteFirst;
     }
+}
 
+void Board::setPieceOnBoard(ChessPiece * piece, int x, int y) {
+    if (0 <= x && x <= 7 && 0 <= y && y <= 7) {
+        theBoard[x][y].addChessPiece(piece);
+    }
 
+}
+
+void Board::removePieceFromBoard(int x, int y) {
+    if (0 <= x && x <= 7 && 0 <= y && y <= 7) {
+        theBoard[x][y].deleteChessPiece();
+    }
 }
 
 ostream& operator<<(ostream &out, const Board &b) {

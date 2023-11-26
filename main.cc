@@ -1,14 +1,16 @@
 #include <iostream>
 #include "board.h"
 
+
+
 using namespace std;
 
 int main() {
 
 
-    Board b;
-    b.setBoard();
-    cout << b << endl;
+    // Board b;
+    // b.setEmptyBoard();
+    // cout << b << endl << endl;
 
 
 }

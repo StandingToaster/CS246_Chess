@@ -2,6 +2,7 @@
 #define __CELL_H__
 #include <iostream>
 #include <vector>
+#include "chesspiece.h"
 
 using namespace std;
 
@@ -12,7 +13,7 @@ class Cell {
     int x;
     int y;
     Colour colour; // useful when implementing a graphical display
-    // ChessPiece * chessP = nullptr
+    ChessPiece * piece = nullptr;
 
     public:
     Cell(); // default ctor
@@ -21,6 +22,10 @@ class Cell {
     int getY();
     void setCoords(int x, int y);
     void setColour(Colour c);
+    void addChessPiece(ChessPiece * piece);
+    void removeChessPiece();
+    void deleteChessPiece();
+
 
     // ChessPiece & getChessPiece();
 

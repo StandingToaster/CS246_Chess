@@ -1,1 +1,1 @@
-chesspiece.o: chesspiece.cc chesspiece.h cell.h
+chesspiece.o: chesspiece.cc cell.h chesspiece.h
