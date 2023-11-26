@@ -6,9 +6,11 @@
 
 using namespace std;
 
+
 enum class Colour { White, Black };
 
 class Cell {
+    
 
     int x;
     int y;
@@ -20,6 +22,7 @@ class Cell {
     ~Cell();
     int getX();
     int getY();
+    ChessPiece * getChessPiece();
     void setCoords(int x, int y);
     void setColour(Colour c);
     void addChessPiece(ChessPiece * piece);

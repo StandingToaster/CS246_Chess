@@ -8,6 +8,12 @@ Board::Board() {}
 
 Board::~Board() {}
 
+
+Cell & Board::getCell(int x, int y) {
+    return theBoard[y][x];
+}
+
+
 void Board::setEmptyBoard() {
 
     // Resizing the board and each row to be size 8 in length
@@ -17,9 +23,9 @@ void Board::setEmptyBoard() {
     }
 
     bool whiteFirst = true;;
-    for (int i = 0; i < boardSize; i++) {
-        for (int j = 0; j < boardSize; j++) {
-            theBoard[i][j].setCoords(i, j);
+    for (int i = 0; i < boardSize; i++) { // i = Y
+        for (int j = 0; j < boardSize; j++) { // j = X
+            theBoard[i][j].setCoords(j, i);
 
             if (j % 2 == 0 && whiteFirst) {
                 theBoard[i][j].setColour(Colour::White);
@@ -76,16 +82,26 @@ void Board::setDefaultBoard() {
 
 void Board::setPieceOnBoard(ChessPiece * piece, int x, int y) {
     if (0 <= x && x <= 7 && 0 <= y && y <= 7) {
-        theBoard[x][y].addChessPiece(piece);
+        theBoard[y][x].addChessPiece(piece);
     }
 
 }
 
 void Board::removePieceFromBoard(int x, int y) {
     if (0 <= x && x <= 7 && 0 <= y && y <= 7) {
-        theBoard[x][y].deleteChessPiece();
+        theBoard[y][x].deleteChessPiece();
     }
 }
+
+
+void Board::activateMove(Cell & start, Cell & destination) {
+
+    if (start.getChessPiece() != nullptr) {
+        start.getChessPiece()->movePiece(start, destination, *this);
+    }
+    
+}
+
 
 ostream& operator<<(ostream &out, const Board &b) {
     int row = 8;

@@ -8,6 +8,8 @@ using namespace std;
 
 class Board {
 
+    friend class Cell;
+
     // Computer c;
 
     const int boardSize = 8;
@@ -24,11 +26,17 @@ class Board {
     Board();
     ~Board();
 
+    Cell & getCell(int x, int y);
+
+
     void setEmptyBoard(); // prepares the board (no chess piece on it yet)
     void setDefaultBoard(); // prepares board with a standard game start
 
     void setPieceOnBoard(ChessPiece * piece, int x, int y); // Places a chess piece on a specific square of the board.
     void removePieceFromBoard(int x, int y); // Removes chess piece from the specified square 
+
+    void activateMove(Cell & start, Cell & destination);
+
 
     friend ostream& operator<<(ostream &out, const Board &b);
 

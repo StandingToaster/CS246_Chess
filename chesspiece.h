@@ -7,6 +7,8 @@ using namespace std;
 
 class Cell;
 
+class Board;
+
 enum class Colour;
 
 class ChessPiece {
@@ -19,7 +21,7 @@ class ChessPiece {
         ChessPiece(Colour colour, char display);
         virtual ~ChessPiece();
         
-        virtual bool movePiece(Cell & start, Cell & destination) = 0; // pure virtual
+        virtual bool movePiece(Cell & start, Cell & destination, Board & b) = 0; // pure virtual
 
         friend ostream& operator<<(ostream &out, const ChessPiece &cp);
 
@@ -33,7 +35,7 @@ class Pawn : public ChessPiece {
     Pawn(Colour colour);
     ~Pawn();
 
-    bool movePiece(Cell & start, Cell & destination) override;
+    bool movePiece(Cell & start, Cell & destination, Board & b) override;
 
     
 };
@@ -44,7 +46,7 @@ class Rook : public ChessPiece {
     Rook(Colour colour);
     ~Rook();
 
-    bool movePiece(Cell & start, Cell & destination) override;
+    bool movePiece(Cell & start, Cell & destination, Board & b) override;
 
 };
 
@@ -54,7 +56,7 @@ class Knight : public ChessPiece {
     Knight(Colour colour);
     ~Knight();
 
-    bool movePiece(Cell & start, Cell & destination) override;
+    bool movePiece(Cell & start, Cell & destination, Board & b) override;
 
 };
 
@@ -64,7 +66,7 @@ class Bishop : public ChessPiece {
     Bishop(Colour colour);
     ~Bishop();
 
-    bool movePiece(Cell & start, Cell & destination) override;
+    bool movePiece(Cell & start, Cell & destination, Board & b) override;
 
 };
 
@@ -74,7 +76,7 @@ class Queen : public ChessPiece {
     Queen(Colour colour);
     ~Queen();
 
-    bool movePiece(Cell & start, Cell & destination) override;
+    bool movePiece(Cell & start, Cell & destination, Board & b) override;
 
 };
 
@@ -86,7 +88,7 @@ class King : public ChessPiece {
     King(Colour colour);
     ~King();
 
-    bool movePiece(Cell & start, Cell & destination) override;
+    bool movePiece(Cell & start, Cell & destination, Board & b) override;
 
 };
 
