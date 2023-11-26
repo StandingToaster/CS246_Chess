@@ -10,9 +10,21 @@ Board::~Board() {}
 
 
 Cell & Board::getCell(int x, int y) {
-    return theBoard[y][x];
+    if (0 <= x && x <= 7 && 0 <= y && y <= 7) {
+        return theBoard[y][x];
+    }
 }
 
+bool Board::cellEmpty(int x, int y) {
+    if (0 <= x && x <= 7 && 0 <= y && y <= 7) {
+        if (theBoard[y][x].getChessPiece() == nullptr) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    return false;
+}
 
 void Board::setEmptyBoard() {
 

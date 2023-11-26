@@ -27,7 +27,7 @@ class Board {
     ~Board();
 
     Cell & getCell(int x, int y);
-
+    bool cellEmpty(int x, int y); // Empty (true) if there is no chesspiece on it
 
     void setEmptyBoard(); // prepares the board (no chess piece on it yet)
     void setDefaultBoard(); // prepares board with a standard game start

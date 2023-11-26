@@ -8,6 +8,7 @@ using namespace std;
 
 
 enum class Colour { White, Black };
+enum class Piece {Pawn, Rook, Knight, Bishop, Queen, King};
 
 class Cell {
     

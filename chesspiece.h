@@ -11,16 +11,21 @@ class Board;
 
 enum class Colour;
 
+enum class Piece;
+
 class ChessPiece {
 
     protected:
     Colour colour;
+    Piece piece;
     char display;
-
+    
     public:
-        ChessPiece(Colour colour, char display);
+        ChessPiece(Colour colour, Piece piece, char display);
         virtual ~ChessPiece();
         
+        Colour getColour();
+        Piece getPiece();
         virtual bool movePiece(Cell & start, Cell & destination, Board & b) = 0; // pure virtual
 
         friend ostream& operator<<(ostream &out, const ChessPiece &cp);
