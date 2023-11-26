@@ -258,7 +258,7 @@ bool Knight::movePiece(Cell & start, Cell & destination, Board & b) {
     }
 
     // dest is top-left
-    if (!b.cellEmpty(sx - 1, sy - 2) && dx == sx - 1 && dy == sy - 2) {
+    if (dx == sx - 1 && dy == sy - 2) {
         destination.deleteChessPiece();
         destination.addChessPiece(this);
         start.removeChessPiece();
@@ -636,6 +636,88 @@ bool Queen::movePiece(Cell & start, Cell & destination, Board & b) {
 King::King(Colour colour): ChessPiece{colour, Piece::King, colour == Colour::White ? 'K' : 'k'} {}
 King::~King() {}
 bool King::movePiece(Cell & start, Cell & destination, Board & b) {
+    int sx = start.getX();
+    int sy = start.getY();
+    int dx = destination.getX();
+    int dy = destination.getY();
+
+    if (start.getChessPiece() == nullptr) { // start piece non-existant
+        return false;
+    }
+    if (start.getChessPiece()->getPiece() != Piece::King) { // start piece is not king
+        return false;
+    }
+    if (destination.getChessPiece() != nullptr && start.getChessPiece()->getColour() == destination.getChessPiece()->getColour()) { // moving into destination with same color piece
+        return false;
+    }
+    if (sx == dx && sy == dy) { // start cell == destination cell
+        return false;
+    }
+
+    // dest is top
+    if (dx == sx && dy == sy - 1) {
+        destination.deleteChessPiece();
+        destination.addChessPiece(this);
+        start.removeChessPiece();
+        return true;
+    }
+
+    // dest is top-right
+    if (dx == sx + 1 && dy == sy - 1) {
+        destination.deleteChessPiece();
+        destination.addChessPiece(this);
+        start.removeChessPiece();
+        return true;
+    }
+
+    // dest is right
+    if (dx == sx + 1 && dy == sy) {
+        destination.deleteChessPiece();
+        destination.addChessPiece(this);
+        start.removeChessPiece();
+        return true;
+    }
+
+    // dest is bottom-right
+    if (dx == sx + 1 && dy == sy + 1) {
+        destination.deleteChessPiece();
+        destination.addChessPiece(this);
+        start.removeChessPiece();
+        return true;
+    }
+
+    // dest is bottom
+    if (dx == sx && dy == sy + 1) {
+        destination.deleteChessPiece();
+        destination.addChessPiece(this);
+        start.removeChessPiece();
+        return true;
+    }
+
+    // dest is bottom-left
+    if (dx == sx - 1 && dy == sy + 1) {
+        destination.deleteChessPiece();
+        destination.addChessPiece(this);
+        start.removeChessPiece();
+        return true;
+    }
+
+    // dest is left
+    if (dx == sx - 1 && dy == sy) {
+        destination.deleteChessPiece();
+        destination.addChessPiece(this);
+        start.removeChessPiece();
+        return true;
+    }
+
+    // dest is top-left
+    if (dx == sx - 1 && dy == sy - 1) {
+        destination.deleteChessPiece();
+        destination.addChessPiece(this);
+        start.removeChessPiece();
+        return true;
+    }
+
     return false;
 }
 
