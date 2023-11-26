@@ -34,7 +34,7 @@ class ChessPiece {
 
 class Pawn : public ChessPiece {
 
-    int numMoves = 0;
+    bool firstMove = true;
 
     public:
     Pawn(Colour colour);

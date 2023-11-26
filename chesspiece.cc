@@ -42,17 +42,21 @@ bool Pawn::movePiece(Cell & start, Cell & destination, Board & b) {
 
     if (start.getChessPiece()->getColour() == Colour::Black) { // black pawn travels 'down' the board
 
+        // black pawn attacking bottom left diagonally.
         if (!b.cellEmpty(sx - 1, sy + 1) && dx == sx - 1 && dy == sy + 1) {
             destination.deleteChessPiece();
             destination.addChessPiece(this);
             start.removeChessPiece();
+            firstMove = false;
             return true;
         }
 
+        // black pawn attacking bottom right diagonally. 
         if (!b.cellEmpty(sx + 1, sy + 1) && dx == sx + 1 && dy == sy + 1) {
             destination.deleteChessPiece();
             destination.addChessPiece(this);
             start.removeChessPiece();
+            firstMove = false;
             return true;
         }
 
@@ -60,15 +64,17 @@ bool Pawn::movePiece(Cell & start, Cell & destination, Board & b) {
         if (b.cellEmpty(sx, sy + 1) && dx == sx && dy == sy + 1) { 
             destination.addChessPiece(this);
             start.removeChessPiece();
+            firstMove = false;
             return true;
         }
 
-        if (numMoves == 0) {
-
+        if (firstMove) {
+            
+            // black pawn moving down 2 squares if conducting first move.
             if (b.cellEmpty(sx, sy + 1) && b.cellEmpty(sx, sy + 2) && dx == sx && dy == sy + 2) {
                 destination.addChessPiece(this);
                 start.removeChessPiece();
-                numMoves++;
+                firstMove = false;
                 return true;
             }
 
@@ -77,17 +83,47 @@ bool Pawn::movePiece(Cell & start, Cell & destination, Board & b) {
 
     } else { // pawn is white, travels 'up' the board
 
-        
+        // white pawn attacking upper left diagonally
+        if (!b.cellEmpty(sx - 1, sy - 1) && dx == sx - 1 && dy == sy - 1) {
+            destination.deleteChessPiece();
+            destination.addChessPiece(this);
+            start.removeChessPiece();
+            firstMove = false;
+            return true;
+        }   
+
+        // white pawn attacking upper right diagonally
+        if (!b.cellEmpty(sx + 1, sy - 1) && dx == sx + 1 && dy == sy - 1) {
+            destination.deleteChessPiece();
+            destination.addChessPiece(this);
+            start.removeChessPiece();
+            firstMove = false;
+            return true;
+        }
+
+        // space right above black pawn is dest
+        if (b.cellEmpty(sx, sy - 1) && dx == sx && dy == sy - 1) { 
+            destination.addChessPiece(this);
+            start.removeChessPiece();
+            firstMove = false;
+            return true;
+        }
+
+        if (firstMove) {
+            // white pawn moving up 2 squares if conducting first move.
+            if (b.cellEmpty(sx, sy - 1) && b.cellEmpty(sx, sy - 2) && dx == sx && dy == sy - 2) {
+                destination.addChessPiece(this);
+                start.removeChessPiece();
+                firstMove = false;
+                return true;
+            }
+
+        }
 
 
     }
+
     return false;
-
-    
-
-    // destination.addChessPiece(this);
-    // start.removeChessPiece();
-
     
 }
 
