@@ -10,6 +10,7 @@ class Board {
 
     friend class Cell;
 
+
     // Computer c;
 
     const int boardSize = 8;

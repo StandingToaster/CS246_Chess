@@ -12,6 +12,8 @@ Board::~Board() {}
 Cell & Board::getCell(int x, int y) {
     if (0 <= x && x <= 7 && 0 <= y && y <= 7) {
         return theBoard[y][x];
+    } else {
+        return theBoard[0][0]; // x, y out of bounds
     }
 }
 

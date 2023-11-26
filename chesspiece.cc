@@ -17,62 +17,78 @@ ostream& operator<<(ostream &out, const ChessPiece &cp) {
 Pawn::Pawn(Colour colour): ChessPiece{colour, Piece::Pawn, colour == Colour::White ? 'P' : 'p'} {}
 Pawn::~Pawn() {}
 bool Pawn::movePiece(Cell & start, Cell & destination, Board & b) {
-
+    
+    if (start.getChessPiece() == nullptr) { // start piece non-existant
+        return false;
+    }
     if (start.getChessPiece()->getPiece() != Piece::Pawn) { // start piece is not pawn
         return false;
     }
 
-    if (start.getChessPiece()->getColour() == destination.getChessPiece()->getColour()) { // moving into destination with same color piece
+
+    if (destination.getChessPiece() != nullptr && start.getChessPiece()->getColour() == destination.getChessPiece()->getColour()) { // moving into destination with same color piece
         return false;
     }
-
 
     int sx = start.getX();
     int sy = start.getY();
     int dx = destination.getX();
     int dy = destination.getY();
 
-    if (sx == dx && sy == dy) {
+    // start cell == destination cell
+    if (sx == dx && sy == dy) { 
         return false;
     }
 
     if (start.getChessPiece()->getColour() == Colour::Black) { // black pawn travels 'down' the board
 
-        if (dx >= sx + 2 || dx <= sx - 2) {
-            return false;
+        if (!b.cellEmpty(sx - 1, sy + 1) && dx == sx - 1 && dy == sy + 1) {
+            destination.deleteChessPiece();
+            destination.addChessPiece(this);
+            start.removeChessPiece();
+            return true;
         }
 
-        if (dy <= sy) {
-            return false;
+        if (!b.cellEmpty(sx + 1, sy + 1) && dx == sx + 1 && dy == sy + 1) {
+            destination.deleteChessPiece();
+            destination.addChessPiece(this);
+            start.removeChessPiece();
+            return true;
+        }
+
+        // space right below black pawn is dest
+        if (b.cellEmpty(sx, sy + 1) && dx == sx && dy == sy + 1) { 
+            destination.addChessPiece(this);
+            start.removeChessPiece();
+            return true;
         }
 
         if (numMoves == 0) {
 
-            if (dy >= sx + 3) {
-                return false;
+            if (b.cellEmpty(sx, sy + 1) && b.cellEmpty(sx, sy + 2) && dx == sx && dy == sy + 2) {
+                destination.addChessPiece(this);
+                start.removeChessPiece();
+                numMoves++;
+                return true;
             }
-
-            if ( (sx - 1 == dx && sy + 2 == dy) ||  (sx + 1 == dx && sy + 2 == dy) ) {
-                return false;
-            }
-            
-            
-
-            if ( b.cellEmpty(sx - 1, sy + 1)  && dx == sx - 1 && dy = sy + 1) {
-                return false;
-            }
-
 
         }
 
 
+    } else { // pawn is white, travels 'up' the board
+
+        
+
+
     }
+    return false;
+
+    
 
     // destination.addChessPiece(this);
     // start.removeChessPiece();
 
-
-    return false;
+    
 }
 
 
