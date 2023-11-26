@@ -312,6 +312,115 @@ bool Knight::movePiece(Cell & start, Cell & destination, Board & b) {
 Bishop::Bishop(Colour colour): ChessPiece{colour, Piece::Bishop, colour == Colour::White ? 'B' : 'b'} {}
 Bishop::~Bishop() {}
 bool Bishop::movePiece(Cell & start, Cell & destination, Board & b) {
+    int sx = start.getX();
+    int sy = start.getY();
+    int dx = destination.getX();
+    int dy = destination.getY();
+
+    if (start.getChessPiece() == nullptr) { // start piece non-existant
+        return false;
+    }
+    if (start.getChessPiece()->getPiece() != Piece::Bishop) { // start piece is not bishop
+        return false;
+    }
+    if (destination.getChessPiece() != nullptr && start.getChessPiece()->getColour() == destination.getChessPiece()->getColour()) { // moving into destination with same color piece
+        return false;
+    }
+    if (sx == dx && sy == dy) { // start cell == destination cell
+        return false;
+    }
+
+    // going top right
+    if (dx > sx && dy < sy) {
+
+        int x = sx + 1;
+        int y = sy - 1;
+
+        while (x <= 7 && y >= 0) {
+            if (!b.cellEmpty(x,y) && x != dx && y != dy) {
+                return false;
+            }
+
+            if (x == dx && y == dy) {
+                destination.deleteChessPiece();
+                destination.addChessPiece(this);
+                start.removeChessPiece();
+                return true;
+            }
+
+            x++;
+            y--;
+
+        }
+
+    } else if (dx > sx && dy > sy) { // going bottom right
+        int x = sx + 1;
+        int y = sy + 1;
+
+        while (x <= 7 && y <= 7) {
+            if (!b.cellEmpty(x,y) && x != dx && y != dy) {
+                return false;
+            }
+
+            if (x == dx && y == dy) {
+                destination.deleteChessPiece();
+                destination.addChessPiece(this);
+                start.removeChessPiece();
+                return true;
+            }
+
+            x++;
+            y++;
+
+        }
+
+    } else if (dx < sx && dy > sy) { // going bottom left
+
+        int x = sx - 1;
+        int y = sy + 1;
+
+        while (x >= 0 && y <= 7) {
+            if (!b.cellEmpty(x,y) && x != dx && y != dy) {
+                return false;
+            }
+
+            if (x == dx && y == dy) {
+                destination.deleteChessPiece();
+                destination.addChessPiece(this);
+                start.removeChessPiece();
+                return true;
+            }
+
+            x--;
+            y++;
+
+        }
+
+
+    } else if (dx < sx && dy < sy) { // going top left
+
+        int x = sx - 1;
+        int y = sy - 1;
+
+        while (x >= 0 && y >= 0) {
+            if (!b.cellEmpty(x,y) && x != dx && y != dy) {
+                return false;
+            }
+
+            if (x == dx && y == dy) {
+                destination.deleteChessPiece();
+                destination.addChessPiece(this);
+                start.removeChessPiece();
+                return true;
+            }
+
+            x--;
+            y--;
+
+        }
+
+    }
+
     return false;
 }
 
