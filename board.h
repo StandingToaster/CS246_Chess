@@ -10,7 +10,6 @@ class Board {
 
     friend class Cell;
 
-
     // Computer c;
 
     const int boardSize = 8;
@@ -27,7 +26,7 @@ class Board {
     Board();
     ~Board();
 
-    // !!!!!!!      ENSURE IN HARNESS THAT 0 <= X,Y <= 7      !!!!!!!
+    // !!!!!!!      ENSURE IN HARNESS THAT 0 <= X,Y < boardSize      !!!!!!!
     Cell & getCell(int x, int y); 
     int getBoardSize();
     bool cellEmpty(int x, int y); // Empty (true) if there is no chesspiece on it

@@ -15,6 +15,11 @@ ChessPiece * Cell::getChessPiece() {
     return piece;
 }
 
+bool Cell::compareCells(Cell & c1, Cell & c2) {
+    return false;
+}
+
+
 void Cell::setCoords(int x, int y) {this->x = x; this->y = y;}
 
 void Cell::setColour(Colour c) {this->colour = c;}
