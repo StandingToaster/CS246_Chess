@@ -24,7 +24,7 @@ class Cell {
     int getX();
     int getY();
     ChessPiece * getChessPiece();
-    bool compareCells(Cell & c1, Cell & c2);
+    // bool compareCells(Cell & c1, Cell & c2);
     void setCoords(int x, int y);
     void setColour(Colour c);
     void addChessPiece(ChessPiece * piece);

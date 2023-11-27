@@ -15,9 +15,10 @@ class Board {
     const int boardSize = 8;
     vector<vector<Cell>> theBoard; // the actual chess board
 
-    // vector<Cell> whitePieceCells; // at most 16, cells which hold white pieces
+    vector<Cell*> blackPieceCells; // at most 16, cells which hold black pieces
+    vector<Cell*> whitePieceCells; // at most 16, cells which hold white pieces
 
-    // vector<Cell> blackPieceCells; // at most 16, cells which hold black pieces
+    
 
     // vector<Move> allWhiteLegalMoves;
     // vector<Move> allBlackLegalMoves;
@@ -36,6 +37,12 @@ class Board {
 
     void setPieceOnBoard(ChessPiece * piece, int x, int y); // Places a chess piece on a specific square of the board.
     void removePieceFromBoard(int x, int y); // Removes chess piece from the specified square 
+
+    void addBlackOrWhitePieceCell(Cell * hasPiece); // adds a cell with a black or white piece to blackPieceCells or whitePieceCells respectively. 
+    void removeBlackOrWhitePieceCell(); // removes a cell from blackPieceCells or whitePieceCells if they are no longer carrying a piece.
+
+    void printBlackPieceCells(); // will be removed at the end, used for testing purposes
+    void printWhitePieceCells(); // will be removed at the end, used for testign purposes
 
     void activateMove(Cell & start, Cell & destination);
 

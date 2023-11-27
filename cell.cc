@@ -15,9 +15,13 @@ ChessPiece * Cell::getChessPiece() {
     return piece;
 }
 
-bool Cell::compareCells(Cell & c1, Cell & c2) {
-    return false;
-}
+// bool Cell::compareCells(Cell & c1, Cell & c2) {
+//     if (c1.getX() == c2.getX() && c1.getY() == c2.getY()) {
+//         return true;
+//     } else {
+//         return false;
+//     }
+// }
 
 
 void Cell::setCoords(int x, int y) {this->x = x; this->y = y;}
