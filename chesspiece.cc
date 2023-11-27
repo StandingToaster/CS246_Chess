@@ -172,7 +172,7 @@ bool Rook::movePiece(Cell & start, Cell & destination, Board & b) {
 
         } else { // moving down
             int y = sy + 1;
-            while (y <= 7) {
+            while (y < b.getBoardSize()) {
                 if (!b.cellEmpty(sx, y) && y != dy) {
                     return false;
                 }
@@ -210,7 +210,7 @@ bool Rook::movePiece(Cell & start, Cell & destination, Board & b) {
 
         } else { // moving right
             int x = sx + 1;
-            while (x <= 7) {
+            while (x < b.getBoardSize()) {
                 if (!b.cellEmpty(x, dy) && x != dx) {
                     return false;
                 }
@@ -352,7 +352,7 @@ bool Bishop::movePiece(Cell & start, Cell & destination, Board & b) {
         int x = sx + 1;
         int y = sy - 1;
 
-        while (x <= 7 && y >= 0) {
+        while (x < b.getBoardSize() && y >= 0) {
             if (!b.cellEmpty(x,y) && x != dx && y != dy) {
                 return false;
             }
@@ -373,7 +373,7 @@ bool Bishop::movePiece(Cell & start, Cell & destination, Board & b) {
         int x = sx + 1;
         int y = sy + 1;
 
-        while (x <= 7 && y <= 7) {
+        while (x < b.getBoardSize() && y < b.getBoardSize()) {
             if (!b.cellEmpty(x,y) && x != dx && y != dy) {
                 return false;
             }
@@ -395,7 +395,7 @@ bool Bishop::movePiece(Cell & start, Cell & destination, Board & b) {
         int x = sx - 1;
         int y = sy + 1;
 
-        while (x >= 0 && y <= 7) {
+        while (x >= 0 && y < b.getBoardSize()) {
             if (!b.cellEmpty(x,y) && x != dx && y != dy) {
                 return false;
             }
@@ -467,7 +467,7 @@ bool Queen::movePiece(Cell & start, Cell & destination, Board & b) {
         int x = sx + 1;
         int y = sy - 1;
 
-        while (x <= 7 && y >= 0) {
+        while (x < b.getBoardSize() && y >= 0) {
             if (!b.cellEmpty(x,y) && x != dx && y != dy) {
                 return false;
             }
@@ -488,7 +488,7 @@ bool Queen::movePiece(Cell & start, Cell & destination, Board & b) {
         int x = sx + 1;
         int y = sy + 1;
 
-        while (x <= 7 && y <= 7) {
+        while (x < b.getBoardSize() && y < b.getBoardSize()) {
             if (!b.cellEmpty(x,y) && x != dx && y != dy) {
                 return false;
             }
@@ -510,7 +510,7 @@ bool Queen::movePiece(Cell & start, Cell & destination, Board & b) {
         int x = sx - 1;
         int y = sy + 1;
 
-        while (x >= 0 && y <= 7) {
+        while (x >= 0 && y < b.getBoardSize()) {
             if (!b.cellEmpty(x,y) && x != dx && y != dy) {
                 return false;
             }
@@ -575,7 +575,7 @@ bool Queen::movePiece(Cell & start, Cell & destination, Board & b) {
 
         } else { // moving down
             int y = sy + 1;
-            while (y <= 7) {
+            while (y < b.getBoardSize()) {
                 if (!b.cellEmpty(sx, y) && y != dy) {
                     return false;
                 }
@@ -613,7 +613,7 @@ bool Queen::movePiece(Cell & start, Cell & destination, Board & b) {
 
         } else { // moving right
             int x = sx + 1;
-            while (x <= 7) {
+            while (x < b.getBoardSize()) {
                 if (!b.cellEmpty(x, dy) && x != dx) {
                     return false;
                 }

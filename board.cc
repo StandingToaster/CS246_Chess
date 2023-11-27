@@ -10,15 +10,17 @@ Board::~Board() {}
 
 
 Cell & Board::getCell(int x, int y) {
-    if (0 <= x && x <= 7 && 0 <= y && y <= 7) {
+    if (0 <= x && x < boardSize && 0 <= y && y < boardSize) {
         return theBoard[y][x];
     } else {
         return theBoard[0][0]; // x, y out of bounds
     }
 }
 
+int Board::getBoardSize() {return boardSize;}
+
 bool Board::cellEmpty(int x, int y) {
-    if (0 <= x && x <= 7 && 0 <= y && y <= 7) {
+    if (0 <= x && x < boardSize && 0 <= y && y < boardSize) {
         if (theBoard[y][x].getChessPiece() == nullptr) {
             return true;
         } else {
@@ -95,7 +97,7 @@ void Board::setDefaultBoard() {
 }
 
 void Board::setPieceOnBoard(ChessPiece * piece, int x, int y) {
-    if (0 <= x && x <= 7 && 0 <= y && y <= 7) {
+    if (0 <= x && x < boardSize && 0 <= y && y < boardSize) {
         theBoard[y][x].addChessPiece(piece);
     }
 

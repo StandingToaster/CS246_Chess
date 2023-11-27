@@ -16,9 +16,9 @@ class Board {
     const int boardSize = 8;
     vector<vector<Cell>> theBoard; // the actual chess board
 
-    // vector<Cell> whitePieceCells; // at most 16
+    // vector<Cell> whitePieceCells; // at most 16, cells which hold white pieces
 
-    // vector<Cell> blackPieceCells; // at most 16
+    // vector<Cell> blackPieceCells; // at most 16, cells which hold black pieces
 
     // vector<Move> allWhiteLegalMoves;
     // vector<Move> allBlackLegalMoves;
@@ -29,6 +29,7 @@ class Board {
 
     // !!!!!!!      ENSURE IN HARNESS THAT 0 <= X,Y <= 7      !!!!!!!
     Cell & getCell(int x, int y); 
+    int getBoardSize();
     bool cellEmpty(int x, int y); // Empty (true) if there is no chesspiece on it
 
     void setEmptyBoard(); // prepares the board (no chess piece on it yet)
