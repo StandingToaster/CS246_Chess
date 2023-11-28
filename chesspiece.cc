@@ -77,8 +77,7 @@ bool Pawn::movePiece(Cell & start, Cell & destination, Board & b) {
 
         }
 
-
-    } else { // pawn is white, travels 'up' the board
+    } else if (start.getChessPiece()->getColour() == Colour::White){ // pawn is white, travels 'up' the board
 
         // white pawn attacking upper left diagonally
         if (!b.cellEmpty(sx - 1, sy - 1) && dx == sx - 1 && dy == sy - 1) {
@@ -124,6 +123,54 @@ bool Pawn::movePiece(Cell & start, Cell & destination, Board & b) {
     
 }
 
+bool Pawn::canAttack(Cell & start, Cell & destination, Board & b) {
+    int sx = start.getX();
+    int sy = start.getY();
+    int dx = destination.getX();
+    int dy = destination.getY();
+
+    if (start.getChessPiece() == nullptr) { // start piece non-existant
+        return false;
+    }
+    if (start.getChessPiece()->getPiece() != Piece::Pawn) { // start piece is not pawn
+        return false;
+    }
+    if (destination.getChessPiece() != nullptr && start.getChessPiece()->getColour() == destination.getChessPiece()->getColour()) { // attacking into destination with same color piece
+        return false;
+    }
+    if (sx == dx && sy == dy) { // start cell == destination cell
+        return false;
+    }
+
+    if (start.getChessPiece()->getColour() == Colour::Black) { // black pawn travels 'down' the board
+
+        // black pawn attacking bottom left diagonally.
+        if (!b.cellEmpty(sx - 1, sy + 1) && dx == sx - 1 && dy == sy + 1) {
+            return true;
+        }
+
+        // black pawn attacking bottom right diagonally. 
+        if (!b.cellEmpty(sx + 1, sy + 1) && dx == sx + 1 && dy == sy + 1) {
+            return true;
+        }
+        
+    } else if (start.getChessPiece()->getColour() == Colour::White) {
+        
+        // white pawn attacking upper left diagonally
+        if (!b.cellEmpty(sx - 1, sy - 1) && dx == sx - 1 && dy == sy - 1) {
+            return true;
+        }   
+
+        // white pawn attacking upper right diagonally
+        if (!b.cellEmpty(sx + 1, sy - 1) && dx == sx + 1 && dy == sy - 1) {
+            return true;
+        }
+    } else {
+        return false;
+    }
+
+
+}
 
 
 

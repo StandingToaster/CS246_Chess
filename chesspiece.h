@@ -27,6 +27,7 @@ class ChessPiece {
         Colour getColour();
         Piece getPiece();
         virtual bool movePiece(Cell & start, Cell & destination, Board & b) = 0; // pure virtual
+        virtual bool canAttack(Cell & start, Cell & destination, Board & b) = 0; // pure virtual
 
         friend ostream& operator<<(ostream &out, const ChessPiece &cp);
 
@@ -41,7 +42,7 @@ class Pawn : public ChessPiece {
     ~Pawn();
 
     bool movePiece(Cell & start, Cell & destination, Board & b) override;
-
+    bool canAttack(Cell & start, Cell & destination, Board & b) override;
     
 };
 
@@ -52,7 +53,7 @@ class Rook : public ChessPiece {
     ~Rook();
 
     bool movePiece(Cell & start, Cell & destination, Board & b) override;
-
+    bool canAttack(Cell & start, Cell & destination, Board & b) override;
 };
 
 class Knight : public ChessPiece {
@@ -62,7 +63,7 @@ class Knight : public ChessPiece {
     ~Knight();
 
     bool movePiece(Cell & start, Cell & destination, Board & b) override;
-
+    bool canAttack(Cell & start, Cell & destination, Board & b) override;
 };
 
 class Bishop : public ChessPiece {
@@ -72,7 +73,7 @@ class Bishop : public ChessPiece {
     ~Bishop();
 
     bool movePiece(Cell & start, Cell & destination, Board & b) override;
-
+    bool canAttack(Cell & start, Cell & destination, Board & b) override;
 };
 
 class Queen : public ChessPiece {
@@ -82,7 +83,7 @@ class Queen : public ChessPiece {
     ~Queen();
 
     bool movePiece(Cell & start, Cell & destination, Board & b) override;
-
+    bool canAttack(Cell & start, Cell & destination, Board & b) override;
 };
 
 class King : public ChessPiece {
@@ -94,7 +95,7 @@ class King : public ChessPiece {
     ~King();
 
     bool movePiece(Cell & start, Cell & destination, Board & b) override;
-
+    bool canAttack(Cell & start, Cell & destination, Board & b) override;
 };
 
 
