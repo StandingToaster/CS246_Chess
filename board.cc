@@ -202,6 +202,7 @@ bool Board::checked(Colour kingColour) {
             }
         }
 
+        // determines if any white piece can attack the black king.
         for (long unsigned int i = 0; i < whitePieceCells.size(); i++) {
             if (attackPossible(getCell(whitePieceCells[i]->getX(), whitePieceCells[i]->getY()), getCell(kingX, kingY))) {
                 return true;
@@ -216,6 +217,8 @@ bool Board::checked(Colour kingColour) {
                 break;
             }
         }
+
+        // determine if any black piece can attack the white king. 
         for (long unsigned int i = 0; i < blackPieceCells.size(); i++) {
             if (attackPossible(getCell(blackPieceCells[i]->getX(), blackPieceCells[i]->getY()), getCell(kingX, kingY))) {
                 return true;
@@ -227,6 +230,9 @@ bool Board::checked(Colour kingColour) {
     return false;
 
 }
+
+
+
 
 
 

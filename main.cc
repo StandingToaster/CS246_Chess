@@ -11,11 +11,12 @@ int main() {
     Board b;
     b.setEmptyBoard();
 
-    b.setPieceOnBoard(new King(Colour::White), 4, 5);
+    b.setPieceOnBoard(new King(Colour::White), 4, 4);
     b.setPieceOnBoard(new King(Colour::Black), 5, 6);
+    b.setPieceOnBoard(new Queen(Colour::White), 4, 1);
     cout << b << endl;
     
-    cout << b.attackPossible(b.getCell(4,5), b.getCell(5,6)) << endl;
+    cout << b.checked(Colour::Black) << endl;
     // b.printBlackPieceCells();
     // b.printWhitePieceCells();
 
