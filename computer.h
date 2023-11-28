@@ -7,6 +7,6 @@ using namespace std;
 class Computer {
 Board* current;
 public:
-virtual Move generateMove(Board * b) = 0;
-virtual ~Computer() = 0;
+Computer(Board* board); 
+virtual Move generateMove() = 0;
 };

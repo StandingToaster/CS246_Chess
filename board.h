@@ -11,7 +11,7 @@ class Board {
 
     friend class Cell;
 
-    // Computer c;
+    Computer c;
     
     const int boardSize = 8;
     vector<vector<Cell>> theBoard; // the actual chess board
