@@ -13,7 +13,10 @@ Board* current;
 Colour currentColour;
 public:
 Computer(Board* board, Colour cur); 
+//generates the next legal move for the computer system.
 virtual Move generateMove() = 0;
+//Accesses the colour field.
 Colour getColour();
+//Accesses the pointer pointing to the current board field.
 Board* getPointer();
 };
