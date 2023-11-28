@@ -3,6 +3,7 @@
 #include "cell.h"
 #include <vector>
 #include <iostream>
+#include "computer.h"
 
 using namespace std;
 
