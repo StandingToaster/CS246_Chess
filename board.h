@@ -19,8 +19,8 @@ class Board {
     vector<Cell*> blackPieceCells; // at most 16, cells which hold black pieces
     vector<Cell*> whitePieceCells; // at most 16, cells which hold white pieces
 
-    // vector<Move> allWhiteLegalMoves;
-    // vector<Move> allBlackLegalMoves;
+    vector<Move> allWhiteLegalMoves;
+    vector<Move> allBlackLegalMoves;
 
     public:
     Board();
@@ -50,6 +50,7 @@ class Board {
     bool checked(Colour kingColour);
     bool checkMated(Colour kingColour);
 
+    vector<Move> getLegalMoves(Colour colour);
 
     friend ostream& operator<<(ostream &out, const Board &b);
 
