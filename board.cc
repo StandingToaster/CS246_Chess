@@ -6,9 +6,9 @@ using namespace std;
 
 Board::Board() {}
 
-Board::Board(const Board& other);
+Board::Board(const Board& other):boardSize(other.boardSize), theBoard{other.theBoard},  {
 
-
+}
 
 
 Board::~Board() {}

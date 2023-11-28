@@ -22,6 +22,7 @@ class ChessPiece {
     
     public:
         ChessPiece(Colour colour, Piece piece, char display);
+        ChessPiece(const ChessPiece& other);
         virtual ~ChessPiece();
         
         Colour getColour();
@@ -42,6 +43,7 @@ class Pawn : public ChessPiece {
 
     public:
     Pawn(Colour colour);
+    Pawn(const Pawn& other);
     ~Pawn();
 
     bool movePiece(Cell & start, Cell & destination, Board & b) override;
@@ -53,6 +55,7 @@ class Rook : public ChessPiece {
 
     public:
     Rook(Colour colour);
+    Rook(const Rook& other);
     ~Rook();
 
     bool movePiece(Cell & start, Cell & destination, Board & b) override;
@@ -63,6 +66,7 @@ class Knight : public ChessPiece {
 
     public:
     Knight(Colour colour);
+    Knight(const Knight& other);
     ~Knight();
 
     bool movePiece(Cell & start, Cell & destination, Board & b) override;
@@ -73,6 +77,7 @@ class Bishop : public ChessPiece {
 
     public:
     Bishop(Colour colour);
+    Bishop(const Bishop& other);
     ~Bishop();
 
     bool movePiece(Cell & start, Cell & destination, Board & b) override;
@@ -83,6 +88,7 @@ class Queen : public ChessPiece {
 
     public:
     Queen(Colour colour);
+    Queen(const Queen& other);
     ~Queen();
 
     bool movePiece(Cell & start, Cell & destination, Board & b) override;
@@ -95,6 +101,7 @@ class King : public ChessPiece {
 
     public:
     King(Colour colour);
+    King(const King& other);
     ~King();
 
     bool movePiece(Cell & start, Cell & destination, Board & b) override;
