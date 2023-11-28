@@ -4,3 +4,10 @@ using namespace std;
 
 Computer::Computer(Board* board, Colour cur): current{board}, currentColour{cur} {}
 
+Colour Computer::getColour() {
+    return this->currentColour;
+}
+
+Board* Computer::getPointer() {
+    return this->current;
+}

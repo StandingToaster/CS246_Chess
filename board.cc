@@ -19,6 +19,17 @@ Cell & Board::getCell(int x, int y) {
 
 int Board::getBoardSize() {return boardSize;}
 
+
+vector<Move> Board::getLegalMoves(Colour colour) {
+    if (colour == Colour::Black) {
+        return this->allBlackLegalMoves;
+    }
+    else {
+        return this->allWhiteLegalMoves;
+    }
+}
+
+
 bool Board::cellEmpty(int x, int y) {
     if (0 <= x && x < boardSize && 0 <= y && y < boardSize) {
         if (theBoard[y][x].getChessPiece() == nullptr) {
