@@ -2,5 +2,5 @@
 
 using namespace std;
 
-Computer::Computer(Board* board): current{board} {}
+Computer::Computer(Board* board, Colour cur): current{board}, currentColour{cur} {}
 
