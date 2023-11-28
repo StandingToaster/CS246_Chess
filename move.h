@@ -6,8 +6,6 @@
 
 class Move {
 
-
-    
     Cell & start;
     Cell & dest;
 

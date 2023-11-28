@@ -11,7 +11,7 @@ class Board {
 
     friend class Cell;
 
-    Computer c;
+    // Computer c;
     
     const int boardSize = 8;
     vector<vector<Cell>> theBoard; // the actual chess board
@@ -24,6 +24,7 @@ class Board {
 
     public:
     Board();
+    Board(const Board& other);
     ~Board();
 
     // !!!!!!!      ENSURE IN HARNESS THAT 0 <= X,Y < boardSize      !!!!!!!

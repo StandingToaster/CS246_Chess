@@ -6,8 +6,12 @@ using namespace std;
 
 Board::Board() {}
 
-Board::~Board() {}
+Board::Board(const Board& other);
 
+
+
+
+Board::~Board() {}
 
 Cell & Board::getCell(int x, int y) {
     if (0 <= x && x < boardSize && 0 <= y && y < boardSize) {
@@ -236,9 +240,6 @@ bool Board::checkMated(Colour kingColour) {
     if (!checked(kingColour)) {
         return false;
     }
-
-
-    
 
 
 
