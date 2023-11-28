@@ -10,10 +10,14 @@ int main() {
 
     Board b;
     b.setEmptyBoard();
-    b.setDefaultBoard();
+
+    b.setPieceOnBoard(new King(Colour::White), 4, 5);
+    b.setPieceOnBoard(new King(Colour::Black), 5, 6);
     cout << b << endl;
-    b.printBlackPieceCells();
-    b.printWhitePieceCells();
+    
+    cout << b.attackPossible(b.getCell(4,5), b.getCell(5,6)) << endl;
+    // b.printBlackPieceCells();
+    // b.printWhitePieceCells();
 
     // b.activateMove(b.getCell(1,7), b.getCell(2,5));
     // cout << b << endl;
@@ -25,7 +29,6 @@ int main() {
     // cout << b << endl;;
     // b.printWhitePieceCells();
     // b.printBlackPieceCells();
-
 
     // b.activateMove(b.getCell(4,7), b.getCell(5,6));
     // b.activateMove(b.getCell(3,4), b.getCell(4,5));

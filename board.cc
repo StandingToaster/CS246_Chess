@@ -177,9 +177,58 @@ void Board::activateMove(Cell & start, Cell & destination) {
             addBlackOrWhitePieceCell(&destination);
             removeBlackOrWhitePieceCell();
         }
-    }
-    
+    }  
 }
+
+bool Board::attackPossible(Cell & start, Cell & destination) {
+    if (start.getChessPiece() != nullptr) {
+        return start.getChessPiece()->canAttack(start, destination, *this);
+    } else {
+        return false;
+    }
+}
+
+bool Board::checked(Colour kingColour) {
+    int kingX;
+    int kingY;
+
+    // Get X and Y coords of king whose check status is in question.
+    if (kingColour == Colour::Black) { // king is black
+        for (long unsigned int i = 0; i < blackPieceCells.size(); i++) {
+            if (blackPieceCells[i]->getChessPiece()->getPiece() == Piece::King) {
+                kingX = blackPieceCells[i]->getX();
+                kingY = blackPieceCells[i]->getY();
+                break;
+            }
+        }
+
+        for (long unsigned int i = 0; i < whitePieceCells.size(); i++) {
+            if (attackPossible(getCell(whitePieceCells[i]->getX(), whitePieceCells[i]->getY()), getCell(kingX, kingY))) {
+                return true;
+            }
+        }
+
+    } else { // king is white
+        for (long unsigned int i = 0; i < whitePieceCells.size(); i++) {
+            if (whitePieceCells[i]->getChessPiece()->getPiece() == Piece::King) {
+                kingX = whitePieceCells[i]->getX();
+                kingY = whitePieceCells[i]->getY();
+                break;
+            }
+        }
+        for (long unsigned int i = 0; i < blackPieceCells.size(); i++) {
+            if (attackPossible(getCell(blackPieceCells[i]->getX(), blackPieceCells[i]->getY()), getCell(kingX, kingY))) {
+                return true;
+            }
+        }
+
+    }
+
+    return false;
+
+}
+
+
 
 
 ostream& operator<<(ostream &out, const Board &b) {

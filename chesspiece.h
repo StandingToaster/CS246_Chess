@@ -26,7 +26,9 @@ class ChessPiece {
         
         Colour getColour();
         Piece getPiece();
+        // moves a piece based on the type of piece and its associated rules.
         virtual bool movePiece(Cell & start, Cell & destination, Board & b) = 0; // pure virtual
+        // Determines simply if a piece on the start cell can attack a piece on the destination cell.
         virtual bool canAttack(Cell & start, Cell & destination, Board & b) = 0; // pure virtual
 
         friend ostream& operator<<(ostream &out, const ChessPiece &cp);

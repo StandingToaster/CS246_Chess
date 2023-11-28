@@ -12,7 +12,6 @@ enum class Piece {Pawn, Rook, Knight, Bishop, Queen, King};
 
 class Cell {
     
-
     int x;
     int y;
     Colour colour; // useful when implementing a graphical display

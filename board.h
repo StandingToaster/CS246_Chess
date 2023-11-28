@@ -45,7 +45,9 @@ class Board {
     void printWhitePieceCells(); // will be removed at the end, used for testign purposes
 
     void activateMove(Cell & start, Cell & destination);
+    bool attackPossible(Cell & start, Cell & destination);
 
+    bool checked(Colour kingColour);
 
     friend ostream& operator<<(ostream &out, const Board &b);
 
