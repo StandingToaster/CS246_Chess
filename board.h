@@ -11,14 +11,12 @@ class Board {
     friend class Cell;
 
     // Computer c;
-
+    
     const int boardSize = 8;
     vector<vector<Cell>> theBoard; // the actual chess board
 
     vector<Cell*> blackPieceCells; // at most 16, cells which hold black pieces
     vector<Cell*> whitePieceCells; // at most 16, cells which hold white pieces
-
-    
 
     // vector<Move> allWhiteLegalMoves;
     // vector<Move> allBlackLegalMoves;
@@ -48,6 +46,8 @@ class Board {
     bool attackPossible(Cell & start, Cell & destination);
 
     bool checked(Colour kingColour);
+    bool checkMated(Colour kingColour);
+
 
     friend ostream& operator<<(ostream &out, const Board &b);
 
