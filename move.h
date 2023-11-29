@@ -9,10 +9,8 @@ class Move {
     Cell & start;
     Cell & dest;
 
-
-
-
-
+public:
+    bool hasEnemyPresence();
 };
 
 
