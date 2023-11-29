@@ -266,9 +266,6 @@ void Board::printWhiteLegalMoves() {
 }
 
 
-
-
-
 bool Board::activateMove(Cell & start, Cell & destination) {
 
     if (start.getChessPiece() != nullptr) {
