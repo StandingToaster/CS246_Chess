@@ -21,6 +21,8 @@ virtual Move generateMove() = 0;
 Colour getColour();
 //Accesses the pointer pointing to the current board field.
 Board* getPointer();
+
+
 };
 
 #endif
