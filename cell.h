@@ -19,6 +19,7 @@ class Cell {
 
     public:
     Cell(); // default ctor
+    Cell(Cell& other); // copy ctor
     ~Cell();
     int getX();
     int getY();

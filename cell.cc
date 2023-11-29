@@ -4,6 +4,24 @@
 using namespace std;
 
 Cell::Cell() {}
+Cell::Cell(Cell& other): x{other.x}, y{other.y}, colour{other.colour} {
+
+    if (other.piece == nullptr) {
+        piece = nullptr;
+    } else if (other.piece->getPiece() == Piece::Pawn) {
+        piece = new Pawn (*(static_cast<Pawn *>(other.piece)));
+    } else if (other.piece->getPiece() == Piece::Rook) {
+        piece = new Rook (*(static_cast<Rook *>(other.piece)));
+    } else if (other.piece->getPiece() == Piece::Knight) {
+        piece = new Knight (*(static_cast<Knight *>(other.piece)));
+    } else if (other.piece->getPiece() == Piece::Bishop) {
+        piece = new Bishop (*(static_cast<Bishop *>(other.piece)));
+    }  else if (other.piece->getPiece() == Piece::Queen) {
+        piece = new Queen (*(static_cast<Queen *>(other.piece)));
+    } else { //other.piece->getPiece() == Piece::King
+        piece = new King (*(static_cast<King *>(other.piece)));
+    } 
+}
 
 Cell::~Cell() {} // DELETE chessPiece (WHEN IMPLEMENTED)
 
