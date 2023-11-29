@@ -18,16 +18,19 @@ int main() {
     b.setPieceOnBoard(new King(Colour::Black), 3, 7);
 
     cout << b << endl;
+    b.printBlackPieceCells();
+    b.printWhitePieceCells();
+    cout << b.checkMated(Colour::White) << endl;
 
     // Board c = b;
-
     // cout << c << endl;
+    // cout << c.checkMated(Colour::White) << endl;
     // c.activateMove(c.getCell(4,0), c.getCell(5,0));
     // cout << c << endl;
     // cout << c.checked(Colour::White) << endl;
+    // cout << c.checkMated(Colour::White) << endl;
 
-
-    cout << b.checkMated(Colour::White) << endl;
+    // cout << b.checkMated(Colour::White) << endl;
     // b.printWhiteLegalMoves();
 
 
