@@ -23,9 +23,24 @@ Board::Board(const Board& other):boardSize(other.boardSize) {
     blackPieceCells.resize(other.blackPieceCells.size());
     whitePieceCells.resize(other.whitePieceCells.size());
 
-    
+    for (long unsigned int i = 0; i < blackPieceCells.size(); i++) {
+        blackPieceCells[i] = new Cell (*(other.blackPieceCells[i]));
+    }
 
+    for (long unsigned int i = 0; i < whitePieceCells.size(); i++) {
+        whitePieceCells[i] = new Cell (*(other.whitePieceCells[i]));
+    }
 
+    allBlackLegalMoves.resize(other.allBlackLegalMoves.size());
+    allWhiteLegalMoves.resize(other.allWhiteLegalMoves.size());
+
+    for (long unsigned int i = 0; i < allBlackLegalMoves.size(); i++) {
+        allBlackLegalMoves[i] = other.allBlackLegalMoves[i];
+    }
+
+    for (long unsigned int i = 0; i < allWhiteLegalMoves.size(); i++) {
+        allWhiteLegalMoves[i] = other.allWhiteLegalMoves[i];
+    }
 }
 
 
@@ -271,7 +286,7 @@ bool Board::checkMated(Colour kingColour) {
     }
 
 
-
+    return false;
 }
 
 

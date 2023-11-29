@@ -9,7 +9,7 @@ vector<Move> level2::checkForKill() {
     vector<Move> temp = {};
     vector<Move> LegalMoves = p->getLegalMoves(cur);
     //Loop through all possible legal moves, determine if any result in kills, if so, add to new vector "temp".
-    for (int i = 0; i < LegalMoves.size(); ++i) {
+    for (long unsigned int i = 0; i < LegalMoves.size(); ++i) {
         if (LegalMoves[i].hasEnemyPresence()) {
             temp.emplace_back(LegalMoves[i]);
         }

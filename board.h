@@ -19,8 +19,9 @@ class Board {
     vector<Cell*> blackPieceCells; // at most 16, cells which hold black pieces
     vector<Cell*> whitePieceCells; // at most 16, cells which hold white pieces
 
-    vector<Move> allWhiteLegalMoves;
     vector<Move> allBlackLegalMoves;
+    vector<Move> allWhiteLegalMoves;
+    
 
     public:
     Board();
