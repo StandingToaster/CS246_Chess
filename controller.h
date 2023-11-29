@@ -9,12 +9,13 @@ class Controller {
 Board* currentBoard;
 Computer* player1;
 Computer* player2;
+int score1, score2;
 
 public:
 Controller(Board* init, Computer* p1, Computer* p2);
 
 //Manages the entire game for its duration. Returns true if the game is quit or ends.
-bool playGame(istream &in);
+void playGame(istream &in, ostream &out);
 
 ~Controller();
 

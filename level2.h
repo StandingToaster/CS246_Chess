@@ -1,3 +1,5 @@
+#ifndef __LEVEL2_H__
+#define __LEVEL2_H__
 #include "computer.h"
 
 using namespace std;
@@ -9,3 +11,5 @@ class level2 : public Computer {
     public:
     Move generateMove() override;
 };
+
+#endif
