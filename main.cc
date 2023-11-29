@@ -16,10 +16,21 @@ int main() {
     c1.setColour(Colour::Black);
     c1.addChessPiece(new Pawn(Colour::Black));
 
-    Cell c2 = c1;
+    Cell c2;
+    c2.setCoords(3,4);
+    c2.setColour(Colour::White);
+    c2.addChessPiece(new Pawn(Colour::White));
 
+    c1 = c2;
+
+    cout << c1.getX() << endl;
+    cout << c1.getX() << endl;
     cout << c1.getY() << endl;
-    cout << c2.getY() << endl;
+    cout << c1.getY() << endl;
+    cout << c1.getChessPiece() << endl;
+    cout << c2.getChessPiece() << endl;
+    cout << c1 << endl;
+    cout << c2 << endl;
 
     // b.setPieceOnBoard(new King(Colour::White), 4, 4);
     // b.setPieceOnBoard(new King(Colour::Black), 5, 6);

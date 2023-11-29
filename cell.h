@@ -20,6 +20,7 @@ class Cell {
     public:
     Cell(); // default ctor
     Cell(const Cell& other); // copy ctor
+    Cell& operator=(const Cell& other); // copy assignment
     ~Cell();
     int getX();
     int getY();

@@ -6,8 +6,24 @@ using namespace std;
 
 Board::Board() {}
 
-Board::Board(const Board& other):boardSize(other.boardSize), theBoard{other.theBoard}  {
+Board::Board(const Board& other):boardSize(other.boardSize) {
 
+    // Resizing the board and each row to be size 8 in length
+    theBoard.resize(boardSize);
+    for (int i = 0; i < boardSize; i++) {
+        theBoard[i].resize(boardSize);
+    }
+
+    for (int i = 0; i < boardSize; i++) { // i = Y
+        for (int j = 0; j < boardSize; j++) { // j = X
+            theBoard[i][j] = other.theBoard[i][j];
+        }
+    }
+
+    blackPieceCells.resize(other.blackPieceCells.size());
+    whitePieceCells.resize(other.whitePieceCells.size());
+
+    
 
 
 }

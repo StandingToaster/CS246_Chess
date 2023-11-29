@@ -27,6 +27,7 @@ ostream& operator<<(ostream &out, const ChessPiece &cp) {
 Pawn::Pawn(Colour colour): ChessPiece{colour, Piece::Pawn, colour == Colour::White ? 'P' : 'p'} {}
 Pawn::Pawn(const Pawn& other): ChessPiece{other} {}
 Pawn& Pawn::operator=(const Pawn& other) {
+    if (this == &other) return *this;
     ChessPiece::operator=(other);
     return *this;
 }
@@ -190,6 +191,7 @@ bool Pawn::canAttack(Cell & start, Cell & destination, Board & b) {
 Rook::Rook(Colour colour): ChessPiece{colour, Piece::Rook, colour == Colour::White ? 'R' : 'r'} {}
 Rook::Rook(const Rook& other): ChessPiece{other} {}
 Rook& Rook::operator=(const Rook& other) {
+    if (this == &other) return *this;
     ChessPiece::operator=(other);
     return *this;
 }
@@ -390,6 +392,7 @@ bool Rook::canAttack(Cell & start, Cell & destination, Board & b) {
 Knight::Knight(Colour colour): ChessPiece{colour, Piece::Knight, colour == Colour::White ? 'N' : 'n'} {}
 Knight::Knight(const Knight& other): ChessPiece{other} {}
 Knight& Knight::operator=(const Knight& other) {
+    if (this == &other) return *this;
     ChessPiece::operator=(other);
     return *this;
 }
@@ -552,6 +555,7 @@ bool Knight::canAttack(Cell & start, Cell & destination, Board & b) {
 Bishop::Bishop(Colour colour): ChessPiece{colour, Piece::Bishop, colour == Colour::White ? 'B' : 'b'} {}
 Bishop::Bishop(const Bishop& other): ChessPiece{other} {}
 Bishop& Bishop::operator=(const Bishop& other) {
+    if (this == &other) return *this;
     ChessPiece::operator=(other);
     return *this;
 }
@@ -777,6 +781,7 @@ bool Bishop::canAttack(Cell & start, Cell & destination, Board & b) {
 Queen::Queen(Colour colour): ChessPiece{colour, Piece::Queen, colour == Colour::White ? 'Q' : 'q'} {}
 Queen::Queen(const Queen& other): ChessPiece{other} {}
 Queen& Queen::operator=(const Queen& other) {
+    if (this == &other) return *this;
     ChessPiece::operator=(other);
     return *this;
 }
@@ -1145,6 +1150,7 @@ bool Queen::canAttack(Cell & start, Cell & destination, Board & b) {
 King::King(Colour colour): ChessPiece{colour, Piece::King, colour == Colour::White ? 'K' : 'k'} {}
 King::King(const King& other): ChessPiece{other} {}
 King& King::operator=(const King& other) {
+    if (this == &other) return *this;
     ChessPiece::operator=(other);
     return *this;
 }
