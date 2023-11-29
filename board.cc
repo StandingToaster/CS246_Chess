@@ -231,7 +231,6 @@ void Board::addBlackOrWhiteLegalMove(Move move) {
 void Board::calculateAllLegalMoves() {
     // determines all black legal moves
     for (long unsigned int i = 0; i < blackPieceCells.size(); i++) { 
-        cout << i << endl;
         blackPieceCells[i]->getChessPiece()->determineLegalMoves(*blackPieceCells[i], *this);
         
     }
@@ -337,8 +336,42 @@ bool Board::checkMated(Colour kingColour) {
         return false;
     }
 
+    clearLegalMoves();
+    calculateAllLegalMoves();
+    if (kingColour == Colour::Black) {
 
-    return false;
+        for (long unsigned int i = 0; i < allBlackLegalMoves.size(); i++) {
+            Move m = allBlackLegalMoves[i];
+            Cell & start = m.getStart();
+            Cell & dest = m.getDest();
+            Board b_copy = *this;
+            b_copy.activateMove(start, dest);
+
+            if (!b_copy.checked(Colour::Black)) {
+                cout << "NOT CHECKMATED" << endl;
+                return false;
+            }
+        }
+    }
+
+    if (kingColour == Colour::White) {
+        for (long unsigned int i = 0; i < allWhiteLegalMoves.size(); i++) {
+            Move m = allWhiteLegalMoves[i];
+            Cell & start = m.getStart();
+            Cell & dest = m.getDest();
+            Board b_copy = *this;
+            b_copy.activateMove(start, dest);
+
+            if (!b_copy.checked(Colour::White)) {
+                cout << "NOT CHECKMATED" << endl;
+                return false;
+            }
+        }
+
+    }
+
+    cout << "CHECKMATE!" << endl;
+    return true;
 }
 
 
