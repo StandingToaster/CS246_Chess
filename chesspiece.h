@@ -35,7 +35,8 @@ class ChessPiece {
         // Determines simply if a piece on the start cell can attack a piece on the destination cell.
         virtual bool canAttack(Cell & start, Cell & destination, Board & b) = 0; // pure virtual
 
-        // Determines all legal moves for a piece located on the start cell
+        // Determines all legal moves for a piece located on the start cell and adds them to the list
+        // of 
         virtual void determineLegalMoves(Cell & start, Board & b) = 0; // pure virtual
 
         friend ostream& operator<<(ostream &out, const ChessPiece &cp);
