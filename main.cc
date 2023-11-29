@@ -12,8 +12,8 @@ int main() {
     b.setEmptyBoard();
 
 
-    b.setPieceOnBoard(new Bishop(Colour::White), 4,6);
-    b.setPieceOnBoard(new Bishop(Colour::White), 5,7);
+    b.setPieceOnBoard(new Queen(Colour::White), 4,6);
+    b.setPieceOnBoard(new Queen(Colour::White), 5,7);
     cout << b << endl;
 
     b.calculateLegalMoves(b.getCell(4,6));

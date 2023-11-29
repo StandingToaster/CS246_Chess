@@ -249,11 +249,13 @@ void Board::printBlackLegalMoves() {
 }
 
 void Board::printWhiteLegalMoves() {
+    
     for (long unsigned int i = 0; i < allWhiteLegalMoves.size(); i++) {
         cout << allWhiteLegalMoves[i].getStart() << " - " <<
         "Start: " << "(" << allWhiteLegalMoves[i].getStart().getX() << "," << allWhiteLegalMoves[i].getStart().getY() << ") "
         << "Dest: " << "(" << allWhiteLegalMoves[i].getDest().getX() << "," << allWhiteLegalMoves[i].getDest().getY() << ")" << endl;
     }
+    cout << allWhiteLegalMoves.size() << endl;
 }
 
 

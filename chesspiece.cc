@@ -1476,7 +1476,184 @@ bool Queen::canAttack(Cell & start, Cell & destination, Board & b) {
     return false;
 }
 void Queen::determineLegalMoves(Cell & start, Board & b) {
+    int sx = start.getX();
+    int sy = start.getY();
 
+    if (start.getChessPiece() == nullptr) { // start piece non-existant
+        return;
+    }
+    if (start.getChessPiece()->getPiece() != Piece::Queen) { // start piece is not queen
+        return;
+    }
+
+    // moving vertically
+    // moving up
+    int y = sy - 1;
+
+    while (y >= 0) {
+        if (!b.cellEmpty(sx, y) && b.getCell(sx, y).getChessPiece()->getColour() != start.getChessPiece()->getColour()) {
+            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx,y)});
+            break;
+        }
+
+        if (!b.cellEmpty(sx, y) && b.getCell(sx, y).getChessPiece()->getColour() == start.getChessPiece()->getColour()) {
+            break;
+        }
+
+        if (b.cellEmpty(sx, y)) {
+            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx,y)});
+        }
+        y--;
+    }
+
+    // moving down
+    y = sy + 1;
+    while (y < b.getBoardSize()) {
+        if (!b.cellEmpty(sx, y) && b.getCell(sx, y).getChessPiece()->getColour() != start.getChessPiece()->getColour()) {
+            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx,y)});
+            break;
+        }
+
+        if (!b.cellEmpty(sx, y) && b.getCell(sx, y).getChessPiece()->getColour() == start.getChessPiece()->getColour()) {
+            break;
+        }
+
+        if (b.cellEmpty(sx, y)) {
+            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx,y)});
+        }
+        y++;
+    }
+
+
+    // moving horizontally
+    // moving left
+    int x = sx - 1;
+
+    while (x >= 0) {
+        if (!b.cellEmpty(x, sy) && b.getCell(x, sy).getChessPiece()->getColour() != start.getChessPiece()->getColour()) {
+            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x,sy)});
+            break;
+        }
+
+        if (!b.cellEmpty(x, sy) && b.getCell(x, sy).getChessPiece()->getColour() == start.getChessPiece()->getColour()) {
+            break;
+        }
+
+        if (b.cellEmpty(x, sy)) {
+            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x,sy)});
+        }
+        x--;
+    }
+
+    // moving right
+    x = sx + 1;
+    while (x < b.getBoardSize()) {
+        if (!b.cellEmpty(x, sy) && b.getCell(x, sy).getChessPiece()->getColour() != start.getChessPiece()->getColour()) {
+            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x,sy)});
+            break;
+        }
+
+        if (!b.cellEmpty(x, sy) && b.getCell(x, sy).getChessPiece()->getColour() == start.getChessPiece()->getColour()) {
+            break;
+        }
+
+        if (b.cellEmpty(x, sy)) {
+            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x,sy)});
+        }
+        x++;
+    }
+
+    // going top right
+    x = sx + 1;
+    y = sy - 1;
+
+    while (x < b.getBoardSize() && y >= 0) {
+        if (!b.cellEmpty(x,y) && b.getCell(x, y).getChessPiece()->getColour() != start.getChessPiece()->getColour()) {
+            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x,y)});
+            break;
+        }
+
+        if (!b.cellEmpty(x,y) && b.getCell(x, y).getChessPiece()->getColour() == start.getChessPiece()->getColour()) {
+            break;
+        }
+
+        if (b.cellEmpty(x,y)) {
+            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x,y)});
+        }
+
+        x++;
+        y--;
+
+    }
+
+    // going bottom right
+    x = sx + 1;
+    y = sy + 1;
+
+    while (x < b.getBoardSize() && y < b.getBoardSize()) {
+        if (!b.cellEmpty(x,y) && b.getCell(x, y).getChessPiece()->getColour() != start.getChessPiece()->getColour()) {
+            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x,y)});
+            break;
+        }
+
+        if (!b.cellEmpty(x,y) && b.getCell(x, y).getChessPiece()->getColour() == start.getChessPiece()->getColour()) {
+            break;
+        }
+
+        if (b.cellEmpty(x,y)) {
+            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x,y)});
+        }
+
+        x++;
+        y++;
+
+    }
+
+    // going bottom left
+    x = sx - 1;
+    y = sy + 1;
+
+    while (x >= 0 && y < b.getBoardSize()) {
+        if (!b.cellEmpty(x,y) && b.getCell(x, y).getChessPiece()->getColour() != start.getChessPiece()->getColour()) {
+            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x,y)});
+            break;
+        }
+
+        if (!b.cellEmpty(x,y) && b.getCell(x, y).getChessPiece()->getColour() == start.getChessPiece()->getColour()) {
+            break;
+        }
+
+        if (b.cellEmpty(x,y)) {
+            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x,y)});
+        }
+
+        x--;
+        y++;
+
+    }
+
+
+    // going top left
+    x = sx - 1;
+    y = sy - 1;
+
+    while (x >= 0 && y >= 0) {
+        if (!b.cellEmpty(x,y) && b.getCell(x, y).getChessPiece()->getColour() != start.getChessPiece()->getColour()) {
+            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x,y)});
+            break;
+        }
+
+        if (!b.cellEmpty(x,y) && b.getCell(x, y).getChessPiece()->getColour() == start.getChessPiece()->getColour()) {
+            break;
+        }
+
+        if (b.cellEmpty(x,y)) {
+            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x,y)});
+        }
+
+        x--;
+        y--;
+    }
 }
 
 King::King(Colour colour): ChessPiece{colour, Piece::King, colour == Colour::White ? 'K' : 'k'} {}
