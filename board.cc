@@ -270,14 +270,16 @@ void Board::printWhiteLegalMoves() {
 
 
 
-void Board::activateMove(Cell & start, Cell & destination) {
+bool Board::activateMove(Cell & start, Cell & destination) {
 
     if (start.getChessPiece() != nullptr) {
         if (start.getChessPiece()->movePiece(start, destination, *this)) {
             addBlackOrWhitePieceCell(&destination);
             removeBlackOrWhitePieceCell();
+            return true;
         }
     }  
+    return false;
 }
 bool Board::attackPossible(Cell & start, Cell & destination) {
     if (start.getChessPiece() != nullptr) {
@@ -360,8 +362,13 @@ bool Board::checkMated(Colour kingColour) {
             Cell & start = m.getStart();
             Cell & dest = m.getDest();
             Board b_copy = *this;
-            b_copy.activateMove(start, dest);
 
+            // cout << start << endl;
+            // cout << dest << endl;
+
+            cout << b_copy.activateMove(start, dest) << endl;
+            // cout << b_copy << endl;
+            // cout << b_copy.checked(Colour::White);
             if (!b_copy.checked(Colour::White)) {
                 cout << "NOT CHECKMATED" << endl;
                 return false;

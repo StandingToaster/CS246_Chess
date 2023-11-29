@@ -52,7 +52,7 @@ class Board {
 
 
 
-    void activateMove(Cell & start, Cell & destination);
+    bool activateMove(Cell & start, Cell & destination);
     bool attackPossible(Cell & start, Cell & destination);
 
     bool checked(Colour kingColour);
