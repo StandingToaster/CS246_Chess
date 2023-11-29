@@ -1814,5 +1814,71 @@ bool King::canAttack(Cell & start, Cell & destination, Board & b) {
     return false;
 }
 void King::determineLegalMoves(Cell & start, Board & b) {
+    int sx = start.getX();
+    int sy = start.getY();
+
+    if (start.getChessPiece() == nullptr) { // start piece non-existant
+        return;
+    }
+    if (start.getChessPiece()->getPiece() != Piece::King) { // start piece is not queen
+        return;
+    }
+
+    // dest top
+    if (0 <= sx && sx < b.getBoardSize() && 0 <= sy - 1 && sy - 1 < b.getBoardSize()) {
+        if (b.cellEmpty(sx, sy - 1) || (!b.cellEmpty(sx, sy - 1) && b.getCell(sx, sy - 1).getChessPiece()->getColour() != start.getChessPiece()->getColour())) {
+            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx, sy - 1)});
+        }
+    }
+
+    // dest is top-right
+    if (0 <= sx + 1 && sx + 1 < b.getBoardSize() && 0 <= sy - 1 && sy - 1 < b.getBoardSize()) {
+        if (b.cellEmpty(sx + 1, sy - 1) || (!b.cellEmpty(sx + 1, sy - 1) && b.getCell(sx + 1, sy - 1).getChessPiece()->getColour() != start.getChessPiece()->getColour())) {
+            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx + 1, sy - 1)});
+        }
+    }
+
+    // dest is right
+    if (0 <= sx + 1 && sx + 1 < b.getBoardSize() && 0 <= sy  && sy  < b.getBoardSize()) {
+        if (b.cellEmpty(sx + 1, sy ) || (!b.cellEmpty(sx + 1, sy ) && b.getCell(sx + 1, sy ).getChessPiece()->getColour() != start.getChessPiece()->getColour())) {
+            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx + 1, sy )});
+        }
+    }
+
+
+    // dest is bottom-right
+    if (0 <= sx + 1 && sx + 1 < b.getBoardSize() && 0 <= sy + 1 && sy + 1 < b.getBoardSize()) {
+        if (b.cellEmpty(sx + 1, sy + 1) || (!b.cellEmpty(sx + 1, sy + 1) && b.getCell(sx + 1, sy + 1).getChessPiece()->getColour() != start.getChessPiece()->getColour())) {
+            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx + 1, sy + 1)});
+        }
+    }
+
+    // dest is bottom
+    if (0 <= sx && sx < b.getBoardSize() && 0 <= sy + 1 && sy + 1 < b.getBoardSize()) {
+        if (b.cellEmpty(sx, sy + 1) || (!b.cellEmpty(sx, sy + 1) && b.getCell(sx, sy + 1).getChessPiece()->getColour() != start.getChessPiece()->getColour())) {
+            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx, sy + 1)});
+        }
+    }
+
+    // dest is bottom-left
+    if (0 <= sx - 1 && sx - 1 < b.getBoardSize() && 0 <= sy + 1 && sy + 1 < b.getBoardSize()) {
+        if (b.cellEmpty(sx - 1, sy + 1) || (!b.cellEmpty(sx - 1, sy + 1) && b.getCell(sx - 1, sy + 1).getChessPiece()->getColour() != start.getChessPiece()->getColour())) {
+            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx - 1, sy + 1)});
+        }
+    }
+
+    // dest is left
+    if (0 <= sx - 1 && sx - 1 < b.getBoardSize() && 0 <= sy && sy < b.getBoardSize()) {
+        if (b.cellEmpty(sx - 1, sy) || (!b.cellEmpty(sx - 1, sy) && b.getCell(sx - 1, sy).getChessPiece()->getColour() != start.getChessPiece()->getColour())) {
+            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx - 1, sy)});
+        }
+    }
+
+    // dest is top-left
+    if (0 <= sx - 1 && sx - 1 < b.getBoardSize() && 0 <= sy - 1 && sy - 1 < b.getBoardSize()) {
+        if (b.cellEmpty(sx - 1, sy - 1) || (!b.cellEmpty(sx - 1, sy - 1) && b.getCell(sx - 1, sy - 1).getChessPiece()->getColour() != start.getChessPiece()->getColour())) {
+            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx - 1, sy - 1)});
+        }
+    }
 
 }

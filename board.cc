@@ -246,6 +246,7 @@ void Board::printBlackLegalMoves() {
         "Start: " << "(" << allBlackLegalMoves[i].getStart().getX() << "," << allBlackLegalMoves[i].getStart().getY() << ") "
         << "Dest: " << "(" << allBlackLegalMoves[i].getDest().getX() << "," << allBlackLegalMoves[i].getDest().getY() << ")" << endl;
     }
+    cout << allBlackLegalMoves.size() << endl;
 }
 
 void Board::printWhiteLegalMoves() {
