@@ -1,3 +1,5 @@
+#ifndef __COMPUTER_H__
+#define __COMPUTER_H__
 #include <vector>
 #include <iostream>
 #include <string>
@@ -20,3 +22,5 @@ Colour getColour();
 //Accesses the pointer pointing to the current board field.
 Board* getPointer();
 };
+
+#endif
