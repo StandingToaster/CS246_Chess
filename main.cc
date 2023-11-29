@@ -9,16 +9,19 @@ int main() {
     
 
     Board b;
-    b.setEmptyBoard();
+    b.setDefaultBoard();
 
-
-    b.setPieceOnBoard(new King(Colour::White), 4,6);
-    b.setPieceOnBoard(new King(Colour::Black), 5,7);
     cout << b << endl;
+    // b.printBlackPieceCells();
 
-    b.calculateLegalMoves(b.getCell(5,7));
+    b.calculateAllLegalMoves();
+    // b.printBlackLegalMoves();
+
+    b.activateMove(b.getCell(6,1), b.getCell(6,3));
+    cout << b << endl;
+    b.clearLegalMoves();
+    b.calculateAllLegalMoves();
     b.printBlackLegalMoves();
-
 
     // b.clearLegalMoves();
 

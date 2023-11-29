@@ -45,7 +45,7 @@ class Board {
     void printWhitePieceCells(); // will be removed at the end, used for testign purposes
 
     void addBlackOrWhiteLegalMove(Move move); // Adds a potential move with a black or white piece to allBlackLegalMoves or allWhiteLegalMoves respectively. 
-    void calculateLegalMoves(Cell & start); // gets potential legal moves of the piece at this cell and adds it to its respective vector.
+    void calculateAllLegalMoves(); // gets potential legal moves of all black and white pieces and adds it to their respective vector.
     void clearLegalMoves(); // Clears the vectors for allBlackLegalMoves and allWhiteLegalMoves. Cleared each turn.
     void printBlackLegalMoves(); // will be removed at the end, used for testing purposes
     void printWhiteLegalMoves(); // will be removed at the end, used for testing purposes

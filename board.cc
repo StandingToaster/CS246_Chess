@@ -228,10 +228,19 @@ void Board::addBlackOrWhiteLegalMove(Move move) {
     }
 }
 
-void Board::calculateLegalMoves(Cell & start) {
-    if (start.getChessPiece() != nullptr) {
-        start.getChessPiece()->determineLegalMoves(start, *this);
+void Board::calculateAllLegalMoves() {
+    // determines all black legal moves
+    for (long unsigned int i = 0; i < blackPieceCells.size(); i++) { 
+        cout << i << endl;
+        blackPieceCells[i]->getChessPiece()->determineLegalMoves(*blackPieceCells[i], *this);
+        
     }
+
+    // determines all white legal moves
+    for (long unsigned int i = 0; i < whitePieceCells.size(); i++) { 
+        whitePieceCells[i]->getChessPiece()->determineLegalMoves(*whitePieceCells[i], *this);
+    }
+
 }
 
 
@@ -248,7 +257,6 @@ void Board::printBlackLegalMoves() {
     }
     cout << allBlackLegalMoves.size() << endl;
 }
-
 void Board::printWhiteLegalMoves() {
     
     for (long unsigned int i = 0; i < allWhiteLegalMoves.size(); i++) {

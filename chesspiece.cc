@@ -202,12 +202,14 @@ void Pawn::determineLegalMoves(Cell & start, Board & b) {
     if (start.getChessPiece()->getColour() == Colour::Black) { // black pawn travels 'down' the board
 
         // black pawn can attack bottom left diagonally.
+
         if (!b.cellEmpty(sx - 1, sy + 1) && b.getCell(sx - 1, sy + 1).getChessPiece()->getColour() != Colour::Black) {
             b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx - 1, sy + 1)});
         }
 
+
         // black pawn can attack bottom right diagonally. 
-        if (!b.cellEmpty(sx + 1, sy + 1) && b.getCell(sx - 1, sy + 1).getChessPiece()->getColour() != Colour::Black) {
+        if (!b.cellEmpty(sx + 1, sy + 1) && b.getCell(sx + 1, sy + 1).getChessPiece()->getColour() != Colour::Black) {
             b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx + 1, sy + 1)});
         }
 
@@ -229,12 +231,12 @@ void Pawn::determineLegalMoves(Cell & start, Board & b) {
     } else if (start.getChessPiece()->getColour() == Colour::White){ // pawn is white, travels 'up' the board
 
         // white pawn can attack upper left diagonally
-        if (!b.cellEmpty(sx - 1, sy - 1)) {
+        if (!b.cellEmpty(sx - 1, sy - 1) && b.getCell(sx - 1, sy - 1).getChessPiece()->getColour() != Colour::White) {
             b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx - 1, sy - 1)});
         }   
 
         // white pawn can attack upper right diagonally
-        if (!b.cellEmpty(sx + 1, sy - 1)) {
+        if (!b.cellEmpty(sx + 1, sy - 1) && b.getCell(sx + 1, sy - 1).getChessPiece()->getColour() != Colour::White) {
             b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx + 1, sy - 1)});
 
         }
