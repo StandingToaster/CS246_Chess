@@ -2,9 +2,7 @@
 
 using namespace std;
 
-bool level2::checkForKill(Move input) {
-   return input.hasEnemyPresence();
-}
+
 
 Move level2::generateMove() {
     Board* b = this->getPointer();
