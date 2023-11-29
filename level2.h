@@ -1,3 +1,5 @@
+#ifndef __LEVEL2_H__
+#define __LEVEL2_H__
 #include "computer.h"
 
 using namespace std;
@@ -11,3 +13,5 @@ class level2 : public Computer {
     //a random move otherwise
     Move generateMove() override;
 };
+
+#endif
