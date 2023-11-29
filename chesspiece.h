@@ -35,6 +35,9 @@ class ChessPiece {
         // Determines simply if a piece on the start cell can attack a piece on the destination cell.
         virtual bool canAttack(Cell & start, Cell & destination, Board & b) = 0; // pure virtual
 
+        // Determines all legal moves for a piece located on the start cell
+        virtual void determineLegalMoves(Cell & start, Board & b) = 0; // pure virtual
+
         friend ostream& operator<<(ostream &out, const ChessPiece &cp);
 
 };
@@ -51,6 +54,7 @@ class Pawn : public ChessPiece {
 
     bool movePiece(Cell & start, Cell & destination, Board & b) override;
     bool canAttack(Cell & start, Cell & destination, Board & b) override;
+    void determineLegalMoves(Cell & start, Board & b) override;
     
 };
 
@@ -64,6 +68,7 @@ class Rook : public ChessPiece {
 
     bool movePiece(Cell & start, Cell & destination, Board & b) override;
     bool canAttack(Cell & start, Cell & destination, Board & b) override;
+    void determineLegalMoves(Cell & start, Board & b) override;
 };
 
 class Knight : public ChessPiece {
@@ -76,6 +81,7 @@ class Knight : public ChessPiece {
 
     bool movePiece(Cell & start, Cell & destination, Board & b) override;
     bool canAttack(Cell & start, Cell & destination, Board & b) override;
+    void determineLegalMoves(Cell & start, Board & b) override;
 };
 
 class Bishop : public ChessPiece {
@@ -88,6 +94,7 @@ class Bishop : public ChessPiece {
 
     bool movePiece(Cell & start, Cell & destination, Board & b) override;
     bool canAttack(Cell & start, Cell & destination, Board & b) override;
+    void determineLegalMoves(Cell & start, Board & b) override;
 };
 
 class Queen : public ChessPiece {
@@ -100,6 +107,7 @@ class Queen : public ChessPiece {
 
     bool movePiece(Cell & start, Cell & destination, Board & b) override;
     bool canAttack(Cell & start, Cell & destination, Board & b) override;
+    void determineLegalMoves(Cell & start, Board & b) override;
 };
 
 class King : public ChessPiece {
@@ -114,6 +122,7 @@ class King : public ChessPiece {
 
     bool movePiece(Cell & start, Cell & destination, Board & b) override;
     bool canAttack(Cell & start, Cell & destination, Board & b) override;
+    void determineLegalMoves(Cell & start, Board & b) override;
 };
 
 

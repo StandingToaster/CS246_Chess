@@ -9,22 +9,20 @@ int main() {
     
 
     Board b;
-    b.setDefaultBoard();
+    b.setEmptyBoard();
 
-    Board c  = b;
 
+    b.setPieceOnBoard(new Pawn(Colour::White), 3,6);
     cout << b << endl;
-    cout << c << endl;
 
-    b.activateMove(b.getCell(1,7), b.getCell(0,5));
-    c.activateMove(c.getCell(1,7), c.getCell(2,5));
+    b.calculateLegalMoves(b.getCell(3,6));
+    b.printWhiteLegalMoves();
+    b.clearLegalMoves();
 
+    b.setPieceOnBoard(new Pawn(Colour::Black), 4,5);
     cout << b << endl;
-    cout << c << endl;
-
-
-
-
+    b.calculateLegalMoves(b.getCell(4,5));
+    b.printBlackLegalMoves();
     // Cell c1;
     // c1.setCoords(1,2);
     // c1.setColour(Colour::Black);

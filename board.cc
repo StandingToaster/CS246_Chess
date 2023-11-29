@@ -210,12 +210,54 @@ void Board::printBlackPieceCells() {
         cout << "(" << blackPieceCells[i]->getX() << "," << blackPieceCells[i]->getY() << ")" << " : " << *blackPieceCells[i] << endl;
     }
 }
-
 void Board::printWhitePieceCells() {
     for (long unsigned int i = 0; i < whitePieceCells.size(); i++) {
         cout << "(" << whitePieceCells[i]->getX() << "," << whitePieceCells[i]->getY() << ")" << " : " << *whitePieceCells[i] << endl;
     }
 }
+
+
+
+void Board::addBlackOrWhiteLegalMove(Move move) {
+    Colour c = move.getStart().getChessPiece()->getColour();
+    if (c == Colour::Black) {
+        allBlackLegalMoves.emplace_back(move);
+    }
+    else if (c == Colour::White) {
+        allWhiteLegalMoves.emplace_back(move);
+    }
+}
+
+void Board::calculateLegalMoves(Cell & start) {
+    if (start.getChessPiece() != nullptr) {
+        start.getChessPiece()->determineLegalMoves(start, *this);
+    }
+}
+
+
+void Board::clearLegalMoves() {
+    allBlackLegalMoves.clear();
+    allWhiteLegalMoves.clear();
+}
+
+void Board::printBlackLegalMoves() {
+    for (long unsigned int i = 0; i < allBlackLegalMoves.size(); i++) {
+        cout << allBlackLegalMoves[i].getStart() << " - " <<
+        "Start: " << "(" << allBlackLegalMoves[i].getStart().getX() << "," << allBlackLegalMoves[i].getStart().getY() << ") "
+        << "Dest: " << "(" << allBlackLegalMoves[i].getDest().getX() << "," << allBlackLegalMoves[i].getDest().getY() << ")" << endl;
+    }
+}
+
+void Board::printWhiteLegalMoves() {
+    for (long unsigned int i = 0; i < allWhiteLegalMoves.size(); i++) {
+        cout << allWhiteLegalMoves[i].getStart() << " - " <<
+        "Start: " << "(" << allWhiteLegalMoves[i].getStart().getX() << "," << allWhiteLegalMoves[i].getStart().getY() << ") "
+        << "Dest: " << "(" << allWhiteLegalMoves[i].getDest().getX() << "," << allWhiteLegalMoves[i].getDest().getY() << ")" << endl;
+    }
+}
+
+
+
 
 
 void Board::activateMove(Cell & start, Cell & destination) {
@@ -227,7 +269,6 @@ void Board::activateMove(Cell & start, Cell & destination) {
         }
     }  
 }
-
 bool Board::attackPossible(Cell & start, Cell & destination) {
     if (start.getChessPiece() != nullptr) {
         return start.getChessPiece()->canAttack(start, destination, *this);

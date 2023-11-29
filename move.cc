@@ -18,6 +18,12 @@ Move& Move::operator=(const Move& other) {
 
 Move::~Move() {}
 
+
+Cell & Move::getStart() {return start;}
+
+Cell & Move::getDest() {return dest;}
+
+
 bool Move::hasEnemyPresence() {
     return dest.getChessPiece();
 }

@@ -186,6 +186,82 @@ bool Pawn::canAttack(Cell & start, Cell & destination, Board & b) {
 
 
 }
+void Pawn::determineLegalMoves(Cell & start, Board & b) {
+
+    int sx = start.getX();
+    int sy = start.getY();
+
+    if (start.getChessPiece() == nullptr) { // start piece non-existant
+        return;
+    }
+    if (start.getChessPiece()->getPiece() != Piece::Pawn) { // start piece is not pawn
+        return;
+    }
+
+
+    if (start.getChessPiece()->getColour() == Colour::Black) { // black pawn travels 'down' the board
+
+        // black pawn can attack bottom left diagonally.
+        if (!b.cellEmpty(sx - 1, sy + 1) && b.getCell(sx - 1, sy + 1).getChessPiece()->getColour() != Colour::Black) {
+            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx - 1, sy + 1)});
+        }
+
+        // black pawn can attack bottom right diagonally. 
+        if (!b.cellEmpty(sx + 1, sy + 1) && b.getCell(sx - 1, sy + 1).getChessPiece()->getColour() != Colour::Black) {
+            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx + 1, sy + 1)});
+        }
+
+        // space right below black pawn is empty
+        if (b.cellEmpty(sx, sy + 1)) { 
+            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx, sy + 1)});
+
+        }
+
+        if (firstMove) {
+            
+            // black pawn can move down 2 squares if conducting first move.
+            if (b.cellEmpty(sx, sy + 1) && b.cellEmpty(sx, sy + 2)) {
+                b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx, sy + 2)});
+            }
+
+        }
+
+    } else if (start.getChessPiece()->getColour() == Colour::White){ // pawn is white, travels 'up' the board
+
+        // white pawn can attack upper left diagonally
+        if (!b.cellEmpty(sx - 1, sy - 1)) {
+            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx - 1, sy - 1)});
+        }   
+
+        // white pawn can attack upper right diagonally
+        if (!b.cellEmpty(sx + 1, sy - 1)) {
+            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx + 1, sy - 1)});
+
+        }
+
+        // space right above black pawn is empty
+        if (b.cellEmpty(sx, sy - 1)) { 
+            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx, sy - 1)});
+        }
+
+        if (firstMove) {
+            // white pawn moving up 2 squares if conducting first move.
+            if (b.cellEmpty(sx, sy - 1) && b.cellEmpty(sx, sy - 2)) {
+                b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx, sy - 2)});
+            }
+
+        }
+
+
+    }
+
+
+}
+
+
+
+
+
 
 
 Rook::Rook(Colour colour): ChessPiece{colour, Piece::Rook, colour == Colour::White ? 'R' : 'r'} {}
@@ -386,7 +462,9 @@ bool Rook::canAttack(Cell & start, Cell & destination, Board & b) {
     return false;
 
 }
+void Rook::determineLegalMoves(Cell & start, Board & b) {
 
+}
 
 
 Knight::Knight(Colour colour): ChessPiece{colour, Piece::Knight, colour == Colour::White ? 'N' : 'n'} {}
@@ -550,7 +628,9 @@ bool Knight::canAttack(Cell & start, Cell & destination, Board & b) {
     return false;
 
 }
+void Knight::determineLegalMoves(Cell & start, Board & b) {
 
+}
 
 Bishop::Bishop(Colour colour): ChessPiece{colour, Piece::Bishop, colour == Colour::White ? 'B' : 'b'} {}
 Bishop::Bishop(const Bishop& other): ChessPiece{other} {}
@@ -776,7 +856,9 @@ bool Bishop::canAttack(Cell & start, Cell & destination, Board & b) {
 
     return false;
 }
+void Bishop::determineLegalMoves(Cell & start, Board & b) {
 
+}
 
 Queen::Queen(Colour colour): ChessPiece{colour, Piece::Queen, colour == Colour::White ? 'Q' : 'q'} {}
 Queen::Queen(const Queen& other): ChessPiece{other} {}
@@ -1145,7 +1227,9 @@ bool Queen::canAttack(Cell & start, Cell & destination, Board & b) {
 
     return false;
 }
+void Queen::determineLegalMoves(Cell & start, Board & b) {
 
+}
 
 King::King(Colour colour): ChessPiece{colour, Piece::King, colour == Colour::White ? 'K' : 'k'} {}
 King::King(const King& other): ChessPiece{other} {}
@@ -1304,4 +1388,6 @@ bool King::canAttack(Cell & start, Cell & destination, Board & b) {
 
     return false;
 }
+void King::determineLegalMoves(Cell & start, Board & b) {
 
+}
