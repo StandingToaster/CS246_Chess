@@ -4,8 +4,8 @@ using namespace std;
 
 
 class level2 : public Computer {
-    //Creates a vector of all possible moves that will result in a kill.
-     vector<Move> checkForKill();
+    //Determines whether the given move will result in a kill or not.
+     bool checkForKill(Move input);
     public:
     Move generateMove() override;
 };
