@@ -14,25 +14,22 @@ Board::Board(const Board& other):boardSize(other.boardSize) {
         theBoard[i].resize(boardSize);
     }
 
-    for (int i = 0; i < boardSize; i++) { // i = Y
-        for (int j = 0; j < boardSize; j++) { // j = X
-            theBoard[i][j] = other.theBoard[i][j];
-        }
-    }
-
     blackPieceCells.resize(other.blackPieceCells.size());
     whitePieceCells.resize(other.whitePieceCells.size());
 
-    for (long unsigned int i = 0; i < blackPieceCells.size(); i++) {
-        blackPieceCells[i] = new Cell (*(other.blackPieceCells[i]));
-    }
-
-    for (long unsigned int i = 0; i < whitePieceCells.size(); i++) {
-        whitePieceCells[i] = new Cell (*(other.whitePieceCells[i]));
+    for (int i = 0; i < boardSize; i++) { // i = Y
+        for (int j = 0; j < boardSize; j++) { // j = X
+            theBoard[i][j] = other.theBoard[i][j];
+            if (theBoard[i][j].getChessPiece() != nullptr) {
+                addBlackOrWhitePieceCell(&(theBoard[i][j]));
+            }
+        }
     }
 
     allBlackLegalMoves.resize(other.allBlackLegalMoves.size());
     allWhiteLegalMoves.resize(other.allWhiteLegalMoves.size());
+
+    // this->calculateAllLegalMoves()n
 
     for (long unsigned int i = 0; i < allBlackLegalMoves.size(); i++) {
         allBlackLegalMoves[i] = other.allBlackLegalMoves[i];
@@ -281,6 +278,7 @@ bool Board::activateMove(Cell & start, Cell & destination) {
     }  
     return false;
 }
+
 bool Board::attackPossible(Cell & start, Cell & destination) {
     if (start.getChessPiece() != nullptr) {
         return start.getChessPiece()->canAttack(start, destination, *this);
@@ -346,6 +344,12 @@ bool Board::checkMated(Colour kingColour) {
             Move m = allBlackLegalMoves[i];
             Cell & start = m.getStart();
             Cell & dest = m.getDest();
+
+            // int sx = start.getX();
+            // int sy = start.getY();
+            // int dx = dest.getX();
+            // int dy = dest.getY();
+
             Board b_copy = *this;
             b_copy.activateMove(start, dest);
 
@@ -361,12 +365,11 @@ bool Board::checkMated(Colour kingColour) {
             Move m = allWhiteLegalMoves[i];
             Cell & start = m.getStart();
             Cell & dest = m.getDest();
+
             Board b_copy = *this;
 
-            // cout << start << endl;
-            // cout << dest << endl;
-
-            cout << b_copy.activateMove(start, dest) << endl;
+            b_copy.activateMove(start, dest); // something here
+            b_copy.printWhitePieceCells();
             // cout << b_copy << endl;
             // cout << b_copy.checked(Colour::White);
             if (!b_copy.checked(Colour::White)) {

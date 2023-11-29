@@ -51,7 +51,6 @@ class Board {
     void printWhiteLegalMoves(); // will be removed at the end, used for testing purposes
 
 
-
     bool activateMove(Cell & start, Cell & destination);
     bool attackPossible(Cell & start, Cell & destination);
 
