@@ -12,11 +12,11 @@ int main() {
     b.setEmptyBoard();
 
 
-    b.setPieceOnBoard(new Knight(Colour::White), 3,6);
-    b.setPieceOnBoard(new Knight(Colour::White), 5,7);
+    b.setPieceOnBoard(new Bishop(Colour::White), 4,6);
+    b.setPieceOnBoard(new Bishop(Colour::White), 5,7);
     cout << b << endl;
 
-    b.calculateLegalMoves(b.getCell(3,6));
+    b.calculateLegalMoves(b.getCell(4,6));
     b.printWhiteLegalMoves();
 
 

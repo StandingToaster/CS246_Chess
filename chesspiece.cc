@@ -260,10 +260,6 @@ void Pawn::determineLegalMoves(Cell & start, Board & b) {
 
 
 
-
-
-
-
 Rook::Rook(Colour colour): ChessPiece{colour, Piece::Rook, colour == Colour::White ? 'R' : 'r'} {}
 Rook::Rook(const Rook& other): ChessPiece{other} {}
 Rook& Rook::operator=(const Rook& other) {
@@ -1008,6 +1004,107 @@ bool Bishop::canAttack(Cell & start, Cell & destination, Board & b) {
     return false;
 }
 void Bishop::determineLegalMoves(Cell & start, Board & b) {
+    int sx = start.getX();
+    int sy = start.getY();
+
+    if (start.getChessPiece() == nullptr) { // start piece non-existant
+        return;
+    }
+    if (start.getChessPiece()->getPiece() != Piece::Bishop) { // start piece is not bishop
+        return;
+    }
+
+    // going top right
+    int x = sx + 1;
+    int y = sy - 1;
+
+    while (x < b.getBoardSize() && y >= 0) {
+        if (!b.cellEmpty(x,y) && b.getCell(x, y).getChessPiece()->getColour() != start.getChessPiece()->getColour()) {
+            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x,y)});
+            break;
+        }
+
+        if (!b.cellEmpty(x,y) && b.getCell(x, y).getChessPiece()->getColour() == start.getChessPiece()->getColour()) {
+            break;
+        }
+
+        if (b.cellEmpty(x,y)) {
+            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x,y)});
+        }
+
+        x++;
+        y--;
+
+    }
+
+    // going bottom right
+    x = sx + 1;
+    y = sy + 1;
+
+    while (x < b.getBoardSize() && y < b.getBoardSize()) {
+        if (!b.cellEmpty(x,y) && b.getCell(x, y).getChessPiece()->getColour() != start.getChessPiece()->getColour()) {
+            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x,y)});
+            break;
+        }
+
+        if (!b.cellEmpty(x,y) && b.getCell(x, y).getChessPiece()->getColour() == start.getChessPiece()->getColour()) {
+            break;
+        }
+
+        if (b.cellEmpty(x,y)) {
+            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x,y)});
+        }
+
+        x++;
+        y++;
+
+    }
+
+    // going bottom left
+    x = sx - 1;
+    y = sy + 1;
+
+    while (x >= 0 && y < b.getBoardSize()) {
+        if (!b.cellEmpty(x,y) && b.getCell(x, y).getChessPiece()->getColour() != start.getChessPiece()->getColour()) {
+            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x,y)});
+            break;
+        }
+
+        if (!b.cellEmpty(x,y) && b.getCell(x, y).getChessPiece()->getColour() == start.getChessPiece()->getColour()) {
+            break;
+        }
+
+        if (b.cellEmpty(x,y)) {
+            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x,y)});
+        }
+
+        x--;
+        y++;
+
+    }
+
+
+    // going top left
+    x = sx - 1;
+    y = sy - 1;
+
+    while (x >= 0 && y >= 0) {
+        if (!b.cellEmpty(x,y) && b.getCell(x, y).getChessPiece()->getColour() != start.getChessPiece()->getColour()) {
+            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x,y)});
+            break;
+        }
+
+        if (!b.cellEmpty(x,y) && b.getCell(x, y).getChessPiece()->getColour() == start.getChessPiece()->getColour()) {
+            break;
+        }
+
+        if (b.cellEmpty(x,y)) {
+            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x,y)});
+        }
+
+        x--;
+        y--;
+    }
 
 }
 
