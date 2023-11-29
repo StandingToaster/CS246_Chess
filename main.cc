@@ -12,37 +12,40 @@ int main() {
     b.setEmptyBoard();
 
 
-    b.setPieceOnBoard(new Rook(Colour::White), 3,6);
+    b.setPieceOnBoard(new Knight(Colour::White), 3,6);
+    b.setPieceOnBoard(new Knight(Colour::White), 5,7);
     cout << b << endl;
 
     b.calculateLegalMoves(b.getCell(3,6));
-   
+    b.printWhiteLegalMoves();
+
+
     // b.clearLegalMoves();
 
-    b.setPieceOnBoard(new Rook(Colour::White), 4,5);
-    b.setPieceOnBoard(new Rook(Colour::Black), 4,6);
-    cout << b << endl;
-    b.calculateLegalMoves(b.getCell(4,6));
-    b.printWhiteLegalMoves();
-    b.printBlackLegalMoves();
+    // b.setPieceOnBoard(new Knight(Colour::White), 4,5);
+    // b.setPieceOnBoard(new Knight(Colour::Black), 4,6);
+    // cout << b << endl;
+    // b.calculateLegalMoves(b.getCell(4,6));
+    // b.printWhiteLegalMoves();
+    // b.printBlackLegalMoves();
 
-    Board c = b;
-    cout << c << endl;
-    c.printWhiteLegalMoves();
-    c.printBlackLegalMoves();
+    // Board c = b;
+    // cout << c << endl;
+    // c.printWhiteLegalMoves();
+    // c.printBlackLegalMoves();
 
 
 
-    b.setPieceOnBoard(new Rook(Colour::White), 0,0);
-    cout << b << endl;
-    b.calculateLegalMoves(b.getCell(0,0));
-    b.printWhiteLegalMoves();
-    b.printBlackLegalMoves();
-    c.setPieceOnBoard(new Rook(Colour::White), 7,7);
-    cout << c << endl;
-    c.calculateLegalMoves(c.getCell(7,7));
-    c.printWhiteLegalMoves();
-    c.printBlackLegalMoves();
+    // b.setPieceOnBoard(new Rook(Colour::White), 0,0);
+    // cout << b << endl;
+    // b.calculateLegalMoves(b.getCell(0,0));
+    // b.printWhiteLegalMoves();
+    // b.printBlackLegalMoves();
+    // c.setPieceOnBoard(new Rook(Colour::White), 7,7);
+    // cout << c << endl;
+    // c.calculateLegalMoves(c.getCell(7,7));
+    // c.printWhiteLegalMoves();
+    // c.printBlackLegalMoves();
     
     // Cell c1;
     // c1.setCoords(1,2);

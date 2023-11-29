@@ -31,7 +31,7 @@ class Board {
     // !!!!!!!      ENSURE IN HARNESS THAT 0 <= X,Y < boardSize      !!!!!!!
     Cell & getCell(int x, int y); 
     int getBoardSize();
-    bool cellEmpty(int x, int y); // Empty (true) if there is no chesspiece on it
+    bool cellEmpty(int x, int y); // Empty (true) if there is no chesspiece on it or coordinates are out of bounds
 
     void setEmptyBoard(); // prepares the board (no chess piece on it yet)
     void setDefaultBoard(); // prepares board with a standard game start
