@@ -23,6 +23,8 @@ void Controller::playGame(istream &in, ostream &out) {
             in >> p1;
             in >> p2;
             // Create new game, follow specifications
+            currentBoard->setDefaultBoard();
+            
         }
         else if (cmd == "move") {
             //Accomadate for both cpu and humans
@@ -34,7 +36,7 @@ void Controller::playGame(istream &in, ostream &out) {
             //help specifications
         }
         else {
-            out << "Invalid input! type -help for a list of commands.";
+            out << "Invalid input! type -help for a list of commands." << endl;
         }
     }
 }
