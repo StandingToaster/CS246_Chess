@@ -11,7 +11,6 @@ int main() {
     Board b;
     b.setEmptyBoard();
 
-
     Cell c1;
     c1.setCoords(1,2);
     c1.setColour(Colour::Black);
@@ -19,12 +18,8 @@ int main() {
 
     Cell c2 = c1;
 
-    cout << c1 << endl;
-    cout << c2 << endl;
-
-
-
-
+    cout << c1.getY() << endl;
+    cout << c2.getY() << endl;
 
     // b.setPieceOnBoard(new King(Colour::White), 4, 4);
     // b.setPieceOnBoard(new King(Colour::Black), 5, 6);

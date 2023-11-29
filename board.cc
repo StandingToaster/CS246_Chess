@@ -6,9 +6,11 @@ using namespace std;
 
 Board::Board() {}
 
-// Board::Board(const Board& other):boardSize(other.boardSize), theBoard{other.theBoard},  {
+Board::Board(const Board& other):boardSize(other.boardSize), theBoard{other.theBoard}  {
 
-// }
+
+
+}
 
 
 Board::~Board() {}
@@ -53,7 +55,7 @@ void Board::setEmptyBoard() {
         theBoard[i].resize(boardSize);
     }
 
-    bool whiteFirst = true;;
+    bool whiteFirst = true;
     for (int i = 0; i < boardSize; i++) { // i = Y
         for (int j = 0; j < boardSize; j++) { // j = X
             theBoard[i][j].setCoords(j, i);

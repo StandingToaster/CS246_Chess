@@ -3,7 +3,15 @@
 
 ChessPiece::ChessPiece(Colour colour, Piece piece, char display): colour{colour}, piece{piece}, display{display} {}
 ChessPiece::ChessPiece(const ChessPiece& other): colour{other.colour}, piece{other.piece}, display{other.display} {}
+ChessPiece& ChessPiece::operator=(const ChessPiece& other) {
+    if (this == &other) return *this;
 
+    colour = other.colour;
+    piece = other.piece;
+    display = other.display;
+
+    return *this;
+}
 
 ChessPiece::~ChessPiece() {}
 
@@ -18,6 +26,10 @@ ostream& operator<<(ostream &out, const ChessPiece &cp) {
 
 Pawn::Pawn(Colour colour): ChessPiece{colour, Piece::Pawn, colour == Colour::White ? 'P' : 'p'} {}
 Pawn::Pawn(const Pawn& other): ChessPiece{other} {}
+Pawn& Pawn::operator=(const Pawn& other) {
+    ChessPiece::operator=(other);
+    return *this;
+}
 Pawn::~Pawn() {}
 bool Pawn::movePiece(Cell & start, Cell & destination, Board & b) {
     
@@ -177,6 +189,10 @@ bool Pawn::canAttack(Cell & start, Cell & destination, Board & b) {
 
 Rook::Rook(Colour colour): ChessPiece{colour, Piece::Rook, colour == Colour::White ? 'R' : 'r'} {}
 Rook::Rook(const Rook& other): ChessPiece{other} {}
+Rook& Rook::operator=(const Rook& other) {
+    ChessPiece::operator=(other);
+    return *this;
+}
 Rook::~Rook() {}
 bool Rook::movePiece(Cell & start, Cell & destination, Board & b) {
 
@@ -373,6 +389,10 @@ bool Rook::canAttack(Cell & start, Cell & destination, Board & b) {
 
 Knight::Knight(Colour colour): ChessPiece{colour, Piece::Knight, colour == Colour::White ? 'N' : 'n'} {}
 Knight::Knight(const Knight& other): ChessPiece{other} {}
+Knight& Knight::operator=(const Knight& other) {
+    ChessPiece::operator=(other);
+    return *this;
+}
 Knight::~Knight() {}
 bool Knight::movePiece(Cell & start, Cell & destination, Board & b) {
 
@@ -531,6 +551,10 @@ bool Knight::canAttack(Cell & start, Cell & destination, Board & b) {
 
 Bishop::Bishop(Colour colour): ChessPiece{colour, Piece::Bishop, colour == Colour::White ? 'B' : 'b'} {}
 Bishop::Bishop(const Bishop& other): ChessPiece{other} {}
+Bishop& Bishop::operator=(const Bishop& other) {
+    ChessPiece::operator=(other);
+    return *this;
+}
 Bishop::~Bishop() {}
 bool Bishop::movePiece(Cell & start, Cell & destination, Board & b) {
     int sx = start.getX();
@@ -752,6 +776,10 @@ bool Bishop::canAttack(Cell & start, Cell & destination, Board & b) {
 
 Queen::Queen(Colour colour): ChessPiece{colour, Piece::Queen, colour == Colour::White ? 'Q' : 'q'} {}
 Queen::Queen(const Queen& other): ChessPiece{other} {}
+Queen& Queen::operator=(const Queen& other) {
+    ChessPiece::operator=(other);
+    return *this;
+}
 Queen::~Queen() {}
 bool Queen::movePiece(Cell & start, Cell & destination, Board & b) {
     int sx = start.getX();
@@ -1116,6 +1144,10 @@ bool Queen::canAttack(Cell & start, Cell & destination, Board & b) {
 
 King::King(Colour colour): ChessPiece{colour, Piece::King, colour == Colour::White ? 'K' : 'k'} {}
 King::King(const King& other): ChessPiece{other} {}
+King& King::operator=(const King& other) {
+    ChessPiece::operator=(other);
+    return *this;
+}
 King::~King() {}
 bool King::movePiece(Cell & start, Cell & destination, Board & b) {
     int sx = start.getX();

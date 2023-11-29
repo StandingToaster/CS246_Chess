@@ -11,6 +11,7 @@ class Move {
 
 public:
 //Determines whether the ending cell of the move has a piece in it, if so, it is an enemy and therefore will return true.
+    Move();
     bool hasEnemyPresence();
 };
 
