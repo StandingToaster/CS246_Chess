@@ -7,63 +7,70 @@ using namespace std;
 
 int main() {
     
+int N = 100;
+int random = rand() % 100;
 
-    Board b;
-    b.setEmptyBoard();
+for (int i = 0; i < 25; ++i) {
+    cout << random << endl;
+}
 
-    b.setPieceOnBoard(new Rook(Colour::Black), 4, 7);
-    b.setPieceOnBoard(new King(Colour::Black), 1, 0);
 
-    b.setPieceOnBoard(new King(Colour::White), 7, 7);
-    b.setPieceOnBoard(new Queen(Colour::White), 1, 1);
+    // Board b;
+    // b.setEmptyBoard();
 
-    cout << b << endl;
+    // b.setPieceOnBoard(new Rook(Colour::Black), 4, 7);
+    // b.setPieceOnBoard(new King(Colour::Black), 1, 0);
 
-    b.calculateAllLegalMoves();
-    b.printBlackLegalMoves();
+    // b.setPieceOnBoard(new King(Colour::White), 7, 7);
+    // b.setPieceOnBoard(new Queen(Colour::White), 1, 1);
 
-    Computer * c = new level1(&b, Colour::Black);
-    Move test = c->generateMove();
+    // cout << b << endl;
 
-    cout << test.getStart() << endl;
-    cout << test.getDest() << endl;
+    // b.calculateAllLegalMoves();
+    // b.printBlackLegalMoves();
 
-    int sx = test.getStart().getX();
-    int sy = test.getStart().getY();
-    int dx = test.getDest().getX();
-    int dy = test.getDest().getY();
+    // Computer * c = new level1(&b, Colour::Black);
+    // Move test = c->generateMove();
 
-    cout << "Start: " << "(" << sx << "," << sy << ")" << endl;
-    cout << "Dest: " << "(" << dx << "," << dy << ")" << endl;
+    // cout << test.getStart() << endl;
+    // cout << test.getDest() << endl;
+
+    // int sx = test.getStart().getX();
+    // int sy = test.getStart().getY();
+    // int dx = test.getDest().getX();
+    // int dy = test.getDest().getY();
+
+    // cout << "Start: " << "(" << sx << "," << sy << ")" << endl;
+    // cout << "Dest: " << "(" << dx << "," << dy << ")" << endl;
     
 
-    test = c->generateMove();
+    // test = c->generateMove();
 
-    cout << test.getStart() << endl;
-    cout << test.getDest() << endl;
+    // cout << test.getStart() << endl;
+    // cout << test.getDest() << endl;
 
-    sx = test.getStart().getX();
-    sy = test.getStart().getY();
-    dx = test.getDest().getX();
-    dy = test.getDest().getY();
+    // sx = test.getStart().getX();
+    // sy = test.getStart().getY();
+    // dx = test.getDest().getX();
+    // dy = test.getDest().getY();
 
-    cout << "Start: " << "(" << sx << "," << sy << ")" << endl;
-    cout << "Dest: " << "(" << dx << "," << dy << ")" << endl;
+    // cout << "Start: " << "(" << sx << "," << sy << ")" << endl;
+    // cout << "Dest: " << "(" << dx << "," << dy << ")" << endl;
 
-    test = c->generateMove();
+    // test = c->generateMove();
 
-    cout << test.getStart() << endl;
-    cout << test.getDest() << endl;
+    // cout << test.getStart() << endl;
+    // cout << test.getDest() << endl;
 
-    sx = test.getStart().getX();
-    sy = test.getStart().getY();
-    dx = test.getDest().getX();
-    dy = test.getDest().getY();
+    // sx = test.getStart().getX();
+    // sy = test.getStart().getY();
+    // dx = test.getDest().getX();
+    // dy = test.getDest().getY();
 
-    cout << "Start: " << "(" << sx << "," << sy << ")" << endl;
-    cout << "Dest: " << "(" << dx << "," << dy << ")" << endl;
+    // cout << "Start: " << "(" << sx << "," << sy << ")" << endl;
+    // cout << "Dest: " << "(" << dx << "," << dy << ")" << endl;
 
-    delete c;
+    // delete c;
 
 
 
