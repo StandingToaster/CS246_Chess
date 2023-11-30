@@ -38,6 +38,7 @@ Move level2::generateMove() {
     }
 
     //Now if no enemyPresence is detected or a check is possible, it will pick a RANDOM valid move.
+    srand((unsigned) time(NULL));
     int count = rand() % validMoves.size();
     return validMoves[count];
 }
