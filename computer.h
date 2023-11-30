@@ -21,7 +21,8 @@ virtual Move generateMove() = 0;
 Colour getColour();
 //Accesses the pointer pointing to the current board field.
 Board* getPointer();
-
+//Prepare the board so that all legal moves are available for examination.
+void readyTheBoard(Board* input);
 
 };
 

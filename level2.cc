@@ -6,6 +6,7 @@ using namespace std;
 
 Move level2::generateMove() {
     Board* b = this->getPointer();
+    this->readyTheBoard(b);
     vector<Move> validMoves = b->getLegalMoves(this->getColour());
 
     //continues running until a move that results in a kill or check isfound

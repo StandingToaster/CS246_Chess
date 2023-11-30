@@ -11,3 +11,10 @@ Colour Computer::getColour() {
 Board* Computer::getPointer() {
     return this->current;
 }
+
+void Computer::readyTheBoard(Board* input) {
+    input->clearLegalMoves();
+    input->calculateAllLegalMoves();
+    return;
+}
+
