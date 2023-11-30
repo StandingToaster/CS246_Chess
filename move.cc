@@ -25,7 +25,12 @@ Cell & Move::getDest() {return dest;}
 
 
 bool Move::hasEnemyPresence() { // Make sure this works as intended (nullptr returns 0, regular ptr returns 1)
-    return dest.getChessPiece();
+    if (dest.getChessPiece() == nullptr) {
+        return false;
+    }
+    else {
+        return true;
+    }
 }
 
 
