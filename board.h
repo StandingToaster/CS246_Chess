@@ -42,14 +42,14 @@ class Board {
 
     void addBlackOrWhitePieceCell(Cell * hasPiece); // adds a cell with a black or white piece to blackPieceCells or whitePieceCells respectively. 
     void removeBlackOrWhitePieceCell(); // removes a cell from blackPieceCells or whitePieceCells if they are no longer carrying a piece.
-    void printBlackPieceCells(); // will be removed at the end, used for testing purposes
-    void printWhitePieceCells(); // will be removed at the end, used for testign purposes
+    void printBlackPieceCells(); // Used for testing purposes
+    void printWhitePieceCells(); // Used for testing purposes
 
     void addBlackOrWhiteLegalMove(Move move); // Adds a potential move with a black or white piece to allBlackLegalMoves or allWhiteLegalMoves respectively. 
     void calculateAllLegalMoves(); // gets potential legal moves of all black and white pieces and adds it to their respective vector.
     void clearLegalMoves(); // Clears the vectors for allBlackLegalMoves and allWhiteLegalMoves. Cleared each turn.
-    void printBlackLegalMoves(); // will be removed at the end, used for testing purposes
-    void printWhiteLegalMoves(); // will be removed at the end, used for testing purposes
+    void printBlackLegalMoves(); // Used for testing purposes
+    void printWhiteLegalMoves(); // Used for testing purposes
 
 
     bool activateMove(Cell & start, Cell & destination);
