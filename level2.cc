@@ -2,7 +2,7 @@
 
 using namespace std;
 
-
+level2::level2(Board* in, Colour cur): Computer{in, cur} {}
 
 Move level2::generateMove() {
     Board* b = this->getPointer();

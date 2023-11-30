@@ -2,6 +2,8 @@
 
 using namespace std;
 
+level1::level1(Board* in, Colour cur): Computer{in, cur} {}
+
 Move level1::generateMove() {
     //Retrieves board.
     Board* p = this->getPointer();

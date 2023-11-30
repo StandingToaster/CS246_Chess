@@ -2,6 +2,8 @@
 
 using namespace std;
 
+level3::level3(Board* in, Colour cur): Computer{in, cur} {}
+
 bool GenearteCaptureOrCheckMove(level3& comp, Move& move) {
     Board* b = comp.getPointer();
     vector<Move> validMoves = b->getLegalMoves(comp.getColour());

@@ -6,6 +6,7 @@ using namespace std;
 
 class level1 : public Computer {
     public:
+    level1(Board* in, Colour cur);
     Move generateMove() override;
 };
 
