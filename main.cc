@@ -6,12 +6,11 @@
 using namespace std;
 
 int main() {
-    
+    srand((unsigned) time(NULL));
     int N = 100;
-    int random = rand() % 100;
+    int random = rand() % N;
 
     for (int i = 0; i < 25; ++i) {
-        random = rand() % 100;
         cout << random << endl;
     }
 
