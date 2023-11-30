@@ -27,7 +27,7 @@ Move level2::generateMove() {
             enemyColour = Colour::White;
         }
 
-       if (temp.checked(enemyColour)) {
+       if (temp.checkMated(enemyColour)) {
             return m;
         } 
 
