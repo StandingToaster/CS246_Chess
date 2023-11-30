@@ -336,9 +336,13 @@ bool Board::checkMated(Colour kingColour) {
         return false;
     }
 
+    // Essentially, all legal moves are calculated, and for the corresponding king color, each move is simulated from the 
+    // vector of legal moves for the corresponding color. So a copy of the current board is made to ensure its state is not
+    // changed, and the move is simulated. If check returns true for each simulated move, the king is checkmated. However even 
+    // if one simulated move results in check returning false, the king is not checkmated. 
     clearLegalMoves();
     calculateAllLegalMoves();
-    if (kingColour == Colour::Black) {
+    if (kingColour == Colour::Black) { // checking if black king is checkmated. 
 
         for (long unsigned int i = 0; i < allBlackLegalMoves.size(); i++) {
             Move m = allBlackLegalMoves[i];
@@ -352,7 +356,7 @@ bool Board::checkMated(Colour kingColour) {
 
             Board b_copy = *this;
             b_copy.activateMove(b_copy.getCell(sx, sy), b_copy.getCell(dx, dy)); // something here
-            cout << b_copy << endl;
+            // cout << b_copy << endl;
 
             if (!b_copy.checked(Colour::Black)) {
                 cout << "NOT CHECKMATED" << endl;
@@ -361,7 +365,7 @@ bool Board::checkMated(Colour kingColour) {
         }
     }
 
-    if (kingColour == Colour::White) {
+    if (kingColour == Colour::White) { // checking if white king is checkmated.
         for (long unsigned int i = 0; i < allWhiteLegalMoves.size(); i++) {
             Move m = allWhiteLegalMoves[i];
             Cell & start = m.getStart();
@@ -374,8 +378,8 @@ bool Board::checkMated(Colour kingColour) {
             
             Board b_copy = *this;
             
-            b_copy.activateMove(b_copy.getCell(sx, sy), b_copy.getCell(dx, dy)); // something here
-            cout << b_copy << endl;
+            b_copy.activateMove(b_copy.getCell(sx, sy), b_copy.getCell(dx, dy)); 
+            // cout << b_copy << endl;
 
             if (!b_copy.checked(Colour::White)) {
                 cout << "NOT CHECKMATED" << endl;
