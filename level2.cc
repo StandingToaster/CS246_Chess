@@ -28,17 +28,18 @@ Move level2::generateMove() {
         }
 
         temp.activateMove(temp.getCell(sx, sy), temp.getCell(dx, dy));
+        cout << temp << endl;
         if (temp.checked(enemyColour)) {
             return m;
         }
 
-}
-
-for (Move m : validMoves) {
-    if (m.hasEnemyPresence()) {
-        return m;
     }
-}
+
+    for (Move m : validMoves) {
+        if (m.hasEnemyPresence()) {
+            return m;
+        }
+    }
     
 
         // if (m.hasEnemyPresence()) { // checks for kill
