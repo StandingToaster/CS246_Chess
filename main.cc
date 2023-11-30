@@ -63,7 +63,7 @@ int main() {
     cout << "Start: " << "(" << sx << "," << sy << ")" << endl;
     cout << "Dest: " << "(" << dx << "," << dy << ")" << endl;
 
-    delete c;
+    // delete c;
 
 
 
