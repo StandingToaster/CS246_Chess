@@ -15,6 +15,7 @@ Board* current;
 Colour currentColour;
 public:
 Computer(Board* board, Colour cur); 
+virtual ~Computer();
 //generates the next legal move for the computer system.
 virtual Move generateMove() = 0;
 //Accesses the colour field.
