@@ -2,6 +2,7 @@
 #include "board.h"
 #include "computer.h"
 #include "level1.h"
+#include "level2.h"
 
 using namespace std;
 
@@ -27,9 +28,9 @@ int main() {
     cout << b << endl;
 
     b.calculateAllLegalMoves();
-    b.printWhiteLegalMoves();
+    b.printBlackLegalMoves();
 
-    Computer * c = new level1(&b, Colour::White);
+    Computer * c = new level2(&b, Colour::Black);
     Move test = c->generateMove();
 
     cout << test.getStart() << endl;
