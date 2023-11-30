@@ -7,12 +7,13 @@ using namespace std;
 
 int main() {
     
-int N = 100;
-int random = rand() % 100;
+    int N = 100;
+    int random = rand() % 100;
 
-for (int i = 0; i < 25; ++i) {
-    cout << random << endl;
-}
+    for (int i = 0; i < 25; ++i) {
+        random = rand() % 100;
+        cout << random << endl;
+    }
 
 
     // Board b;
