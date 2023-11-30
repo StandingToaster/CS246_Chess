@@ -27,6 +27,7 @@ Move level2::generateMove() {
             enemyColour = Colour::White;
         }
 
+
         temp.activateMove(temp.getCell(sx, sy), temp.getCell(dx, dy));
         cout << temp << endl;
         if (temp.checked(enemyColour)) {
