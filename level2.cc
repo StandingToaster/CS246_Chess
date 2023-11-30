@@ -16,6 +16,7 @@ Move level2::generateMove() {
         }
         
         Board temp = *b;
+        // SHOULD BE temp.getCell(x,y) !!!!!!!!!!!!!!!!!!!!!!!!
         if(temp.activateMove(m.getStart(), m.getDest())) {
             Colour enemyColour;
             if (this->getColour() == Colour::Black) {
