@@ -33,3 +33,4 @@ Move level2::generateMove() {
       int count = rand() % validMoves.size();
     return validMoves[count];
 }
+

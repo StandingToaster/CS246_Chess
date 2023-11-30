@@ -8,6 +8,7 @@ Move level1::generateMove() {
     //Determines whether the computer is black/white side.
     if (Colour::Black == this->getColour()) {
         //Creates a temp. vector of all legal moves for that colour.
+        
         vector<Move> temp = p->getLegalMoves(this->getColour());
         //Retrieves vector size.
         int N = temp.size();

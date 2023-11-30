@@ -329,7 +329,6 @@ bool Board::checked(Colour kingColour) {
     return false;
 
 }
-
 bool Board::checkMated(Colour kingColour) {
     
     if (!checked(kingColour)) {
