@@ -18,7 +18,7 @@ int main() {
 
     // Board b;
     // b.setEmptyBoard();
-
+    
     // b.setPieceOnBoard(new Rook(Colour::Black), 4, 7);
     // b.setPieceOnBoard(new King(Colour::Black), 1, 0);
 
