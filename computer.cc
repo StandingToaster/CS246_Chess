@@ -18,3 +18,7 @@ void Computer::readyTheBoard(Board* input) {
     return;
 }
 
+Computer::~Computer() {
+    delete current;
+}
+
