@@ -16,34 +16,20 @@ Board::Board(const Board& other):boardSize(other.boardSize) {
         theBoard[i].resize(boardSize);
     }
 
-    blackPieceCells.resize(other.blackPieceCells.size());
-    whitePieceCells.resize(other.whitePieceCells.size());
-
-    // int n = 0;
     for (int i = 0; i < boardSize; i++) { // i = Y
         for (int j = 0; j < boardSize; j++) { // j = X
             theBoard[i][j] = other.theBoard[i][j];
-            // n++;
-            // cout << theBoard[i][j] << n << endl;
             if (theBoard[i][j].getChessPiece() != nullptr) {
                 addBlackOrWhitePieceCell(&(theBoard[i][j]));
             }
         }
     }
 
-    
     allBlackLegalMoves.resize(other.allBlackLegalMoves.size());
-    allWhiteLegalMoves.resize(other.allWhiteLegalMoves.size());
-
-    
-    // this->calculateAllLegalMoves();
-    
+    allWhiteLegalMoves.resize(other.allWhiteLegalMoves.size());    
     
     for (long unsigned int i = 0; i < allBlackLegalMoves.size(); i++) {
-        allBlackLegalMoves[i] = other.allBlackLegalMoves[i];
-        // cout << other.allBlackLegalMoves[i].getStart() << ' , ' << other.allBlackLegalMoves[i].getDest() << endl;
-        // cout << allBlackLegalMoves[i].getStart().getX() << ' , ' << allBlackLegalMoves[i].getDest().getX() << endl;
-        // cout << allBlackLegalMoves[i].getStart().getY() << ' , ' << allBlackLegalMoves[i].getDest().getY() << endl;
+        allBlackLegalMoves[i] = other.allBlackLegalMoves[i];;
     }
     
     for (long unsigned int i = 0; i < allWhiteLegalMoves.size(); i++) {
@@ -286,7 +272,6 @@ bool Board::activateMove(Cell & start, Cell & destination) {
         if (start.getChessPiece()->movePiece(start, destination, *this)) {
 
             addBlackOrWhitePieceCell(&destination);
-            printWhitePieceCells();
             removeBlackOrWhitePieceCell();
             return true;
         }
@@ -360,13 +345,14 @@ bool Board::checkMated(Colour kingColour) {
             Cell & start = m.getStart();
             Cell & dest = m.getDest();
 
-            // int sx = start.getX();
-            // int sy = start.getY();
-            // int dx = dest.getX();
-            // int dy = dest.getY();
+            int sx = start.getX();
+            int sy = start.getY();
+            int dx = dest.getX();
+            int dy = dest.getY();
 
             Board b_copy = *this;
-            b_copy.activateMove(start, dest);
+            b_copy.activateMove(b_copy.getCell(sx, sy), b_copy.getCell(dx, dy)); // something here
+            cout << b_copy << endl;
 
             if (!b_copy.checked(Colour::Black)) {
                 cout << "NOT CHECKMATED" << endl;
@@ -381,37 +367,25 @@ bool Board::checkMated(Colour kingColour) {
             Cell & start = m.getStart();
             Cell & dest = m.getDest();
         
-
             int sx = start.getX();
             int sy = start.getY();
             int dx = dest.getX();
             int dy = dest.getY();
             
-
             Board b_copy = *this;
-            cout << "start: " << "(" << sx << "," << sy << ")" << endl;
-            cout << "dest: " << "(" << dx << "," << dy << ")" << endl;
-            cout << b_copy.getCell(sx, sy) << endl;
-            cout << b_copy.getCell(dx, dy) << endl;
-
-
-            printWhitePieceCells();
-            printWhiteLegalMoves();
             
             b_copy.activateMove(b_copy.getCell(sx, sy), b_copy.getCell(dx, dy)); // something here
-            break;
-            // b_copy.printWhitePieceCells();
-            // // cout << b_copy << endl;
-            // // cout << b_copy.checked(Colour::White);
-            // if (!b_copy.checked(Colour::White)) {
-            //     cout << "NOT CHECKMATED" << endl;
-            //     return false;
-            // }
+            cout << b_copy << endl;
+
+            if (!b_copy.checked(Colour::White)) {
+                cout << "NOT CHECKMATED" << endl;
+                return false;
+            }
         }
 
     }
 
-    // cout << "CHECKMATE!" << endl;
+    cout << "CHECKMATE!" << endl;
     return true;
 }
 
