@@ -29,7 +29,7 @@ Move level2::generateMove() {
             }
         }
     }
-
-    // if loop exited, just return first valid move from array
-    return validMoves[0];
+    //Now if no enemyPresence is detected or a check is possible, it will pick a RANDOM valid move.
+      int count = rand() % validMoves.size();
+    return validMoves[count];
 }
