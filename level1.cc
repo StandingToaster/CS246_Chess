@@ -7,6 +7,7 @@ Move level1::generateMove() {
     Board* p = this->getPointer();
     //Determines whether the computer is black/white side.
     if (Colour::Black == this->getColour()) {
+        this->readyTheBoard(p);
         //Creates a temp. vector of all legal moves for that colour.
         vector<Move> temp = p->getLegalMoves(this->getColour());
         //Retrieves vector size.
@@ -17,6 +18,7 @@ Move level1::generateMove() {
         return temp[random];
     }
     else {
+        this->readyTheBoard(p);
         //Repeat but only if the computer is playing white side instead.
        vector<Move> temp = p->getLegalMoves(this->getColour());
         int N = temp.size();
