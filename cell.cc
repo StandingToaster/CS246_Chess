@@ -18,7 +18,7 @@ Cell::Cell(const Cell& other): x{other.x}, y{other.y}, colour{other.colour} {
         piece = new Bishop (*(static_cast<Bishop *>(other.piece)));
     }  else if (other.piece->getPiece() == Piece::Queen) {
         piece = new Queen (*(static_cast<Queen *>(other.piece)));
-    } else { //other.piece->getPiece() == Piece::King
+    } else if (other.piece->getPiece() == Piece::King) {
         piece = new King (*(static_cast<King *>(other.piece)));
     } 
 }
@@ -41,7 +41,7 @@ Cell& Cell::operator=(const Cell& other) {
         piece = new Bishop (*(static_cast<Bishop *>(other.piece)));
     }  else if (other.piece->getPiece() == Piece::Queen) {
         piece = new Queen (*(static_cast<Queen *>(other.piece)));
-    } else { //other.piece->getPiece() == Piece::King
+    } else if (other.piece->getPiece() == Piece::King) { 
         piece = new King (*(static_cast<King *>(other.piece)));
     } 
 

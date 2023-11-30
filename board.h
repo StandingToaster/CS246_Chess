@@ -24,7 +24,6 @@ class Board {
     // a vector of all valid White moves
     vector<Move> allWhiteLegalMoves;
     
-
     public:
     Board();
     Board(const Board& other);

@@ -11,16 +11,21 @@ int main() {
     Board b;
     b.setEmptyBoard();
 
-    b.setPieceOnBoard(new King(Colour::White), 4, 0);
-    b.setPieceOnBoard(new Queen(Colour::White), 5, 1);
+    b.setPieceOnBoard(new King(Colour::White), 1, 2);
+    b.setPieceOnBoard(new Queen(Colour::White), 1, 1);
 
-    b.setPieceOnBoard(new Rook(Colour::Black), 4, 7);
-    b.setPieceOnBoard(new King(Colour::Black), 3, 7);
+    // b.setPieceOnBoard(new Rook(Colour::Black), 4, 7);
+    b.setPieceOnBoard(new King(Colour::Black), 1, 0);
+
+
+    // b.setPieceOnBoard(new King(Colour::White), 4, 0);
+    // b.setPieceOnBoard(new Queen(Colour::White), 5, 1);
+
+    // b.setPieceOnBoard(new Rook(Colour::Black), 4, 7);
+    // b.setPieceOnBoard(new King(Colour::Black), 3, 7);
 
     cout << b << endl;
-    b.printBlackPieceCells();
-    b.printWhitePieceCells();
-    cout << b.checkMated(Colour::White) << endl;
+    cout << b.checkMated(Colour::Black) << endl;
 
     // Board c = b;
     // cout << c << endl;

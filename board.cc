@@ -16,9 +16,6 @@ Board::Board(const Board& other):boardSize(other.boardSize) {
         theBoard[i].resize(boardSize);
     }
 
-    blackPieceCells.resize(other.blackPieceCells.size());
-    whitePieceCells.resize(other.whitePieceCells.size());
-
     for (int i = 0; i < boardSize; i++) { // i = Y
         for (int j = 0; j < boardSize; j++) { // j = X
             theBoard[i][j] = other.theBoard[i][j];
@@ -29,17 +26,17 @@ Board::Board(const Board& other):boardSize(other.boardSize) {
     }
 
     allBlackLegalMoves.resize(other.allBlackLegalMoves.size());
-    allWhiteLegalMoves.resize(other.allWhiteLegalMoves.size());
-
-    // this->calculateAllLegalMoves()n
-
+    allWhiteLegalMoves.resize(other.allWhiteLegalMoves.size());    
+    
     for (long unsigned int i = 0; i < allBlackLegalMoves.size(); i++) {
-        allBlackLegalMoves[i] = other.allBlackLegalMoves[i];
+        allBlackLegalMoves[i] = other.allBlackLegalMoves[i];;
     }
-
+    
     for (long unsigned int i = 0; i < allWhiteLegalMoves.size(); i++) {
         allWhiteLegalMoves[i] = other.allWhiteLegalMoves[i];
     }
+    
+
 }
 
 
@@ -178,13 +175,16 @@ void Board::removePieceFromBoard(int x, int y) {
 }
 
 void Board::addBlackOrWhitePieceCell(Cell * hasPiece) {
-    Colour c = hasPiece->getChessPiece()->getColour();
-    if (c == Colour::Black) {
-        blackPieceCells.emplace_back(hasPiece);
-    } 
-    else if (c == Colour::White) {
-        whitePieceCells.emplace_back(hasPiece);
+    if (hasPiece->getChessPiece() != nullptr) {
+        Colour c = hasPiece->getChessPiece()->getColour();
+        if (c == Colour::Black) {
+            blackPieceCells.emplace_back(hasPiece);
+        } 
+        else if (c == Colour::White) {
+            whitePieceCells.emplace_back(hasPiece);
+        }
     }
+
 }
 
 void Board::removeBlackOrWhitePieceCell() {
@@ -270,6 +270,7 @@ bool Board::activateMove(Cell & start, Cell & destination) {
 
     if (start.getChessPiece() != nullptr) {
         if (start.getChessPiece()->movePiece(start, destination, *this)) {
+
             addBlackOrWhitePieceCell(&destination);
             removeBlackOrWhitePieceCell();
             return true;
@@ -344,13 +345,14 @@ bool Board::checkMated(Colour kingColour) {
             Cell & start = m.getStart();
             Cell & dest = m.getDest();
 
-            // int sx = start.getX();
-            // int sy = start.getY();
-            // int dx = dest.getX();
-            // int dy = dest.getY();
+            int sx = start.getX();
+            int sy = start.getY();
+            int dx = dest.getX();
+            int dy = dest.getY();
 
             Board b_copy = *this;
-            b_copy.activateMove(start, dest);
+            b_copy.activateMove(b_copy.getCell(sx, sy), b_copy.getCell(dx, dy)); // something here
+            cout << b_copy << endl;
 
             if (!b_copy.checked(Colour::Black)) {
                 cout << "NOT CHECKMATED" << endl;
@@ -364,13 +366,17 @@ bool Board::checkMated(Colour kingColour) {
             Move m = allWhiteLegalMoves[i];
             Cell & start = m.getStart();
             Cell & dest = m.getDest();
-
+        
+            int sx = start.getX();
+            int sy = start.getY();
+            int dx = dest.getX();
+            int dy = dest.getY();
+            
             Board b_copy = *this;
+            
+            b_copy.activateMove(b_copy.getCell(sx, sy), b_copy.getCell(dx, dy)); // something here
+            cout << b_copy << endl;
 
-            b_copy.activateMove(start, dest); // something here
-            b_copy.printWhitePieceCells();
-            // cout << b_copy << endl;
-            // cout << b_copy.checked(Colour::White);
             if (!b_copy.checked(Colour::White)) {
                 cout << "NOT CHECKMATED" << endl;
                 return false;
