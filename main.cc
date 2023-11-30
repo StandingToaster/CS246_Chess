@@ -6,42 +6,42 @@
 using namespace std;
 
 int main() {
-    srand((unsigned) time(NULL));
-    int N = 100;
+    // srand((unsigned) time(NULL));
+    // int N = 100;
 
-    for (int i = 0; i < 25; ++i) {
-        int random = rand() % N;
-        cout << random << endl;
-    }
+    // for (int i = 0; i < 25; ++i) {
+    //     int random = rand() % N;
+    //     cout << random << endl;
+    // }
 
 
-    // Board b;
-    // b.setEmptyBoard();
+    Board b;
+    b.setEmptyBoard();
 
-    // b.setPieceOnBoard(new Rook(Colour::Black), 4, 7);
-    // b.setPieceOnBoard(new King(Colour::Black), 1, 0);
+    b.setPieceOnBoard(new Rook(Colour::Black), 4, 7);
+    b.setPieceOnBoard(new King(Colour::Black), 1, 0);
 
-    // b.setPieceOnBoard(new King(Colour::White), 7, 7);
-    // b.setPieceOnBoard(new Queen(Colour::White), 1, 1);
+    b.setPieceOnBoard(new King(Colour::White), 7, 7);
+    b.setPieceOnBoard(new Queen(Colour::White), 1, 1);
 
-    // cout << b << endl;
+    cout << b << endl;
 
-    // b.calculateAllLegalMoves();
-    // b.printBlackLegalMoves();
+    b.calculateAllLegalMoves();
+    b.printWhiteLegalMoves();
 
-    // Computer * c = new level1(&b, Colour::Black);
-    // Move test = c->generateMove();
+    Computer * c = new level1(&b, Colour::White);
+    Move test = c->generateMove();
 
-    // cout << test.getStart() << endl;
-    // cout << test.getDest() << endl;
+    cout << test.getStart() << endl;
+    cout << test.getDest() << endl;
 
-    // int sx = test.getStart().getX();
-    // int sy = test.getStart().getY();
-    // int dx = test.getDest().getX();
-    // int dy = test.getDest().getY();
+    int sx = test.getStart().getX();
+    int sy = test.getStart().getY();
+    int dx = test.getDest().getX();
+    int dy = test.getDest().getY();
 
-    // cout << "Start: " << "(" << sx << "," << sy << ")" << endl;
-    // cout << "Dest: " << "(" << dx << "," << dy << ")" << endl;
+    cout << "Start: " << "(" << sx << "," << sy << ")" << endl;
+    cout << "Dest: " << "(" << dx << "," << dy << ")" << endl;
     
 
     // test = c->generateMove();
