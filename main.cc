@@ -14,7 +14,7 @@ int main() {
     //     int random = rand() % N;
     //     cout << random << endl;
     // }
-
+    
 
     Board b;
     b.setEmptyBoard();
@@ -27,22 +27,22 @@ int main() {
 
     cout << b << endl;
 
-    b.calculateAllLegalMoves();
-    b.printWhiteLegalMoves();
+    // b.calculateAllLegalMoves();
+    // // b.printWhiteLegalMoves();
 
-    Computer * c = new level2(&b, Colour::White);
-    Move test = c->generateMove();
+    // Computer * c = new level2(&b, Colour::White);
+    // Move test = c->generateMove();
 
-    cout << test.getStart() << endl;
-    cout << test.getDest() << endl;
+    // cout << test.getStart() << endl;
+    // cout << test.getDest() << endl;
 
-    int sx = test.getStart().getX();
-    int sy = test.getStart().getY();
-    int dx = test.getDest().getX();
-    int dy = test.getDest().getY();
+    // int sx = test.getStart().getX();
+    // int sy = test.getStart().getY();
+    // int dx = test.getDest().getX();
+    // int dy = test.getDest().getY();
 
-    cout << "Start: " << "(" << sx << "," << sy << ")" << endl;
-    cout << "Dest: " << "(" << dx << "," << dy << ")" << endl;
+    // cout << "Start: " << "(" << sx << "," << sy << ")" << endl;
+    // cout << "Dest: " << "(" << dx << "," << dy << ")" << endl;
     
 
 
