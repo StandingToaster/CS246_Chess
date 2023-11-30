@@ -9,7 +9,7 @@ Move level2::generateMove() {
     this->readyTheBoard(b);
     vector<Move> validMoves = b->getLegalMoves(this->getColour());
     Colour myColour = this->getColour();
-
+//Determine what the colour of the enemy king is.
     Colour enemyColour;
         if (myColour == Colour::White) {
             enemyColour = Colour::Black;
@@ -18,7 +18,6 @@ Move level2::generateMove() {
             enemyColour = Colour::White;
         }
 
-    //continues running until a move that results in a kill or check isfound
     for (Move m : validMoves) {
         
         Board temp = *b;
@@ -27,9 +26,10 @@ Move level2::generateMove() {
         int dx = m.getDest().getX();
         int dy = m.getDest().getY();
 
+    //Does this move result in a check?
         if (b->checked(enemyColour)) {
             
-            // Will attack any possible enemy piece if the enemy coloured king is in check (not necessarily attack the king tho... that is level 4+)
+            //If so, does it result in a kill?
             for (Move m : validMoves) {
 
                 int sx = m.getStart().getX();
@@ -45,14 +45,14 @@ Move level2::generateMove() {
 
         }
 
-
+        //Does it result in only a check and no kill?
         temp.activateMove(temp.getCell(sx, sy), temp.getCell(dx,dy));
         if (temp.checked(enemyColour)) {
             return m;
         }
 
     }
-     // attacking
+     //Does it result in a kill in general?
     for (Move m : validMoves) {
 
         int sx = m.getStart().getX();
@@ -66,33 +66,9 @@ Move level2::generateMove() {
     }
     
 
-    //Now if no enemyPresence is detected or a check is possible, it will pick a RANDOM valid move.
+    //Now if no potential attack is detected or a check is possible, it will pick a RANDOM valid move.
     srand((unsigned) time(NULL));
     int count = rand() % validMoves.size();
     return validMoves[count];
 }
 
-
- // if (m.hasEnemyPresence()) { // checks for kill
-        //     return m;
-        // }
-        
-        // Board temp = *b;
-        // // SHOULD BE temp.getCell(x,y) !!!!!!!!!!!!!!!!!!!!!!!!
-        // int sx = m.getStart().getX();
-        // int sy = m.getStart().getY();
-        // int dx = m.getDest().getX();
-        // int dy = m.getDest().getY();
-
-        // if (temp.activateMove(temp.getCell(sx, sy), temp.getCell(dx, dy))) {
-        //     Colour enemyColour;
-        //     if (this->getColour() == Colour::Black) {
-        //         enemyColour = Colour::White;
-        //     } else {
-        //         enemyColour = Colour::Black;
-        //     }
-
-        //     if (temp.checked(enemyColour)) {
-        //         return m;
-        //     }
-        // }
