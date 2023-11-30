@@ -17,9 +17,9 @@ int main() {
     b.setPieceOnBoard(new Rook(Colour::Black), 4, 7);
     b.setPieceOnBoard(new King(Colour::Black), 3, 7);
 
-    cout << b << endl;
-    b.printBlackPieceCells();
-    b.printWhitePieceCells();
+    // cout << b << endl;
+    // b.printBlackPieceCells();
+    // b.printWhitePieceCells();
     cout << b.checkMated(Colour::White) << endl;
 
     // Board c = b;

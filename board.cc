@@ -19,27 +19,38 @@ Board::Board(const Board& other):boardSize(other.boardSize) {
     blackPieceCells.resize(other.blackPieceCells.size());
     whitePieceCells.resize(other.whitePieceCells.size());
 
+    // int n = 0;
     for (int i = 0; i < boardSize; i++) { // i = Y
         for (int j = 0; j < boardSize; j++) { // j = X
             theBoard[i][j] = other.theBoard[i][j];
+            // n++;
+            // cout << theBoard[i][j] << n << endl;
             if (theBoard[i][j].getChessPiece() != nullptr) {
                 addBlackOrWhitePieceCell(&(theBoard[i][j]));
             }
         }
     }
 
+    
     allBlackLegalMoves.resize(other.allBlackLegalMoves.size());
     allWhiteLegalMoves.resize(other.allWhiteLegalMoves.size());
 
-    // this->calculateAllLegalMoves()n
-
+    
+    // this->calculateAllLegalMoves();
+    
+    
     for (long unsigned int i = 0; i < allBlackLegalMoves.size(); i++) {
         allBlackLegalMoves[i] = other.allBlackLegalMoves[i];
+        // cout << other.allBlackLegalMoves[i].getStart() << ' , ' << other.allBlackLegalMoves[i].getDest() << endl;
+        // cout << allBlackLegalMoves[i].getStart().getX() << ' , ' << allBlackLegalMoves[i].getDest().getX() << endl;
+        // cout << allBlackLegalMoves[i].getStart().getY() << ' , ' << allBlackLegalMoves[i].getDest().getY() << endl;
     }
-
+    
     for (long unsigned int i = 0; i < allWhiteLegalMoves.size(); i++) {
         allWhiteLegalMoves[i] = other.allWhiteLegalMoves[i];
     }
+    
+
 }
 
 
@@ -178,13 +189,16 @@ void Board::removePieceFromBoard(int x, int y) {
 }
 
 void Board::addBlackOrWhitePieceCell(Cell * hasPiece) {
-    Colour c = hasPiece->getChessPiece()->getColour();
-    if (c == Colour::Black) {
-        blackPieceCells.emplace_back(hasPiece);
-    } 
-    else if (c == Colour::White) {
-        whitePieceCells.emplace_back(hasPiece);
+    if (hasPiece->getChessPiece() != nullptr) {
+        Colour c = hasPiece->getChessPiece()->getColour();
+        if (c == Colour::Black) {
+            blackPieceCells.emplace_back(hasPiece);
+        } 
+        else if (c == Colour::White) {
+            whitePieceCells.emplace_back(hasPiece);
+        }
     }
+
 }
 
 void Board::removeBlackOrWhitePieceCell() {
@@ -270,7 +284,9 @@ bool Board::activateMove(Cell & start, Cell & destination) {
 
     if (start.getChessPiece() != nullptr) {
         if (start.getChessPiece()->movePiece(start, destination, *this)) {
+
             addBlackOrWhitePieceCell(&destination);
+            printWhitePieceCells();
             removeBlackOrWhitePieceCell();
             return true;
         }
@@ -364,22 +380,38 @@ bool Board::checkMated(Colour kingColour) {
             Move m = allWhiteLegalMoves[i];
             Cell & start = m.getStart();
             Cell & dest = m.getDest();
+        
+
+            int sx = start.getX();
+            int sy = start.getY();
+            int dx = dest.getX();
+            int dy = dest.getY();
+            
 
             Board b_copy = *this;
+            cout << "start: " << "(" << sx << "," << sy << ")" << endl;
+            cout << "dest: " << "(" << dx << "," << dy << ")" << endl;
+            cout << b_copy.getCell(sx, sy) << endl;
+            cout << b_copy.getCell(dx, dy) << endl;
 
-            b_copy.activateMove(start, dest); // something here
-            b_copy.printWhitePieceCells();
-            // cout << b_copy << endl;
-            // cout << b_copy.checked(Colour::White);
-            if (!b_copy.checked(Colour::White)) {
-                cout << "NOT CHECKMATED" << endl;
-                return false;
-            }
+
+            printWhitePieceCells();
+            printWhiteLegalMoves();
+            
+            b_copy.activateMove(b_copy.getCell(sx, sy), b_copy.getCell(dx, dy)); // something here
+            break;
+            // b_copy.printWhitePieceCells();
+            // // cout << b_copy << endl;
+            // // cout << b_copy.checked(Colour::White);
+            // if (!b_copy.checked(Colour::White)) {
+            //     cout << "NOT CHECKMATED" << endl;
+            //     return false;
+            // }
         }
 
     }
 
-    cout << "CHECKMATE!" << endl;
+    // cout << "CHECKMATE!" << endl;
     return true;
 }
 
