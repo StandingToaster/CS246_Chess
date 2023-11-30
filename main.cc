@@ -8,16 +8,16 @@ using namespace std;
 int main() {
     srand((unsigned) time(NULL));
     int N = 100;
-    int random = rand() % N;
 
     for (int i = 0; i < 25; ++i) {
+        int random = rand() % N;
         cout << random << endl;
     }
 
 
     // Board b;
     // b.setEmptyBoard();
-    
+
     // b.setPieceOnBoard(new Rook(Colour::Black), 4, 7);
     // b.setPieceOnBoard(new King(Colour::Black), 1, 0);
 
