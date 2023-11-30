@@ -27,15 +27,32 @@ Move level2::generateMove() {
         int dx = m.getDest().getX();
         int dy = m.getDest().getY();
 
+        if (b->checked(enemyColour)) {
+            
+            // Will attack any possible enemy piece if the enemy coloured king is in check (not necessarily attack the king tho... that is level 4+)
+            for (Move m : validMoves) {
+
+                int sx = m.getStart().getX();
+                int sy = m.getStart().getY();
+                int dx = m.getDest().getX();
+                int dy = m.getDest().getY();
+
+                if (b->attackPossible(b->getCell(sx, sy), b->getCell(dx,dy))) {
+                    return m;
+                }
+            }
+
+
+        }
+
 
         temp.activateMove(temp.getCell(sx, sy), temp.getCell(dx,dy));
-
         if (temp.checked(enemyColour)) {
             return m;
         }
 
     }
-
+     // attacking
     for (Move m : validMoves) {
 
         int sx = m.getStart().getX();

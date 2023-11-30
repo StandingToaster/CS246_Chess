@@ -28,9 +28,9 @@ int main() {
     cout << b << endl;
 
     b.calculateAllLegalMoves();
-    b.printBlackLegalMoves();
+    b.printWhiteLegalMoves();
 
-    Computer * c = new level2(&b, Colour::Black);
+    Computer * c = new level2(&b, Colour::White);
     Move test = c->generateMove();
 
     cout << test.getStart() << endl;
@@ -45,68 +45,6 @@ int main() {
     cout << "Dest: " << "(" << dx << "," << dy << ")" << endl;
     
 
-    // test = c->generateMove();
-
-    // cout << test.getStart() << endl;
-    // cout << test.getDest() << endl;
-
-    // sx = test.getStart().getX();
-    // sy = test.getStart().getY();
-    // dx = test.getDest().getX();
-    // dy = test.getDest().getY();
-
-    // cout << "Start: " << "(" << sx << "," << sy << ")" << endl;
-    // cout << "Dest: " << "(" << dx << "," << dy << ")" << endl;
-
-    // test = c->generateMove();
-
-    // cout << test.getStart() << endl;
-    // cout << test.getDest() << endl;
-
-    // sx = test.getStart().getX();
-    // sy = test.getStart().getY();
-    // dx = test.getDest().getX();
-    // dy = test.getDest().getY();
-
-    // cout << "Start: " << "(" << sx << "," << sy << ")" << endl;
-    // cout << "Dest: " << "(" << dx << "," << dy << ")" << endl;
-
-    // delete c;
-
-
-
-
-    // b.setPieceOnBoard(new King(Colour::White), 4, 0);
-    // b.setPieceOnBoard(new Queen(Colour::White), 5, 1);
-
-    // b.setPieceOnBoard(new Rook(Colour::Black), 4, 7);
-    // b.setPieceOnBoard(new King(Colour::Black), 3, 7);
-
-    // cout << b << endl;
-    // cout << b.checkMated(Colour::Black) << endl;
-
-    // Board c = b;
-    // cout << c << endl;
-    // cout << c.checkMated(Colour::White) << endl;
-    // c.activateMove(c.getCell(4,0), c.getCell(5,0));
-    // cout << c << endl;
-    // cout << c.checked(Colour::White) << endl;
-    // cout << c.checkMated(Colour::White) << endl;
-
-    // cout << b.checkMated(Colour::White) << endl;
-    // b.printWhiteLegalMoves();
-
-
-    // Board c;
-    // c.setEmptyBoard();
-    // c.setPieceOnBoard(new King(Colour::White), 4, 0);
-    // c.setPieceOnBoard(new Queen(Colour::White), 4, 1);
-
-    // c.setPieceOnBoard(new Rook(Colour::Black), 4, 7);
-    // c.setPieceOnBoard(new King(Colour::Black), 3, 7);
-
-    // cout << c << endl;
-    // cout << c.checked(Colour::White) << endl;
 
 
 
