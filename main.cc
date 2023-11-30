@@ -11,12 +11,15 @@ int main() {
     Board b;
     b.setEmptyBoard();
 
+    b.setPieceOnBoard(new Rook(Colour::Black), 4, 7);
+    b.setPieceOnBoard(new King(Colour::Black), 1, 0);
+
     b.setPieceOnBoard(new King(Colour::White), 7, 7);
     b.setPieceOnBoard(new Queen(Colour::White), 1, 1);
 
-    // b.setPieceOnBoard(new Rook(Colour::Black), 4, 7);
-    b.setPieceOnBoard(new King(Colour::Black), 1, 0);
+    Computer * c = new level1(&b, Colour::Black);
 
+    
 
     // b.setPieceOnBoard(new King(Colour::White), 4, 0);
     // b.setPieceOnBoard(new Queen(Colour::White), 5, 1);
