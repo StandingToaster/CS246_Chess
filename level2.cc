@@ -10,6 +10,14 @@ Move level2::generateMove() {
     vector<Move> validMoves = b->getLegalMoves(this->getColour());
     Colour myColour = this->getColour();
 
+    Colour enemyColour;
+        if (myColour == Colour::White) {
+            enemyColour = Colour::Black;
+        }
+        else {
+            enemyColour = Colour::White;
+        }
+
     //continues running until a move that results in a kill or check isfound
     for (Move m : validMoves) {
         
@@ -19,20 +27,9 @@ Move level2::generateMove() {
         int dx = m.getDest().getX();
         int dy = m.getDest().getY();
 
-        Colour enemyColour;
-        if (myColour == Colour::White) {
-            enemyColour = Colour::Black;
-        }
-        else {
-            enemyColour = Colour::White;
-        }
 
-       if (temp.checkMated(enemyColour)) {
-            return m;
-        } 
+        temp.activateMove(temp.getCell(sx, sy), temp.getCell(dx,dy));
 
-        temp.activateMove(temp.getCell(sx, sy), temp.getCell(dx, dy));
-        cout << temp << endl;
         if (temp.checked(enemyColour)) {
             return m;
         }
@@ -40,13 +37,26 @@ Move level2::generateMove() {
     }
 
     for (Move m : validMoves) {
-        if (m.hasEnemyPresence()) {
+
+        int sx = m.getStart().getX();
+        int sy = m.getStart().getY();
+        int dx = m.getDest().getX();
+        int dy = m.getDest().getY();
+
+        if (b->attackPossible(b->getCell(sx, sy), b->getCell(dx,dy))) {
             return m;
         }
     }
     
 
-        // if (m.hasEnemyPresence()) { // checks for kill
+    //Now if no enemyPresence is detected or a check is possible, it will pick a RANDOM valid move.
+    srand((unsigned) time(NULL));
+    int count = rand() % validMoves.size();
+    return validMoves[count];
+}
+
+
+ // if (m.hasEnemyPresence()) { // checks for kill
         //     return m;
         // }
         
@@ -69,10 +79,3 @@ Move level2::generateMove() {
         //         return m;
         //     }
         // }
-
-    //Now if no enemyPresence is detected or a check is possible, it will pick a RANDOM valid move.
-    srand((unsigned) time(NULL));
-    int count = rand() % validMoves.size();
-    return validMoves[count];
-}
-
