@@ -251,7 +251,7 @@ void Board::printBlackLegalMoves() {
         "Start: " << "(" << allBlackLegalMoves[i].getStart().getX() << "," << allBlackLegalMoves[i].getStart().getY() << ") "
         << "Dest: " << "(" << allBlackLegalMoves[i].getDest().getX() << "," << allBlackLegalMoves[i].getDest().getY() << ")" << endl;
     }
-    cout << allBlackLegalMoves.size() << endl;
+    cout << "Num Black Legal Moves: " << allBlackLegalMoves.size() << endl;
 }
 void Board::printWhiteLegalMoves() {
     
@@ -260,7 +260,7 @@ void Board::printWhiteLegalMoves() {
         "Start: " << "(" << allWhiteLegalMoves[i].getStart().getX() << "," << allWhiteLegalMoves[i].getStart().getY() << ") "
         << "Dest: " << "(" << allWhiteLegalMoves[i].getDest().getX() << "," << allWhiteLegalMoves[i].getDest().getY() << ")" << endl;
     }
-    cout << allWhiteLegalMoves.size() << endl;
+    cout << "Num White Legal Moves: " << allWhiteLegalMoves.size() << endl;
 }
 
 
@@ -327,6 +327,7 @@ bool Board::checked(Colour kingColour) {
     return false;
 
 }
+
 bool Board::checkMated(Colour kingColour) {
     
     if (!checked(kingColour)) {
@@ -390,7 +391,24 @@ bool Board::checkMated(Colour kingColour) {
     return true;
 }
 
+bool Board::stalemated() {
 
+    clearLegalMoves();
+    calculateAllLegalMoves();
+
+    // Check if black king is not checked and has no legal moves
+    if (!checked(Colour::Black) && allBlackLegalMoves.size() == 0) {
+        return true;
+    }   
+
+    // Check if white king is not checked and has no legal moves. 
+    if (!checked(Colour::White) && allWhiteLegalMoves.size() == 0) {
+        return true;
+    }
+
+    return false;
+
+}
 
 
 

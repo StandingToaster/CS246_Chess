@@ -58,9 +58,9 @@ class Board {
 
     bool checked(Colour kingColour);
     bool checkMated(Colour kingColour);
+    bool stalemated();
 
     vector<Move> getLegalMoves(Colour colour);
-
     vector<Cell*> getOccupiedCells(Colour colour);
 
     friend ostream& operator<<(ostream &out, const Board &b);

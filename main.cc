@@ -10,19 +10,20 @@ using namespace std;
 int main() {    
 
     Board b;
-    b.setDefaultBoard();
+    b.setEmptyBoard();
 
     // b.setPieceOnBoard(new Queen(Colour::Black), 1, 3);
-    // b.setPieceOnBoard(new King(Colour::Black), 0, 0);
+    b.setPieceOnBoard(new King(Colour::Black), 0, 0);
 
-    // b.setPieceOnBoard(new King(Colour::White), 7, 7);
-    // b.setPieceOnBoard(new Queen(Colour::White), 1, 1);
+    b.setPieceOnBoard(new King(Colour::White), 7, 7);
+    b.setPieceOnBoard(new Queen(Colour::White), 1, 2);
 
     cout << b << endl;
     
 
     b.calculateAllLegalMoves();
     b.printBlackLegalMoves();
+    cout << b.stalemated() << endl;
     // cout << b.checkMated(Colour::Black);
     // cout << b.activateMove(b.getCell(1,3), b.getCell(0,4)) << endl << endl;
     
