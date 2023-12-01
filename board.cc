@@ -397,19 +397,20 @@ bool Board::checkMated(Colour kingColour) {
 ostream& operator<<(ostream &out, const Board &b) {
     int row = 8;
     for (int i = 0; i < b.boardSize; i++) {
-        out << row << " ";
+        out << row << "  ";
         row--;
         for (int j = 0; j < b.boardSize; j++) {
-            out << b.theBoard[i][j];
+            out << b.theBoard[i][j] << " ";
         }
         out << endl;
     }
 
     out << endl;
 
-    out << "  abcdefgh" << endl;
+    out << "   a b c d e f g h" << endl;
 
     return out;
+    
 }
 
 vector<Cell*> Board::getOccupiedCells(Colour colour) {

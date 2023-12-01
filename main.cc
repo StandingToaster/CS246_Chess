@@ -3,6 +3,7 @@
 #include "computer.h"
 #include "level1.h"
 #include "level2.h"
+#include "level3.h"
 
 using namespace std;
 
@@ -22,13 +23,11 @@ int main() {
     // b.setPieceOnBoard(new Queen(Colour::Black), 1, 3);
     b.setPieceOnBoard(new King(Colour::Black), 0, 0);
 
-    // b.setPieceOnBoard(new Pawn(Colour::White), 2, 2);
-    b.setPieceOnBoard(new Queen(Colour::White), 1, 2);
-    // b.setPieceOnBoard(new Pawn(Colour::White), 0, 4);
-    b.setPieceOnBoard(new King(Colour::White), 1, 7);
+    b.setPieceOnBoard(new King(Colour::White), 7, 7);
+    b.setPieceOnBoard(new Queen(Colour::White), 1, 1);
 
     cout << b << endl;
-
+    
 
     b.calculateAllLegalMoves();
     b.printBlackLegalMoves();

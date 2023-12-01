@@ -116,10 +116,6 @@ vector<Move> PieceMoves(Cell& c, Board& b) {
 // determines if there is a way to protect cell c and mutates m if so
 bool protectPiece(Cell& c, Board& b, Move& m) {
     Colour col = c.getChessPiece()->getColour();
-    Colour enemyCol = Colour::Black;
-    if (col == Colour::Black) {
-        enemyCol = Colour::White;
-    }
 
     // check for all moves that may result in protecting the original cell
     // without putting itself at risk
@@ -144,15 +140,6 @@ Move level3::generateMove() {
     this->readyTheBoard(b);
     vector<Move> validMoves = b->getLegalMoves(this->getColour());
     Colour myColour = this->getColour();
-
-    //Determine what the colour of the enemy king is.
-    Colour enemyColour;
-        if (myColour == Colour::White) {
-            enemyColour = Colour::Black;
-        }
-        else {
-            enemyColour = Colour::White;
-        }
 
     // check if any piece is at risk of capture and if so try to output a move that
     // prevents it
