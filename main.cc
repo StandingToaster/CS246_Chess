@@ -3,6 +3,7 @@
 #include "computer.h"
 #include "level1.h"
 #include "level2.h"
+#include "level3.h"
 
 using namespace std;
 
@@ -24,6 +25,14 @@ int main() {
 
     b.setPieceOnBoard(new King(Colour::White), 7, 7);
     b.setPieceOnBoard(new Queen(Colour::White), 1, 1);
+
+    cout << b << endl;
+
+    Computer * c = new level2(&b, Colour::White);
+
+    Move m = c->generateMove();
+
+    b.activateMove(m.getStart(), m.getDest());
 
     cout << b << endl;
     

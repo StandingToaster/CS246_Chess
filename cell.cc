@@ -84,7 +84,18 @@ void Cell::deleteChessPiece() {
 
 ostream& operator<<(ostream &out, const Cell &c) {
 
-    if (c.colour == Colour::White) {
+    if (c.piece != nullptr) {
+        out << *c.piece;
+    } else {
+        out << ".";
+    }
+
+    return out;
+
+}
+
+/* old cell ouput logic
+if (c.colour == Colour::White) {
         if (c.piece != nullptr) {
             out << *c.piece;
         } else {
@@ -100,7 +111,7 @@ ostream& operator<<(ostream &out, const Cell &c) {
 
     return out;
 
-}
+*/
 
 
 
