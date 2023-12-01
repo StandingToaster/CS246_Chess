@@ -25,10 +25,11 @@ ostream& operator<<(ostream &out, const ChessPiece &cp) {
 
 
 Pawn::Pawn(Colour colour): ChessPiece{colour, Piece::Pawn, colour == Colour::White ? 'P' : 'p'} {}
-Pawn::Pawn(const Pawn& other): ChessPiece{other} {}
+Pawn::Pawn(const Pawn& other): ChessPiece{other}, numMoves{other.numMoves} {}
 Pawn& Pawn::operator=(const Pawn& other) {
     if (this == &other) return *this;
     ChessPiece::operator=(other);
+    numMoves = other.numMoves;
     return *this;
 }
 Pawn::~Pawn() {}
@@ -57,38 +58,87 @@ bool Pawn::movePiece(Cell & start, Cell & destination, Board & b) {
 
         // black pawn attacking bottom left diagonally.
         if (!b.cellEmpty(sx - 1, sy + 1) && dx == sx - 1 && dy == sy + 1) {
-            destination.deleteChessPiece();
-            destination.addChessPiece(this);
-            start.removeChessPiece();
-            firstMove = false;
-            return true;
+            Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+            copy.getCell(dx, dy).deleteChessPiece();
+            ChessPiece * pawnCopy = new Pawn(*this);
+            copy.getCell(dx, dy).addChessPiece(pawnCopy);
+            copy.getCell(sx, sy).removeChessPiece();
+            copy.addBlackOrWhitePieceCell(&copy.getCell(dx,dy));
+            copy.removeBlackOrWhitePieceCell();
+
+            if (copy.checked(Colour::Black)) {
+                return false;
+            } else {
+                destination.deleteChessPiece();
+                destination.addChessPiece(this);
+                start.removeChessPiece();
+                numMoves++;
+                return true;
+            }
+
+            
         }
 
         // black pawn attacking bottom right diagonally. 
         if (!b.cellEmpty(sx + 1, sy + 1) && dx == sx + 1 && dy == sy + 1) {
-            destination.deleteChessPiece();
-            destination.addChessPiece(this);
-            start.removeChessPiece();
-            firstMove = false;
-            return true;
+            Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+            copy.getCell(dx, dy).deleteChessPiece();
+            ChessPiece * pawnCopy = new Pawn(*this);
+            copy.getCell(dx, dy).addChessPiece(pawnCopy);
+            copy.getCell(sx, sy).removeChessPiece();
+            copy.addBlackOrWhitePieceCell(&copy.getCell(dx,dy));
+            copy.removeBlackOrWhitePieceCell();
+
+            if (copy.checked(Colour::Black)) {
+                return false;
+            } else {
+                destination.deleteChessPiece();
+                destination.addChessPiece(this);
+                start.removeChessPiece();
+                numMoves++;
+                return true;
+            }
         }
 
         // space right below black pawn is dest
         if (b.cellEmpty(sx, sy + 1) && dx == sx && dy == sy + 1) { 
-            destination.addChessPiece(this);
-            start.removeChessPiece();
-            firstMove = false;
-            return true;
+            Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+            ChessPiece * pawnCopy = new Pawn(*this);
+            copy.getCell(dx, dy).addChessPiece(pawnCopy);
+            copy.getCell(sx, sy).removeChessPiece();
+            copy.addBlackOrWhitePieceCell(&copy.getCell(dx,dy));
+            copy.removeBlackOrWhitePieceCell();
+
+            if (copy.checked(Colour::Black)) {
+                return false;
+            } else {
+                destination.addChessPiece(this);
+                start.removeChessPiece();
+                numMoves++;
+                return true;
+            }
+
         }
 
-        if (firstMove) {
+        if (numMoves == 0) {
             
             // black pawn moving down 2 squares if conducting first move.
             if (b.cellEmpty(sx, sy + 1) && b.cellEmpty(sx, sy + 2) && dx == sx && dy == sy + 2) {
-                destination.addChessPiece(this);
-                start.removeChessPiece();
-                firstMove = false;
-                return true;
+                Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                ChessPiece * pawnCopy = new Pawn(*this);
+                copy.getCell(dx, dy).addChessPiece(pawnCopy);
+                copy.getCell(sx, sy).removeChessPiece();
+                copy.addBlackOrWhitePieceCell(&copy.getCell(dx,dy));
+                copy.removeBlackOrWhitePieceCell();
+
+                if (copy.checked(Colour::Black)) {
+                    return false;
+                } else {
+                    destination.addChessPiece(this);
+                    start.removeChessPiece();
+                    numMoves++;
+                    return true;
+                }
             }
 
         }
@@ -97,37 +147,83 @@ bool Pawn::movePiece(Cell & start, Cell & destination, Board & b) {
 
         // white pawn attacking upper left diagonally
         if (!b.cellEmpty(sx - 1, sy - 1) && dx == sx - 1 && dy == sy - 1) {
-            destination.deleteChessPiece();
-            destination.addChessPiece(this);
-            start.removeChessPiece();
-            firstMove = false;
-            return true;
+            Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+            copy.getCell(dx, dy).deleteChessPiece();
+            ChessPiece * pawnCopy = new Pawn(*this);
+            copy.getCell(dx, dy).addChessPiece(pawnCopy);
+            copy.getCell(sx, sy).removeChessPiece();
+            copy.addBlackOrWhitePieceCell(&copy.getCell(dx,dy));
+            copy.removeBlackOrWhitePieceCell();
+
+            if (copy.checked(Colour::White)) {
+                return false;
+            } else {
+                destination.deleteChessPiece();
+                destination.addChessPiece(this);
+                start.removeChessPiece();
+                numMoves++;
+                return true;
+            }
         }   
 
         // white pawn attacking upper right diagonally
         if (!b.cellEmpty(sx + 1, sy - 1) && dx == sx + 1 && dy == sy - 1) {
-            destination.deleteChessPiece();
-            destination.addChessPiece(this);
-            start.removeChessPiece();
-            firstMove = false;
-            return true;
+            Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+            copy.getCell(dx, dy).deleteChessPiece();
+            ChessPiece * pawnCopy = new Pawn(*this);
+            copy.getCell(dx, dy).addChessPiece(pawnCopy);
+            copy.getCell(sx, sy).removeChessPiece();
+            copy.addBlackOrWhitePieceCell(&copy.getCell(dx,dy));
+            copy.removeBlackOrWhitePieceCell();
+
+            if (copy.checked(Colour::White)) {
+                return false;
+            } else {
+                destination.deleteChessPiece();
+                destination.addChessPiece(this);
+                start.removeChessPiece();
+                numMoves++;
+                return true;
+            }
         }
 
         // space right above black pawn is dest
         if (b.cellEmpty(sx, sy - 1) && dx == sx && dy == sy - 1) { 
-            destination.addChessPiece(this);
-            start.removeChessPiece();
-            firstMove = false;
-            return true;
-        }
+            Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+            ChessPiece * pawnCopy = new Pawn(*this);
+            copy.getCell(dx, dy).addChessPiece(pawnCopy);
+            copy.getCell(sx, sy).removeChessPiece();
+            copy.addBlackOrWhitePieceCell(&copy.getCell(dx,dy));
+            copy.removeBlackOrWhitePieceCell();
 
-        if (firstMove) {
-            // white pawn moving up 2 squares if conducting first move.
-            if (b.cellEmpty(sx, sy - 1) && b.cellEmpty(sx, sy - 2) && dx == sx && dy == sy - 2) {
+            if (copy.checked(Colour::White)) {
+                return false;
+            } else {
                 destination.addChessPiece(this);
                 start.removeChessPiece();
-                firstMove = false;
+                numMoves++;
                 return true;
+            }
+        }
+
+        if (numMoves == 0) {
+            // white pawn moving up 2 squares if conducting first move.
+            if (b.cellEmpty(sx, sy - 1) && b.cellEmpty(sx, sy - 2) && dx == sx && dy == sy - 2) {
+                Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                ChessPiece * pawnCopy = new Pawn(*this);
+                copy.getCell(dx, dy).addChessPiece(pawnCopy);
+                copy.getCell(sx, sy).removeChessPiece();
+                copy.addBlackOrWhitePieceCell(&copy.getCell(dx,dy));
+                copy.removeBlackOrWhitePieceCell();
+
+                if (copy.checked(Colour::White)) {
+                    return false;
+                } else {
+                    destination.addChessPiece(this);
+                    start.removeChessPiece();
+                    numMoves++;
+                    return true;
+                }
             }
 
         }
@@ -202,28 +298,53 @@ void Pawn::determineLegalMoves(Cell & start, Board & b) {
     if (start.getChessPiece()->getColour() == Colour::Black) { // black pawn travels 'down' the board
 
         // black pawn can attack bottom left diagonally.
-
-        if (!b.cellEmpty(sx - 1, sy + 1) && b.getCell(sx - 1, sy + 1).getChessPiece()->getColour() != Colour::Black) {
-            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx - 1, sy + 1)});
+        if (0 <= sx - 1 && sx - 1 < b.getBoardSize() && 0 <= sy + 1 && sy + 1 < b.getBoardSize()) {
+            if (!b.cellEmpty(sx - 1, sy + 1) && b.getCell(sx - 1, sy + 1).getChessPiece()->getColour() != Colour::Black) {
+                
+                Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                
+                if (copy.activateMove(copy.getCell(sx, sy), copy.getCell(sx - 1, sy + 1))) {
+                    b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx - 1, sy + 1)});
+                }
+                
+            }
         }
 
-
         // black pawn can attack bottom right diagonally. 
-        if (!b.cellEmpty(sx + 1, sy + 1) && b.getCell(sx + 1, sy + 1).getChessPiece()->getColour() != Colour::Black) {
-            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx + 1, sy + 1)});
+        if (0 <= sx + 1 && sx + 1 < b.getBoardSize() && 0 <= sy + 1 && sy + 1 < b.getBoardSize()) {
+            if (!b.cellEmpty(sx + 1, sy + 1) && b.getCell(sx + 1, sy + 1).getChessPiece()->getColour() != Colour::Black) {
+                
+                Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                
+                if (copy.activateMove(copy.getCell(sx, sy), copy.getCell(sx + 1, sy + 1))) {
+                    b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx + 1, sy + 1)});
+                }
+
+
+            }
         }
 
         // space right below black pawn is empty
         if (b.cellEmpty(sx, sy + 1)) { 
-            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx, sy + 1)});
+            Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+
+            if (copy.activateMove(copy.getCell(sx, sy), copy.getCell(sx, sy + 1))) {
+                    b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx, sy + 1)});
+            }
+            
 
         }
 
-        if (firstMove) {
+        if (numMoves == 0) {
             
             // black pawn can move down 2 squares if conducting first move.
             if (b.cellEmpty(sx, sy + 1) && b.cellEmpty(sx, sy + 2)) {
-                b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx, sy + 2)});
+
+                Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                if (copy.activateMove(copy.getCell(sx, sy), copy.getCell(sx, sy + 2))) {
+                    b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx, sy + 2)});
+                }
+                
             }
 
         }
@@ -231,25 +352,50 @@ void Pawn::determineLegalMoves(Cell & start, Board & b) {
     } else if (start.getChessPiece()->getColour() == Colour::White){ // pawn is white, travels 'up' the board
 
         // white pawn can attack upper left diagonally
-        if (!b.cellEmpty(sx - 1, sy - 1) && b.getCell(sx - 1, sy - 1).getChessPiece()->getColour() != Colour::White) {
-            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx - 1, sy - 1)});
-        }   
-
-        // white pawn can attack upper right diagonally
-        if (!b.cellEmpty(sx + 1, sy - 1) && b.getCell(sx + 1, sy - 1).getChessPiece()->getColour() != Colour::White) {
-            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx + 1, sy - 1)});
-
+        if (0 <= sx - 1 && sx - 1 < b.getBoardSize() && 0 <= sy - 1 && sy - 1 < b.getBoardSize()) {
+            if (!b.cellEmpty(sx - 1, sy - 1) && b.getCell(sx - 1, sy - 1).getChessPiece()->getColour() != Colour::White) {
+                
+                Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                
+                if (copy.activateMove(copy.getCell(sx, sy), copy.getCell(sx - 1, sy - 1))) {
+                    b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx - 1, sy - 1)});
+                }
+                
+            }   
         }
+        // white pawn can attack upper right diagonally
+        if (0 <= sx + 1 && sx + 1 < b.getBoardSize() && 0 <= sy - 1 && sy - 1 < b.getBoardSize()) {
+            if (!b.cellEmpty(sx + 1, sy - 1) && b.getCell(sx + 1, sy - 1).getChessPiece()->getColour() != Colour::White) {
+                
+                Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                if (copy.activateMove(copy.getCell(sx, sy), copy.getCell(sx + 1, sy - 1))) {
+                    b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx + 1, sy - 1)});
+                }
 
+            }
+        }
         // space right above black pawn is empty
         if (b.cellEmpty(sx, sy - 1)) { 
-            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx, sy - 1)});
+            
+            Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+            
+            if (copy.activateMove(copy.getCell(sx, sy), copy.getCell(sx, sy - 1))) {
+                    b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx, sy - 1)});
+            }
+
+            
         }
 
-        if (firstMove) {
+        if (numMoves == 0) {
             // white pawn moving up 2 squares if conducting first move.
             if (b.cellEmpty(sx, sy - 1) && b.cellEmpty(sx, sy - 2)) {
-                b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx, sy - 2)});
+                
+                Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                
+                if (copy.activateMove(copy.getCell(sx, sy), copy.getCell(sx, sy - 2))) {
+                    b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx, sy - 2)});
+                }
+
             }
 
         }
@@ -263,10 +409,11 @@ void Pawn::determineLegalMoves(Cell & start, Board & b) {
 
 
 Rook::Rook(Colour colour): ChessPiece{colour, Piece::Rook, colour == Colour::White ? 'R' : 'r'} {}
-Rook::Rook(const Rook& other): ChessPiece{other} {}
+Rook::Rook(const Rook& other): ChessPiece{other}, numMoves{other.numMoves} {}
 Rook& Rook::operator=(const Rook& other) {
     if (this == &other) return *this;
     ChessPiece::operator=(other);
+    numMoves = other.numMoves;
     return *this;
 }
 Rook::~Rook() {}
@@ -303,10 +450,24 @@ bool Rook::movePiece(Cell & start, Cell & destination, Board & b) {
                 }
 
                 if (y == dy) {
-                    destination.deleteChessPiece();
-                    destination.addChessPiece(this);
-                    start.removeChessPiece();
-                    return true;
+
+                    Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                    copy.getCell(dx, dy).deleteChessPiece();
+                    ChessPiece * rookCopy = new Rook(*this);
+                    copy.getCell(dx, dy).addChessPiece(rookCopy);
+                    copy.getCell(sx, sy).removeChessPiece();
+                    copy.addBlackOrWhitePieceCell(&copy.getCell(dx,dy));
+                    copy.removeBlackOrWhitePieceCell();
+
+                    if (copy.checked(this->getColour())) {
+                        return false;
+                    } else {
+                        destination.deleteChessPiece();
+                        destination.addChessPiece(this);
+                        start.removeChessPiece();
+                        numMoves++;
+                        return true;
+                    }
                 }
                 y--;
             }
@@ -319,10 +480,23 @@ bool Rook::movePiece(Cell & start, Cell & destination, Board & b) {
                 }
 
                 if (y == dy) {
-                    destination.deleteChessPiece();
-                    destination.addChessPiece(this);
-                    start.removeChessPiece();
-                    return true;
+                    Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                    copy.getCell(dx, dy).deleteChessPiece();
+                    ChessPiece * rookCopy = new Rook(*this);
+                    copy.getCell(dx, dy).addChessPiece(rookCopy);
+                    copy.getCell(sx, sy).removeChessPiece();
+                    copy.addBlackOrWhitePieceCell(&copy.getCell(dx,dy));
+                    copy.removeBlackOrWhitePieceCell();
+
+                    if (copy.checked(this->getColour())) {
+                        return false;
+                    } else {
+                        destination.deleteChessPiece();
+                        destination.addChessPiece(this);
+                        start.removeChessPiece();
+                        numMoves++;
+                        return true;
+                    }
                 }
                 y++;
             }
@@ -340,10 +514,23 @@ bool Rook::movePiece(Cell & start, Cell & destination, Board & b) {
                 }
 
                 if (x == dx) {
-                    destination.deleteChessPiece();
-                    destination.addChessPiece(this);
-                    start.removeChessPiece();
-                    return true;
+                    Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                    copy.getCell(dx, dy).deleteChessPiece();
+                    ChessPiece * rookCopy = new Rook(*this);
+                    copy.getCell(dx, dy).addChessPiece(rookCopy);
+                    copy.getCell(sx, sy).removeChessPiece();
+                    copy.addBlackOrWhitePieceCell(&copy.getCell(dx,dy));
+                    copy.removeBlackOrWhitePieceCell();
+
+                    if (copy.checked(this->getColour())) {
+                        return false;
+                    } else {
+                        destination.deleteChessPiece();
+                        destination.addChessPiece(this);
+                        start.removeChessPiece();
+                        numMoves++;
+                        return true;
+                    }
                 }
                 x--;
             }
@@ -356,10 +543,23 @@ bool Rook::movePiece(Cell & start, Cell & destination, Board & b) {
                 }
 
                 if (x == dx) {
-                    destination.deleteChessPiece();
-                    destination.addChessPiece(this);
-                    start.removeChessPiece();
-                    return true;
+                    Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                    copy.getCell(dx, dy).deleteChessPiece();
+                    ChessPiece * rookCopy = new Rook(*this);
+                    copy.getCell(dx, dy).addChessPiece(rookCopy);
+                    copy.getCell(sx, sy).removeChessPiece();
+                    copy.addBlackOrWhitePieceCell(&copy.getCell(dx,dy));
+                    copy.removeBlackOrWhitePieceCell();
+
+                    if (copy.checked(this->getColour())) {
+                        return false;
+                    } else {
+                        destination.deleteChessPiece();
+                        destination.addChessPiece(this);
+                        start.removeChessPiece();
+                        numMoves++;
+                        return true;
+                    }
                 }
                 x++;
             }
@@ -477,7 +677,12 @@ void Rook::determineLegalMoves(Cell & start, Board & b) {
 
     while (y >= 0) {
         if (!b.cellEmpty(sx, y) && b.getCell(sx, y).getChessPiece()->getColour() != start.getChessPiece()->getColour()) {
-            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx,y)});
+            
+            Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                
+            if (copy.activateMove(copy.getCell(sx, sy), copy.getCell(sx, y))) {
+                b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx, y)});
+            }
             break;
         }
 
@@ -486,7 +691,12 @@ void Rook::determineLegalMoves(Cell & start, Board & b) {
         }
 
         if (b.cellEmpty(sx, y)) {
-            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx,y)});
+            Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                
+            if (copy.activateMove(copy.getCell(sx, sy), copy.getCell(sx, y))) {
+                b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx, y)});
+            }
+
         }
         y--;
     }
@@ -495,7 +705,11 @@ void Rook::determineLegalMoves(Cell & start, Board & b) {
     y = sy + 1;
     while (y < b.getBoardSize()) {
         if (!b.cellEmpty(sx, y) && b.getCell(sx, y).getChessPiece()->getColour() != start.getChessPiece()->getColour()) {
-            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx,y)});
+            Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                
+            if (copy.activateMove(copy.getCell(sx, sy), copy.getCell(sx, y))) {
+                b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx, y)});
+            }
             break;
         }
 
@@ -504,7 +718,11 @@ void Rook::determineLegalMoves(Cell & start, Board & b) {
         }
 
         if (b.cellEmpty(sx, y)) {
-            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx,y)});
+            Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                
+            if (copy.activateMove(copy.getCell(sx, sy), copy.getCell(sx, y))) {
+                b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx, y)});
+            }
         }
         y++;
     }
@@ -516,7 +734,12 @@ void Rook::determineLegalMoves(Cell & start, Board & b) {
 
     while (x >= 0) {
         if (!b.cellEmpty(x, sy) && b.getCell(x, sy).getChessPiece()->getColour() != start.getChessPiece()->getColour()) {
-            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x,sy)});
+            Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                
+            if (copy.activateMove(copy.getCell(sx, sy), copy.getCell(x, sy))) {
+                b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x, sy)});
+            }
+
             break;
         }
 
@@ -525,7 +748,11 @@ void Rook::determineLegalMoves(Cell & start, Board & b) {
         }
 
         if (b.cellEmpty(x, sy)) {
-            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x,sy)});
+            Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                
+            if (copy.activateMove(copy.getCell(sx, sy), copy.getCell(x, sy))) {
+                b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x, sy)});
+            }
         }
         x--;
     }
@@ -534,7 +761,11 @@ void Rook::determineLegalMoves(Cell & start, Board & b) {
     x = sx + 1;
     while (x < b.getBoardSize()) {
         if (!b.cellEmpty(x, sy) && b.getCell(x, sy).getChessPiece()->getColour() != start.getChessPiece()->getColour()) {
-            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x,sy)});
+            Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                
+            if (copy.activateMove(copy.getCell(sx, sy), copy.getCell(x, sy))) {
+                b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x, sy)});
+            }
             break;
         }
 
@@ -543,7 +774,11 @@ void Rook::determineLegalMoves(Cell & start, Board & b) {
         }
 
         if (b.cellEmpty(x, sy)) {
-            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x,sy)});
+            Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                
+            if (copy.activateMove(copy.getCell(sx, sy), copy.getCell(x, sy))) {
+                b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x, sy)});
+            }
         }
         x++;
     }
@@ -580,66 +815,162 @@ bool Knight::movePiece(Cell & start, Cell & destination, Board & b) {
 
     // dest is top-left
     if (dx == sx - 1 && dy == sy - 2) {
-        destination.deleteChessPiece();
-        destination.addChessPiece(this);
-        start.removeChessPiece();
-        return true;
+        Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+        copy.getCell(dx, dy).deleteChessPiece();
+        ChessPiece * knightCopy = new Knight(*this);
+        copy.getCell(dx, dy).addChessPiece(knightCopy);
+        copy.getCell(sx, sy).removeChessPiece();
+        copy.addBlackOrWhitePieceCell(&copy.getCell(dx,dy));
+        copy.removeBlackOrWhitePieceCell();
+
+        if (copy.checked(this->getColour())) {
+            return false;
+        } else {
+            destination.deleteChessPiece();
+            destination.addChessPiece(this);
+            start.removeChessPiece();
+            return true;
+        }
     }
 
     // dest is top-right
     if (dx == sx + 1 && dy == sy - 2) {
-        destination.deleteChessPiece();
-        destination.addChessPiece(this);
-        start.removeChessPiece();
-        return true;
+        Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+        copy.getCell(dx, dy).deleteChessPiece();
+        ChessPiece * knightCopy = new Knight(*this);
+        copy.getCell(dx, dy).addChessPiece(knightCopy);
+        copy.getCell(sx, sy).removeChessPiece();
+        copy.addBlackOrWhitePieceCell(&copy.getCell(dx,dy));
+        copy.removeBlackOrWhitePieceCell();
+
+        if (copy.checked(this->getColour())) {
+            return false;
+        } else {
+            destination.deleteChessPiece();
+            destination.addChessPiece(this);
+            start.removeChessPiece();
+            return true;
+        }
     }
 
     // dest is right-top
     if (dx == sx + 2 && dy == sy - 1) {
-        destination.deleteChessPiece();
-        destination.addChessPiece(this);
-        start.removeChessPiece();
-        return true;
+        Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+        copy.getCell(dx, dy).deleteChessPiece();
+        ChessPiece * knightCopy = new Knight(*this);
+        copy.getCell(dx, dy).addChessPiece(knightCopy);
+        copy.getCell(sx, sy).removeChessPiece();
+        copy.addBlackOrWhitePieceCell(&copy.getCell(dx,dy));
+        copy.removeBlackOrWhitePieceCell();
+
+        if (copy.checked(this->getColour())) {
+            return false;
+        } else {
+            destination.deleteChessPiece();
+            destination.addChessPiece(this);
+            start.removeChessPiece();
+            return true;
+        }
     }
 
     // dest is right-bottom
     if (dx == sx + 2 && dy == sy + 1) {
-        destination.deleteChessPiece();
-        destination.addChessPiece(this);
-        start.removeChessPiece();
-        return true;
+        Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+        copy.getCell(dx, dy).deleteChessPiece();
+        ChessPiece * knightCopy = new Knight(*this);
+        copy.getCell(dx, dy).addChessPiece(knightCopy);
+        copy.getCell(sx, sy).removeChessPiece();
+        copy.addBlackOrWhitePieceCell(&copy.getCell(dx,dy));
+        copy.removeBlackOrWhitePieceCell();
+
+        if (copy.checked(this->getColour())) {
+            return false;
+        } else {
+            destination.deleteChessPiece();
+            destination.addChessPiece(this);
+            start.removeChessPiece();
+            return true;
+        }
     }
 
     // dest is bottom-right
     if (dx == sx + 1 && dy == sy + 2) {
-        destination.deleteChessPiece();
-        destination.addChessPiece(this);
-        start.removeChessPiece();
-        return true;
+        Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+        copy.getCell(dx, dy).deleteChessPiece();
+        ChessPiece * knightCopy = new Knight(*this);
+        copy.getCell(dx, dy).addChessPiece(knightCopy);
+        copy.getCell(sx, sy).removeChessPiece();
+        copy.addBlackOrWhitePieceCell(&copy.getCell(dx,dy));
+        copy.removeBlackOrWhitePieceCell();
+
+        if (copy.checked(this->getColour())) {
+            return false;
+        } else {
+            destination.deleteChessPiece();
+            destination.addChessPiece(this);
+            start.removeChessPiece();
+            return true;
+        }
     }
 
     // dest is bottom-left
     if (dx == sx - 1 && dy == sy + 2) {
-        destination.deleteChessPiece();
-        destination.addChessPiece(this);
-        start.removeChessPiece();
-        return true;
+        Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+        copy.getCell(dx, dy).deleteChessPiece();
+        ChessPiece * knightCopy = new Knight(*this);
+        copy.getCell(dx, dy).addChessPiece(knightCopy);
+        copy.getCell(sx, sy).removeChessPiece();
+        copy.addBlackOrWhitePieceCell(&copy.getCell(dx,dy));
+        copy.removeBlackOrWhitePieceCell();
+
+        if (copy.checked(this->getColour())) {
+            return false;
+        } else {
+            destination.deleteChessPiece();
+            destination.addChessPiece(this);
+            start.removeChessPiece();
+            return true;
+        }
     }
 
     // dest is left-bottom
     if (dx == sx - 2 && dy == sy + 1) {
-        destination.deleteChessPiece();
-        destination.addChessPiece(this);
-        start.removeChessPiece();
-        return true;
+        Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+        copy.getCell(dx, dy).deleteChessPiece();
+        ChessPiece * knightCopy = new Knight(*this);
+        copy.getCell(dx, dy).addChessPiece(knightCopy);
+        copy.getCell(sx, sy).removeChessPiece();
+        copy.addBlackOrWhitePieceCell(&copy.getCell(dx,dy));
+        copy.removeBlackOrWhitePieceCell();
+
+        if (copy.checked(this->getColour())) {
+            return false;
+        } else {
+            destination.deleteChessPiece();
+            destination.addChessPiece(this);
+            start.removeChessPiece();
+            return true;
+        }
     }
 
     // dest is left-top
     if (dx == sx - 2 && dy == sy - 1) {
-        destination.deleteChessPiece();
-        destination.addChessPiece(this);
-        start.removeChessPiece();
-        return true;
+        Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+        copy.getCell(dx, dy).deleteChessPiece();
+        ChessPiece * knightCopy = new Knight(*this);
+        copy.getCell(dx, dy).addChessPiece(knightCopy);
+        copy.getCell(sx, sy).removeChessPiece();
+        copy.addBlackOrWhitePieceCell(&copy.getCell(dx,dy));
+        copy.removeBlackOrWhitePieceCell();
+
+        if (copy.checked(this->getColour())) {
+            return false;
+        } else {
+            destination.deleteChessPiece();
+            destination.addChessPiece(this);
+            start.removeChessPiece();
+            return true;
+        }
     }
 
 
@@ -725,21 +1056,37 @@ void Knight::determineLegalMoves(Cell & start, Board & b) {
     // dest top-left
     if (0 <= sx - 1 && sx - 1 < b.getBoardSize() && 0 <= sy - 2 && sy - 2 < b.getBoardSize()) {
         if (b.cellEmpty(sx - 1, sy - 2) || (!b.cellEmpty(sx - 1, sy - 2) && b.getCell(sx - 1, sy - 2).getChessPiece()->getColour() != start.getChessPiece()->getColour())) {
-            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx - 1, sy - 2)});
+            Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                
+            if (copy.activateMove(copy.getCell(sx, sy), copy.getCell(sx - 1, sy - 2))) {
+                b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx - 1, sy - 2)});
+            }
+
         }
     }
 
     // dest is top-right
     if (0 <= sx + 1 && sx + 1 < b.getBoardSize() && 0 <= sy - 2 && sy - 2 < b.getBoardSize()) {
         if (b.cellEmpty(sx + 1, sy - 2) || (!b.cellEmpty(sx + 1, sy - 2) && b.getCell(sx + 1, sy - 2).getChessPiece()->getColour() != start.getChessPiece()->getColour())) {
-            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx + 1, sy - 2)});
+            Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                
+            if (copy.activateMove(copy.getCell(sx, sy), copy.getCell(sx + 1, sy - 2))) {
+                b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx + 1, sy - 2)});
+            }
+            
+            
         }
     }
 
     // dest is right-top
     if (0 <= sx + 2 && sx + 2 < b.getBoardSize() && 0 <= sy - 1 && sy - 1 < b.getBoardSize()) {
         if (b.cellEmpty(sx + 2, sy - 1) || (!b.cellEmpty(sx + 2, sy - 1) && b.getCell(sx + 2, sy - 1).getChessPiece()->getColour() != start.getChessPiece()->getColour())) {
-            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx + 2, sy - 1)});
+            Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+            
+            if (copy.activateMove(copy.getCell(sx, sy), copy.getCell(sx + 2, sy - 1))) {
+                b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx + 2, sy - 1)});
+            }
+    
         }
     }
 
@@ -747,35 +1094,65 @@ void Knight::determineLegalMoves(Cell & start, Board & b) {
     // dest is right-bottom
     if (0 <= sx + 2 && sx + 2 < b.getBoardSize() && 0 <= sy + 1 && sy + 1 < b.getBoardSize()) {
         if (b.cellEmpty(sx + 2, sy + 1) || (!b.cellEmpty(sx + 2, sy + 1) && b.getCell(sx + 2, sy + 1).getChessPiece()->getColour() != start.getChessPiece()->getColour())) {
-            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx + 2, sy + 1)});
+            
+            Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+            
+            if (copy.activateMove(copy.getCell(sx, sy), copy.getCell(sx + 2, sy + 1))) {
+                b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx + 2, sy + 1)});
+            }
+
         }
     }
 
     // dest is bottom-right
     if (0 <= sx + 1 && sx + 1 < b.getBoardSize() && 0 <= sy + 2 && sy + 2 < b.getBoardSize()) {
         if (b.cellEmpty(sx + 1, sy + 2) || (!b.cellEmpty(sx + 1, sy + 2) && b.getCell(sx + 1, sy + 2).getChessPiece()->getColour() != start.getChessPiece()->getColour())) {
-            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx + 1, sy + 2)});
+            
+            Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+            
+            if (copy.activateMove(copy.getCell(sx, sy), copy.getCell(sx + 1, sy + 2))) {
+                b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx + 1, sy + 2)});
+            }
+
         }
     }
 
     // dest is bottom-left
     if (0 <= sx - 1 && sx - 1 < b.getBoardSize() && 0 <= sy + 2 && sy + 2 < b.getBoardSize()) {
         if (b.cellEmpty(sx - 1, sy + 2) || (!b.cellEmpty(sx - 1, sy + 2) && b.getCell(sx - 1, sy + 2).getChessPiece()->getColour() != start.getChessPiece()->getColour())) {
-            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx - 1, sy + 2)});
+            
+            Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+            
+            if (copy.activateMove(copy.getCell(sx, sy), copy.getCell(sx - 1, sy + 2))) {
+                b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx - 1, sy + 2)});
+            }
+
         }
     }
 
     // dest is left-bottom
     if (0 <= sx - 2 && sx - 2 < b.getBoardSize() && 0 <= sy + 1 && sy + 1 < b.getBoardSize()) {
         if (b.cellEmpty(sx - 2, sy + 1) || (!b.cellEmpty(sx - 2, sy + 1) && b.getCell(sx - 2, sy + 1).getChessPiece()->getColour() != start.getChessPiece()->getColour())) {
-            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx - 2, sy + 1)});
+            
+            Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+            
+            if (copy.activateMove(copy.getCell(sx, sy), copy.getCell(sx - 2, sy + 1))) {
+                b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx - 2, sy + 1)});
+            }
+            
         }
     }
 
     // dest is left-top
     if (0 <= sx - 2 && sx - 2 < b.getBoardSize() && 0 <= sy - 1 && sy - 1 < b.getBoardSize()) {
         if (b.cellEmpty(sx - 2, sy - 1) || (!b.cellEmpty(sx - 2, sy - 1) && b.getCell(sx - 2, sy - 1).getChessPiece()->getColour() != start.getChessPiece()->getColour())) {
-            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx - 2, sy - 1)});
+            
+            Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+            
+            if (copy.activateMove(copy.getCell(sx, sy), copy.getCell(sx - 2, sy - 1))) {
+                b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx - 2, sy - 1)});
+            }
+
         }
     }
 
@@ -820,10 +1197,22 @@ bool Bishop::movePiece(Cell & start, Cell & destination, Board & b) {
             }
 
             if (x == dx && y == dy) {
-                destination.deleteChessPiece();
-                destination.addChessPiece(this);
-                start.removeChessPiece();
-                return true;
+                Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                copy.getCell(dx, dy).deleteChessPiece();
+                ChessPiece * bishopCopy = new Bishop(*this);
+                copy.getCell(dx, dy).addChessPiece(bishopCopy);
+                copy.getCell(sx, sy).removeChessPiece();
+                copy.addBlackOrWhitePieceCell(&copy.getCell(dx,dy));
+                copy.removeBlackOrWhitePieceCell();
+
+                if (copy.checked(this->getColour())) {
+                    return false;
+                } else {
+                    destination.deleteChessPiece();
+                    destination.addChessPiece(this);
+                    start.removeChessPiece();
+                    return true;
+                }
             }
 
             x++;
@@ -841,10 +1230,22 @@ bool Bishop::movePiece(Cell & start, Cell & destination, Board & b) {
             }
 
             if (x == dx && y == dy) {
-                destination.deleteChessPiece();
-                destination.addChessPiece(this);
-                start.removeChessPiece();
-                return true;
+                Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                copy.getCell(dx, dy).deleteChessPiece();
+                ChessPiece * bishopCopy = new Bishop(*this);
+                copy.getCell(dx, dy).addChessPiece(bishopCopy);
+                copy.getCell(sx, sy).removeChessPiece();
+                copy.addBlackOrWhitePieceCell(&copy.getCell(dx,dy));
+                copy.removeBlackOrWhitePieceCell();
+
+                if (copy.checked(this->getColour())) {
+                    return false;
+                } else {
+                    destination.deleteChessPiece();
+                    destination.addChessPiece(this);
+                    start.removeChessPiece();
+                    return true;
+                }
             }
 
             x++;
@@ -863,10 +1264,22 @@ bool Bishop::movePiece(Cell & start, Cell & destination, Board & b) {
             }
 
             if (x == dx && y == dy) {
-                destination.deleteChessPiece();
-                destination.addChessPiece(this);
-                start.removeChessPiece();
-                return true;
+                Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                copy.getCell(dx, dy).deleteChessPiece();
+                ChessPiece * bishopCopy = new Bishop(*this);
+                copy.getCell(dx, dy).addChessPiece(bishopCopy);
+                copy.getCell(sx, sy).removeChessPiece();
+                copy.addBlackOrWhitePieceCell(&copy.getCell(dx,dy));
+                copy.removeBlackOrWhitePieceCell();
+
+                if (copy.checked(this->getColour())) {
+                    return false;
+                } else {
+                    destination.deleteChessPiece();
+                    destination.addChessPiece(this);
+                    start.removeChessPiece();
+                    return true;
+                }
             }
 
             x--;
@@ -886,10 +1299,22 @@ bool Bishop::movePiece(Cell & start, Cell & destination, Board & b) {
             }
 
             if (x == dx && y == dy) {
-                destination.deleteChessPiece();
-                destination.addChessPiece(this);
-                start.removeChessPiece();
-                return true;
+                Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                copy.getCell(dx, dy).deleteChessPiece();
+                ChessPiece * bishopCopy = new Bishop(*this);
+                copy.getCell(dx, dy).addChessPiece(bishopCopy);
+                copy.getCell(sx, sy).removeChessPiece();
+                copy.addBlackOrWhitePieceCell(&copy.getCell(dx,dy));
+                copy.removeBlackOrWhitePieceCell();
+
+                if (copy.checked(this->getColour())) {
+                    return false;
+                } else {
+                    destination.deleteChessPiece();
+                    destination.addChessPiece(this);
+                    start.removeChessPiece();
+                    return true;
+                }
             }
 
             x--;
@@ -1022,7 +1447,12 @@ void Bishop::determineLegalMoves(Cell & start, Board & b) {
 
     while (x < b.getBoardSize() && y >= 0) {
         if (!b.cellEmpty(x,y) && b.getCell(x, y).getChessPiece()->getColour() != start.getChessPiece()->getColour()) {
-            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x,y)});
+            Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                
+            if (copy.activateMove(copy.getCell(sx, sy), copy.getCell(x, y))) {
+                b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x, y)});
+            }
+            
             break;
         }
 
@@ -1031,7 +1461,11 @@ void Bishop::determineLegalMoves(Cell & start, Board & b) {
         }
 
         if (b.cellEmpty(x,y)) {
-            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x,y)});
+            Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                
+            if (copy.activateMove(copy.getCell(sx, sy), copy.getCell(x, y))) {
+                b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x, y)});
+            }
         }
 
         x++;
@@ -1045,7 +1479,12 @@ void Bishop::determineLegalMoves(Cell & start, Board & b) {
 
     while (x < b.getBoardSize() && y < b.getBoardSize()) {
         if (!b.cellEmpty(x,y) && b.getCell(x, y).getChessPiece()->getColour() != start.getChessPiece()->getColour()) {
-            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x,y)});
+            Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                
+            if (copy.activateMove(copy.getCell(sx, sy), copy.getCell(x, y))) {
+                b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x, y)});
+            }
+
             break;
         }
 
@@ -1054,7 +1493,11 @@ void Bishop::determineLegalMoves(Cell & start, Board & b) {
         }
 
         if (b.cellEmpty(x,y)) {
-            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x,y)});
+            Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                
+            if (copy.activateMove(copy.getCell(sx, sy), copy.getCell(x, y))) {
+                b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x, y)});
+            }
         }
 
         x++;
@@ -1068,7 +1511,11 @@ void Bishop::determineLegalMoves(Cell & start, Board & b) {
 
     while (x >= 0 && y < b.getBoardSize()) {
         if (!b.cellEmpty(x,y) && b.getCell(x, y).getChessPiece()->getColour() != start.getChessPiece()->getColour()) {
-            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x,y)});
+            Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                
+            if (copy.activateMove(copy.getCell(sx, sy), copy.getCell(x, y))) {
+                b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x, y)});
+            }
             break;
         }
 
@@ -1077,7 +1524,11 @@ void Bishop::determineLegalMoves(Cell & start, Board & b) {
         }
 
         if (b.cellEmpty(x,y)) {
-            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x,y)});
+            Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                
+            if (copy.activateMove(copy.getCell(sx, sy), copy.getCell(x, y))) {
+                b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x, y)});
+            }
         }
 
         x--;
@@ -1092,7 +1543,11 @@ void Bishop::determineLegalMoves(Cell & start, Board & b) {
 
     while (x >= 0 && y >= 0) {
         if (!b.cellEmpty(x,y) && b.getCell(x, y).getChessPiece()->getColour() != start.getChessPiece()->getColour()) {
-            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x,y)});
+            Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                
+            if (copy.activateMove(copy.getCell(sx, sy), copy.getCell(x, y))) {
+                b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x, y)});
+            }
             break;
         }
 
@@ -1101,7 +1556,11 @@ void Bishop::determineLegalMoves(Cell & start, Board & b) {
         }
 
         if (b.cellEmpty(x,y)) {
-            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x,y)});
+            Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                
+            if (copy.activateMove(copy.getCell(sx, sy), copy.getCell(x, y))) {
+                b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x, y)});
+            }
         }
 
         x--;
@@ -1149,10 +1608,22 @@ bool Queen::movePiece(Cell & start, Cell & destination, Board & b) {
             }
 
             if (x == dx && y == dy) {
-                destination.deleteChessPiece();
-                destination.addChessPiece(this);
-                start.removeChessPiece();
-                return true;
+                Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                copy.getCell(dx, dy).deleteChessPiece();
+                ChessPiece * queenCopy = new Queen(*this);
+                copy.getCell(dx, dy).addChessPiece(queenCopy);
+                copy.getCell(sx, sy).removeChessPiece();
+                copy.addBlackOrWhitePieceCell(&copy.getCell(dx,dy));
+                copy.removeBlackOrWhitePieceCell();
+
+                if (copy.checked(this->getColour())) {
+                    return false;
+                } else {
+                    destination.deleteChessPiece();
+                    destination.addChessPiece(this);
+                    start.removeChessPiece();
+                    return true;
+                }
             }
 
             x++;
@@ -1170,10 +1641,22 @@ bool Queen::movePiece(Cell & start, Cell & destination, Board & b) {
             }
 
             if (x == dx && y == dy) {
-                destination.deleteChessPiece();
-                destination.addChessPiece(this);
-                start.removeChessPiece();
-                return true;
+                Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                copy.getCell(dx, dy).deleteChessPiece();
+                ChessPiece * queenCopy = new Queen(*this);
+                copy.getCell(dx, dy).addChessPiece(queenCopy);
+                copy.getCell(sx, sy).removeChessPiece();
+                copy.addBlackOrWhitePieceCell(&copy.getCell(dx,dy));
+                copy.removeBlackOrWhitePieceCell();
+
+                if (copy.checked(this->getColour())) {
+                    return false;
+                } else {
+                    destination.deleteChessPiece();
+                    destination.addChessPiece(this);
+                    start.removeChessPiece();
+                    return true;
+                }
             }
 
             x++;
@@ -1192,10 +1675,22 @@ bool Queen::movePiece(Cell & start, Cell & destination, Board & b) {
             }
 
             if (x == dx && y == dy) {
-                destination.deleteChessPiece();
-                destination.addChessPiece(this);
-                start.removeChessPiece();
-                return true;
+                Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                copy.getCell(dx, dy).deleteChessPiece();
+                ChessPiece * queenCopy = new Queen(*this);
+                copy.getCell(dx, dy).addChessPiece(queenCopy);
+                copy.getCell(sx, sy).removeChessPiece();
+                copy.addBlackOrWhitePieceCell(&copy.getCell(dx,dy));
+                copy.removeBlackOrWhitePieceCell();
+
+                if (copy.checked(this->getColour())) {
+                    return false;
+                } else {
+                    destination.deleteChessPiece();
+                    destination.addChessPiece(this);
+                    start.removeChessPiece();
+                    return true;
+                }
             }
 
             x--;
@@ -1215,10 +1710,22 @@ bool Queen::movePiece(Cell & start, Cell & destination, Board & b) {
             }
 
             if (x == dx && y == dy) {
-                destination.deleteChessPiece();
-                destination.addChessPiece(this);
-                start.removeChessPiece();
-                return true;
+                Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                copy.getCell(dx, dy).deleteChessPiece();
+                ChessPiece * queenCopy = new Queen(*this);
+                copy.getCell(dx, dy).addChessPiece(queenCopy);
+                copy.getCell(sx, sy).removeChessPiece();
+                copy.addBlackOrWhitePieceCell(&copy.getCell(dx,dy));
+                copy.removeBlackOrWhitePieceCell();
+
+                if (copy.checked(this->getColour())) {
+                    return false;
+                } else {
+                    destination.deleteChessPiece();
+                    destination.addChessPiece(this);
+                    start.removeChessPiece();
+                    return true;
+                }
             }
 
             x--;
@@ -1241,10 +1748,23 @@ bool Queen::movePiece(Cell & start, Cell & destination, Board & b) {
                 }
 
                 if (y == dy) {
-                    destination.deleteChessPiece();
-                    destination.addChessPiece(this);
-                    start.removeChessPiece();
-                    return true;
+
+                    Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                    copy.getCell(dx, dy).deleteChessPiece();
+                    ChessPiece * queenCopy = new Queen(*this);
+                    copy.getCell(dx, dy).addChessPiece(queenCopy);
+                    copy.getCell(sx, sy).removeChessPiece();
+                    copy.addBlackOrWhitePieceCell(&copy.getCell(dx,dy));
+                    copy.removeBlackOrWhitePieceCell();
+
+                    if (copy.checked(this->getColour())) {
+                        return false;
+                    } else {
+                        destination.deleteChessPiece();
+                        destination.addChessPiece(this);
+                        start.removeChessPiece();
+                        return true;
+                    }
                 }
                 y--;
             }
@@ -1257,14 +1777,25 @@ bool Queen::movePiece(Cell & start, Cell & destination, Board & b) {
                 }
 
                 if (y == dy) {
-                    destination.deleteChessPiece();
-                    destination.addChessPiece(this);
-                    start.removeChessPiece();
-                    return true;
+                    Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                    copy.getCell(dx, dy).deleteChessPiece();
+                    ChessPiece * queenCopy = new Queen(*this);
+                    copy.getCell(dx, dy).addChessPiece(queenCopy);
+                    copy.getCell(sx, sy).removeChessPiece();
+                    copy.addBlackOrWhitePieceCell(&copy.getCell(dx,dy));
+                    copy.removeBlackOrWhitePieceCell();
+
+                    if (copy.checked(this->getColour())) {
+                        return false;
+                    } else {
+                        destination.deleteChessPiece();
+                        destination.addChessPiece(this);
+                        start.removeChessPiece();
+                        return true;
+                    }
                 }
                 y++;
             }
-
         }
 
     } else if (sy == dy) { // moving horizontally
@@ -1279,10 +1810,22 @@ bool Queen::movePiece(Cell & start, Cell & destination, Board & b) {
                 }
 
                 if (x == dx) {
-                    destination.deleteChessPiece();
-                    destination.addChessPiece(this);
-                    start.removeChessPiece();
-                    return true;
+                    Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                    copy.getCell(dx, dy).deleteChessPiece();
+                    ChessPiece * queenCopy = new Queen(*this);
+                    copy.getCell(dx, dy).addChessPiece(queenCopy);
+                    copy.getCell(sx, sy).removeChessPiece();
+                    copy.addBlackOrWhitePieceCell(&copy.getCell(dx,dy));
+                    copy.removeBlackOrWhitePieceCell();
+
+                    if (copy.checked(this->getColour())) {
+                        return false;
+                    } else {
+                        destination.deleteChessPiece();
+                        destination.addChessPiece(this);
+                        start.removeChessPiece();
+                        return true;
+                    }
                 }
                 x--;
             }
@@ -1295,10 +1838,22 @@ bool Queen::movePiece(Cell & start, Cell & destination, Board & b) {
                 }
 
                 if (x == dx) {
-                    destination.deleteChessPiece();
-                    destination.addChessPiece(this);
-                    start.removeChessPiece();
-                    return true;
+                    Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                    copy.getCell(dx, dy).deleteChessPiece();
+                    ChessPiece * queenCopy = new Queen(*this);
+                    copy.getCell(dx, dy).addChessPiece(queenCopy);
+                    copy.getCell(sx, sy).removeChessPiece();
+                    copy.addBlackOrWhitePieceCell(&copy.getCell(dx,dy));
+                    copy.removeBlackOrWhitePieceCell();
+
+                    if (copy.checked(this->getColour())) {
+                        return false;
+                    } else {
+                        destination.deleteChessPiece();
+                        destination.addChessPiece(this);
+                        start.removeChessPiece();
+                        return true;
+                    }
                 }
                 x++;
             }
@@ -1494,7 +2049,12 @@ void Queen::determineLegalMoves(Cell & start, Board & b) {
 
     while (y >= 0) {
         if (!b.cellEmpty(sx, y) && b.getCell(sx, y).getChessPiece()->getColour() != start.getChessPiece()->getColour()) {
-            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx,y)});
+            
+            Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                
+            if (copy.activateMove(copy.getCell(sx, sy), copy.getCell(sx, y))) {
+                b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx, y)});
+            }
             break;
         }
 
@@ -1503,7 +2063,12 @@ void Queen::determineLegalMoves(Cell & start, Board & b) {
         }
 
         if (b.cellEmpty(sx, y)) {
-            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx,y)});
+            Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                
+            if (copy.activateMove(copy.getCell(sx, sy), copy.getCell(sx, y))) {
+                b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx, y)});
+            }
+
         }
         y--;
     }
@@ -1512,7 +2077,11 @@ void Queen::determineLegalMoves(Cell & start, Board & b) {
     y = sy + 1;
     while (y < b.getBoardSize()) {
         if (!b.cellEmpty(sx, y) && b.getCell(sx, y).getChessPiece()->getColour() != start.getChessPiece()->getColour()) {
-            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx,y)});
+            Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                
+            if (copy.activateMove(copy.getCell(sx, sy), copy.getCell(sx, y))) {
+                b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx, y)});
+            }
             break;
         }
 
@@ -1521,7 +2090,11 @@ void Queen::determineLegalMoves(Cell & start, Board & b) {
         }
 
         if (b.cellEmpty(sx, y)) {
-            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx,y)});
+            Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                
+            if (copy.activateMove(copy.getCell(sx, sy), copy.getCell(sx, y))) {
+                b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx, y)});
+            }
         }
         y++;
     }
@@ -1533,7 +2106,12 @@ void Queen::determineLegalMoves(Cell & start, Board & b) {
 
     while (x >= 0) {
         if (!b.cellEmpty(x, sy) && b.getCell(x, sy).getChessPiece()->getColour() != start.getChessPiece()->getColour()) {
-            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x,sy)});
+            Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                
+            if (copy.activateMove(copy.getCell(sx, sy), copy.getCell(x, sy))) {
+                b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x, sy)});
+            }
+
             break;
         }
 
@@ -1542,7 +2120,11 @@ void Queen::determineLegalMoves(Cell & start, Board & b) {
         }
 
         if (b.cellEmpty(x, sy)) {
-            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x,sy)});
+            Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                
+            if (copy.activateMove(copy.getCell(sx, sy), copy.getCell(x, sy))) {
+                b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x, sy)});
+            }
         }
         x--;
     }
@@ -1551,7 +2133,11 @@ void Queen::determineLegalMoves(Cell & start, Board & b) {
     x = sx + 1;
     while (x < b.getBoardSize()) {
         if (!b.cellEmpty(x, sy) && b.getCell(x, sy).getChessPiece()->getColour() != start.getChessPiece()->getColour()) {
-            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x,sy)});
+            Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                
+            if (copy.activateMove(copy.getCell(sx, sy), copy.getCell(x, sy))) {
+                b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x, sy)});
+            }
             break;
         }
 
@@ -1560,7 +2146,11 @@ void Queen::determineLegalMoves(Cell & start, Board & b) {
         }
 
         if (b.cellEmpty(x, sy)) {
-            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x,sy)});
+            Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                
+            if (copy.activateMove(copy.getCell(sx, sy), copy.getCell(x, sy))) {
+                b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x, sy)});
+            }
         }
         x++;
     }
@@ -1571,7 +2161,12 @@ void Queen::determineLegalMoves(Cell & start, Board & b) {
 
     while (x < b.getBoardSize() && y >= 0) {
         if (!b.cellEmpty(x,y) && b.getCell(x, y).getChessPiece()->getColour() != start.getChessPiece()->getColour()) {
-            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x,y)});
+            Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                
+            if (copy.activateMove(copy.getCell(sx, sy), copy.getCell(x, y))) {
+                b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x, y)});
+            }
+            
             break;
         }
 
@@ -1580,7 +2175,11 @@ void Queen::determineLegalMoves(Cell & start, Board & b) {
         }
 
         if (b.cellEmpty(x,y)) {
-            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x,y)});
+            Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                
+            if (copy.activateMove(copy.getCell(sx, sy), copy.getCell(x, y))) {
+                b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x, y)});
+            }
         }
 
         x++;
@@ -1594,7 +2193,12 @@ void Queen::determineLegalMoves(Cell & start, Board & b) {
 
     while (x < b.getBoardSize() && y < b.getBoardSize()) {
         if (!b.cellEmpty(x,y) && b.getCell(x, y).getChessPiece()->getColour() != start.getChessPiece()->getColour()) {
-            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x,y)});
+            Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                
+            if (copy.activateMove(copy.getCell(sx, sy), copy.getCell(x, y))) {
+                b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x, y)});
+            }
+
             break;
         }
 
@@ -1603,7 +2207,11 @@ void Queen::determineLegalMoves(Cell & start, Board & b) {
         }
 
         if (b.cellEmpty(x,y)) {
-            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x,y)});
+            Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                
+            if (copy.activateMove(copy.getCell(sx, sy), copy.getCell(x, y))) {
+                b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x, y)});
+            }
         }
 
         x++;
@@ -1617,7 +2225,11 @@ void Queen::determineLegalMoves(Cell & start, Board & b) {
 
     while (x >= 0 && y < b.getBoardSize()) {
         if (!b.cellEmpty(x,y) && b.getCell(x, y).getChessPiece()->getColour() != start.getChessPiece()->getColour()) {
-            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x,y)});
+            Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                
+            if (copy.activateMove(copy.getCell(sx, sy), copy.getCell(x, y))) {
+                b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x, y)});
+            }
             break;
         }
 
@@ -1626,7 +2238,11 @@ void Queen::determineLegalMoves(Cell & start, Board & b) {
         }
 
         if (b.cellEmpty(x,y)) {
-            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x,y)});
+            Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                
+            if (copy.activateMove(copy.getCell(sx, sy), copy.getCell(x, y))) {
+                b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x, y)});
+            }
         }
 
         x--;
@@ -1641,7 +2257,11 @@ void Queen::determineLegalMoves(Cell & start, Board & b) {
 
     while (x >= 0 && y >= 0) {
         if (!b.cellEmpty(x,y) && b.getCell(x, y).getChessPiece()->getColour() != start.getChessPiece()->getColour()) {
-            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x,y)});
+            Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                
+            if (copy.activateMove(copy.getCell(sx, sy), copy.getCell(x, y))) {
+                b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x, y)});
+            }
             break;
         }
 
@@ -1650,7 +2270,11 @@ void Queen::determineLegalMoves(Cell & start, Board & b) {
         }
 
         if (b.cellEmpty(x,y)) {
-            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x,y)});
+            Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                
+            if (copy.activateMove(copy.getCell(sx, sy), copy.getCell(x, y))) {
+                b.addBlackOrWhiteLegalMove(Move{start, b.getCell(x, y)});
+            }
         }
 
         x--;
@@ -1659,10 +2283,11 @@ void Queen::determineLegalMoves(Cell & start, Board & b) {
 }
 
 King::King(Colour colour): ChessPiece{colour, Piece::King, colour == Colour::White ? 'K' : 'k'} {}
-King::King(const King& other): ChessPiece{other} {}
+King::King(const King& other): ChessPiece{other}, numMoves{other.numMoves} {}
 King& King::operator=(const King& other) {
     if (this == &other) return *this;
     ChessPiece::operator=(other);
+    numMoves = other.numMoves;
     return *this;
 }
 King::~King() {}
@@ -1687,66 +2312,170 @@ bool King::movePiece(Cell & start, Cell & destination, Board & b) {
 
     // dest is top
     if (dx == sx && dy == sy - 1) {
-        destination.deleteChessPiece();
-        destination.addChessPiece(this);
-        start.removeChessPiece();
-        return true;
+        Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+        copy.getCell(dx, dy).deleteChessPiece();
+        ChessPiece * kingCopy = new King(*this);
+        copy.getCell(dx, dy).addChessPiece(kingCopy);
+        copy.getCell(sx, sy).removeChessPiece();
+        copy.addBlackOrWhitePieceCell(&copy.getCell(dx,dy));
+        copy.removeBlackOrWhitePieceCell();
+
+        if (copy.checked(this->getColour())) {
+            return false;
+        } else {
+            destination.deleteChessPiece();
+            destination.addChessPiece(this);
+            start.removeChessPiece();
+            numMoves++;
+            return true;
+        }
     }
 
     // dest is top-right
     if (dx == sx + 1 && dy == sy - 1) {
-        destination.deleteChessPiece();
-        destination.addChessPiece(this);
-        start.removeChessPiece();
-        return true;
+        Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+        copy.getCell(dx, dy).deleteChessPiece();
+        ChessPiece * kingCopy = new King(*this);
+        copy.getCell(dx, dy).addChessPiece(kingCopy);
+        copy.getCell(sx, sy).removeChessPiece();
+        copy.addBlackOrWhitePieceCell(&copy.getCell(dx,dy));
+        copy.removeBlackOrWhitePieceCell();
+
+        if (copy.checked(this->getColour())) {
+            return false;
+        } else {
+            destination.deleteChessPiece();
+            destination.addChessPiece(this);
+            start.removeChessPiece();
+            numMoves++;
+            return true;
+        }
     }
 
     // dest is right
     if (dx == sx + 1 && dy == sy) {
-        destination.deleteChessPiece();
-        destination.addChessPiece(this);
-        start.removeChessPiece();
-        return true;
+        Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+        copy.getCell(dx, dy).deleteChessPiece();
+        ChessPiece * kingCopy = new King(*this);
+        copy.getCell(dx, dy).addChessPiece(kingCopy);
+        copy.getCell(sx, sy).removeChessPiece();
+        copy.addBlackOrWhitePieceCell(&copy.getCell(dx,dy));
+        copy.removeBlackOrWhitePieceCell();
+
+        if (copy.checked(this->getColour())) {
+            return false;
+        } else {
+            destination.deleteChessPiece();
+            destination.addChessPiece(this);
+            start.removeChessPiece();
+            numMoves++;
+            return true;
+        }
     }
 
     // dest is bottom-right
     if (dx == sx + 1 && dy == sy + 1) {
-        destination.deleteChessPiece();
-        destination.addChessPiece(this);
-        start.removeChessPiece();
-        return true;
+        Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+        copy.getCell(dx, dy).deleteChessPiece();
+        ChessPiece * kingCopy = new King(*this);
+        copy.getCell(dx, dy).addChessPiece(kingCopy);
+        copy.getCell(sx, sy).removeChessPiece();
+        copy.addBlackOrWhitePieceCell(&copy.getCell(dx,dy));
+        copy.removeBlackOrWhitePieceCell();
+
+        if (copy.checked(this->getColour())) {
+            return false;
+        } else {
+            destination.deleteChessPiece();
+            destination.addChessPiece(this);
+            start.removeChessPiece();
+            numMoves++;
+            return true;
+        }
     }
 
     // dest is bottom
     if (dx == sx && dy == sy + 1) {
-        destination.deleteChessPiece();
-        destination.addChessPiece(this);
-        start.removeChessPiece();
-        return true;
+        Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+        copy.getCell(dx, dy).deleteChessPiece();
+        ChessPiece * kingCopy = new King(*this);
+        copy.getCell(dx, dy).addChessPiece(kingCopy);
+        copy.getCell(sx, sy).removeChessPiece();
+        copy.addBlackOrWhitePieceCell(&copy.getCell(dx,dy));
+        copy.removeBlackOrWhitePieceCell();
+
+        if (copy.checked(this->getColour())) {
+            return false;
+        } else {
+            destination.deleteChessPiece();
+            destination.addChessPiece(this);
+            start.removeChessPiece();
+            numMoves++;
+            return true;
+        }
     }
 
     // dest is bottom-left
     if (dx == sx - 1 && dy == sy + 1) {
-        destination.deleteChessPiece();
-        destination.addChessPiece(this);
-        start.removeChessPiece();
-        return true;
+        Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+        copy.getCell(dx, dy).deleteChessPiece();
+        ChessPiece * kingCopy = new King(*this);
+        copy.getCell(dx, dy).addChessPiece(kingCopy);
+        copy.getCell(sx, sy).removeChessPiece();
+        copy.addBlackOrWhitePieceCell(&copy.getCell(dx,dy));
+        copy.removeBlackOrWhitePieceCell();
+
+        if (copy.checked(this->getColour())) {
+            return false;
+        } else {
+            destination.deleteChessPiece();
+            destination.addChessPiece(this);
+            start.removeChessPiece();
+            numMoves++;
+            return true;
+        }
     }
 
     // dest is left
     if (dx == sx - 1 && dy == sy) {
-        destination.deleteChessPiece();
-        destination.addChessPiece(this);
-        start.removeChessPiece();
-        return true;
+        Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+        copy.getCell(dx, dy).deleteChessPiece();
+        ChessPiece * kingCopy = new King(*this);
+        copy.getCell(dx, dy).addChessPiece(kingCopy);
+        copy.getCell(sx, sy).removeChessPiece();
+        copy.addBlackOrWhitePieceCell(&copy.getCell(dx,dy));
+        copy.removeBlackOrWhitePieceCell();
+
+        if (copy.checked(this->getColour())) {
+            return false;
+        } else {
+            destination.deleteChessPiece();
+            destination.addChessPiece(this);
+            start.removeChessPiece();
+            numMoves++;
+            return true;
+        }
     }
 
     // dest is top-left
     if (dx == sx - 1 && dy == sy - 1) {
-        destination.deleteChessPiece();
-        destination.addChessPiece(this);
-        start.removeChessPiece();
-        return true;
+        Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+        copy.getCell(dx, dy).deleteChessPiece();
+        ChessPiece * kingCopy = new King(*this);
+        copy.getCell(dx, dy).addChessPiece(kingCopy);
+        copy.getCell(sx, sy).removeChessPiece();
+        copy.addBlackOrWhitePieceCell(&copy.getCell(dx,dy));
+        copy.removeBlackOrWhitePieceCell();
+
+        if (copy.checked(this->getColour())) {
+            return false;
+        } else {
+            destination.deleteChessPiece();
+            destination.addChessPiece(this);
+            start.removeChessPiece();
+            numMoves++;
+            return true;
+        }
     }
 
     return false;
@@ -1829,21 +2558,36 @@ void King::determineLegalMoves(Cell & start, Board & b) {
     // dest top
     if (0 <= sx && sx < b.getBoardSize() && 0 <= sy - 1 && sy - 1 < b.getBoardSize()) {
         if (b.cellEmpty(sx, sy - 1) || (!b.cellEmpty(sx, sy - 1) && b.getCell(sx, sy - 1).getChessPiece()->getColour() != start.getChessPiece()->getColour())) {
-            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx, sy - 1)});
+            
+            Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                
+            if (copy.activateMove(copy.getCell(sx, sy), copy.getCell(sx, sy - 1))) {
+                b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx, sy - 1)});
+            }
+
+            
         }
     }
 
     // dest is top-right
     if (0 <= sx + 1 && sx + 1 < b.getBoardSize() && 0 <= sy - 1 && sy - 1 < b.getBoardSize()) {
         if (b.cellEmpty(sx + 1, sy - 1) || (!b.cellEmpty(sx + 1, sy - 1) && b.getCell(sx + 1, sy - 1).getChessPiece()->getColour() != start.getChessPiece()->getColour())) {
-            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx + 1, sy - 1)});
+            Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                
+            if (copy.activateMove(copy.getCell(sx, sy), copy.getCell(sx + 1, sy - 1))) {
+                b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx + 1, sy - 1)});
+            }
         }
     }
 
     // dest is right
     if (0 <= sx + 1 && sx + 1 < b.getBoardSize() && 0 <= sy  && sy  < b.getBoardSize()) {
         if (b.cellEmpty(sx + 1, sy ) || (!b.cellEmpty(sx + 1, sy ) && b.getCell(sx + 1, sy ).getChessPiece()->getColour() != start.getChessPiece()->getColour())) {
-            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx + 1, sy )});
+            Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                
+            if (copy.activateMove(copy.getCell(sx, sy), copy.getCell(sx + 1, sy))) {
+                b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx + 1, sy)});
+            }
         }
     }
 
@@ -1851,35 +2595,55 @@ void King::determineLegalMoves(Cell & start, Board & b) {
     // dest is bottom-right
     if (0 <= sx + 1 && sx + 1 < b.getBoardSize() && 0 <= sy + 1 && sy + 1 < b.getBoardSize()) {
         if (b.cellEmpty(sx + 1, sy + 1) || (!b.cellEmpty(sx + 1, sy + 1) && b.getCell(sx + 1, sy + 1).getChessPiece()->getColour() != start.getChessPiece()->getColour())) {
-            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx + 1, sy + 1)});
+            Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                
+            if (copy.activateMove(copy.getCell(sx, sy), copy.getCell(sx + 1, sy + 1))) {
+                b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx + 1, sy + 1)});
+            }
         }
     }
 
     // dest is bottom
     if (0 <= sx && sx < b.getBoardSize() && 0 <= sy + 1 && sy + 1 < b.getBoardSize()) {
         if (b.cellEmpty(sx, sy + 1) || (!b.cellEmpty(sx, sy + 1) && b.getCell(sx, sy + 1).getChessPiece()->getColour() != start.getChessPiece()->getColour())) {
-            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx, sy + 1)});
+            Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                
+            if (copy.activateMove(copy.getCell(sx, sy), copy.getCell(sx, sy + 1))) {
+                b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx, sy + 1)});
+            }
         }
     }
 
     // dest is bottom-left
     if (0 <= sx - 1 && sx - 1 < b.getBoardSize() && 0 <= sy + 1 && sy + 1 < b.getBoardSize()) {
         if (b.cellEmpty(sx - 1, sy + 1) || (!b.cellEmpty(sx - 1, sy + 1) && b.getCell(sx - 1, sy + 1).getChessPiece()->getColour() != start.getChessPiece()->getColour())) {
-            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx - 1, sy + 1)});
+            Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                
+            if (copy.activateMove(copy.getCell(sx, sy), copy.getCell(sx - 1, sy + 1))) {
+                b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx - 1, sy + 1)});
+            }
         }
     }
 
     // dest is left
     if (0 <= sx - 1 && sx - 1 < b.getBoardSize() && 0 <= sy && sy < b.getBoardSize()) {
         if (b.cellEmpty(sx - 1, sy) || (!b.cellEmpty(sx - 1, sy) && b.getCell(sx - 1, sy).getChessPiece()->getColour() != start.getChessPiece()->getColour())) {
-            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx - 1, sy)});
+            Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                
+            if (copy.activateMove(copy.getCell(sx, sy), copy.getCell(sx - 1, sy))) {
+                b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx - 1, sy)});
+            }
         }
     }
 
     // dest is top-left
     if (0 <= sx - 1 && sx - 1 < b.getBoardSize() && 0 <= sy - 1 && sy - 1 < b.getBoardSize()) {
         if (b.cellEmpty(sx - 1, sy - 1) || (!b.cellEmpty(sx - 1, sy - 1) && b.getCell(sx - 1, sy - 1).getChessPiece()->getColour() != start.getChessPiece()->getColour())) {
-            b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx - 1, sy - 1)});
+            Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                
+            if (copy.activateMove(copy.getCell(sx, sy), copy.getCell(sx - 1, sy - 1))) {
+                b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx - 1, sy - 1)});
+            }
         }
     }
 

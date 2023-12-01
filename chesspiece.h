@@ -45,7 +45,7 @@ class ChessPiece {
 
 class Pawn : public ChessPiece {
 
-    bool firstMove = true;
+    int numMoves = 0;
 
     public:
     Pawn(Colour colour);
@@ -60,7 +60,7 @@ class Pawn : public ChessPiece {
 };
 
 class Rook : public ChessPiece {
-
+    int numMoves = 0;
     public:
     Rook(Colour colour);
     Rook(const Rook& other);
@@ -113,7 +113,7 @@ class Queen : public ChessPiece {
 
 class King : public ChessPiece {
 
-    bool checked = false;
+    int numMoves = 0;
 
     public:
     King(Colour colour);
