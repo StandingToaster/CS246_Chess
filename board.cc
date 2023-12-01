@@ -412,5 +412,11 @@ ostream& operator<<(ostream &out, const Board &b) {
     return out;
 }
 
-
+vector<Cell*> Board::getOccupiedCells(Colour colour) {
+    if (colour == Colour::Black) {
+        return blackPieceCells;
+    } else {
+        return whitePieceCells;
+    }
+}
 

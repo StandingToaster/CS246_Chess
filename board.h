@@ -61,6 +61,8 @@ class Board {
 
     vector<Move> getLegalMoves(Colour colour);
 
+    vector<Cell*> getOccupiedCells(Colour colour);
+
     friend ostream& operator<<(ostream &out, const Board &b);
 
 };
