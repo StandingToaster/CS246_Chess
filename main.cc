@@ -26,7 +26,7 @@ int main() {
     b.setPieceOnBoard(new Queen(Colour::White), 1, 1);
 
     cout << b << endl;
-
+    
     // b.calculateAllLegalMoves();
     // // b.printWhiteLegalMoves();
 
