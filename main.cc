@@ -7,24 +7,16 @@
 
 using namespace std;
 
-int main() {
-    // srand((unsigned) time(NULL));
-    // int N = 100;
-
-    // for (int i = 0; i < 25; ++i) {
-    //     int random = rand() % N;
-    //     cout << random << endl;
-    // }
-    
+int main() {    
 
     Board b;
-    b.setEmptyBoard();
+    b.setDefaultBoard();
 
     // b.setPieceOnBoard(new Queen(Colour::Black), 1, 3);
-    b.setPieceOnBoard(new King(Colour::Black), 0, 0);
+    // b.setPieceOnBoard(new King(Colour::Black), 0, 0);
 
-    b.setPieceOnBoard(new King(Colour::White), 7, 7);
-    b.setPieceOnBoard(new Queen(Colour::White), 1, 1);
+    // b.setPieceOnBoard(new King(Colour::White), 7, 7);
+    // b.setPieceOnBoard(new Queen(Colour::White), 1, 1);
 
     cout << b << endl;
     
