@@ -33,6 +33,8 @@ class ChessPiece {
         Piece getPiece();
         int getNumMoves();
         bool getMovedTwo();
+
+        void incrementNumMoves();
         // moves a piece based on the type of piece and its associated rules.
         virtual bool movePiece(Cell & start, Cell & destination, Board & b) = 0; // pure virtual
 

@@ -20,6 +20,7 @@ int ChessPiece::getNumMoves() {return numMoves;}
 bool ChessPiece::getMovedTwo() {return movedTwo;}
 Colour ChessPiece::getColour() {return colour;}
 Piece ChessPiece::getPiece() {return piece;}
+void ChessPiece::incrementNumMoves() {numMoves++;};
 
 ostream& operator<<(ostream &out, const ChessPiece &cp) {
     out << cp.display;
@@ -2583,6 +2584,87 @@ bool King::movePiece(Cell & start, Cell & destination, Board & b) {
         return false;
     }
 
+    // Castling conditions
+    if (start.getChessPiece()->getNumMoves() == 0 && !b.checked(start.getChessPiece()->getColour()))  { 
+
+        // Castling queen (left) side
+        if (!b.cellEmpty(sx - 4, sy) && b.getCell(sx - 4, sy).getChessPiece()->getPiece() == Piece::Rook && b.getCell(sx - 4, sy).getChessPiece()->getColour() == start.getChessPiece()->getColour()
+            && b.getCell(sx - 4, sy).getChessPiece()->getNumMoves() == 0 && b.cellEmpty(sx - 3, sy) && b.cellEmpty(sx - 2, sy) && b.cellEmpty(sx - 1, sy) 
+            && dx == sx - 2 && dy == sy) {
+
+                Board copy1 = b;
+                // copy1.getCell(dx, dy).deleteChessPiece();
+                ChessPiece * kingCopy1 = new King(*this);
+                copy1.getCell(sx - 1, sy).addChessPiece(kingCopy1);
+                copy1.getCell(sx, sy).removeChessPiece();
+                copy1.addBlackOrWhitePieceCell(&copy1.getCell(sx - 1, sy));
+                copy1.removeBlackOrWhitePieceCell();
+
+                Board copy2 = b;
+                // copy1.getCell(dx, dy).deleteChessPiece();
+                ChessPiece * kingCopy2 = new King(*this);
+                copy2.getCell(sx - 2, sy).addChessPiece(kingCopy2);
+                copy2.getCell(sx, sy).removeChessPiece();
+                copy2.addBlackOrWhitePieceCell(&copy2.getCell(sx - 2, sy));
+                copy2.removeBlackOrWhitePieceCell();
+
+                if (copy1.checked(start.getChessPiece()->getColour()) || copy2.checked(start.getChessPiece()->getColour())) {
+                    return false;
+                } else {
+                    destination.deleteChessPiece();
+                    destination.addChessPiece(this);
+                    start.removeChessPiece();
+                    numMoves++;
+
+                    b.getCell(sx - 1, sy).addChessPiece(b.getCell(sx - 4, sy).getChessPiece());
+                    b.getCell(sx - 4, sy).removeChessPiece();
+                    b.getCell(sx - 1, sy).getChessPiece()->incrementNumMoves();
+                    return true;
+                }
+
+        }   
+
+        // Castling king (right) side
+        if (!b.cellEmpty(sx + 3, sy) && b.getCell(sx + 3, sy).getChessPiece()->getPiece() == Piece::Rook && b.getCell(sx + 3, sy).getChessPiece()->getColour() == start.getChessPiece()->getColour()
+            && b.getCell(sx + 3, sy).getChessPiece()->getNumMoves() == 0 && b.cellEmpty(sx + 2, sy) && b.cellEmpty(sx + 1, sy)
+            && dx == sx + 2 && dy == sy) {
+
+                Board copy1 = b;
+                // copy1.getCell(dx, dy).deleteChessPiece();
+                ChessPiece * kingCopy1 = new King(*this);
+                copy1.getCell(sx + 1, sy).addChessPiece(kingCopy1);
+                copy1.getCell(sx, sy).removeChessPiece();
+                copy1.addBlackOrWhitePieceCell(&copy1.getCell(sx + 1, sy));
+                copy1.removeBlackOrWhitePieceCell();
+
+                Board copy2 = b;
+                // copy1.getCell(dx, dy).deleteChessPiece();
+                ChessPiece * kingCopy2 = new King(*this);
+                copy2.getCell(sx + 2, sy).addChessPiece(kingCopy2);
+                copy2.getCell(sx, sy).removeChessPiece();
+                copy2.addBlackOrWhitePieceCell(&copy2.getCell(sx + 2, sy));
+                copy2.removeBlackOrWhitePieceCell();
+
+                if (copy1.checked(start.getChessPiece()->getColour()) || copy2.checked(start.getChessPiece()->getColour())) {
+                    return false;
+                } else {
+                    destination.deleteChessPiece();
+                    destination.addChessPiece(this);
+                    start.removeChessPiece();
+                    numMoves++;
+
+                    b.getCell(sx + 1, sy).addChessPiece(b.getCell(sx + 3, sy).getChessPiece());
+                    b.getCell(sx + 3, sy).removeChessPiece();
+                    b.getCell(sx + 1, sy).getChessPiece()->incrementNumMoves();
+                    return true;
+                }
+
+        }   
+
+    }
+
+
+
     // dest is top
     if (dx == sx && dy == sy - 1) {
         Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
@@ -2827,6 +2909,40 @@ void King::determineLegalMoves(Cell & start, Board & b) {
     if (start.getChessPiece()->getPiece() != Piece::King) { // start piece is not queen
         return;
     }
+
+    // Castling conditions
+    if (start.getChessPiece()->getNumMoves() == 0 && !b.checked(start.getChessPiece()->getColour()))  { 
+        
+        // Castling queen (left) side
+        if (0 <= sx - 2 && sx - 2 < b.getBoardSize() && 0 <= sy && sy < b.getBoardSize()) {
+            if (!b.cellEmpty(sx - 4, sy) && b.getCell(sx - 4, sy).getChessPiece()->getPiece() == Piece::Rook && b.getCell(sx - 4, sy).getChessPiece()->getColour() == start.getChessPiece()->getColour()
+                && b.getCell(sx - 4, sy).getChessPiece()->getNumMoves() == 0 && b.cellEmpty(sx - 3, sy) && b.cellEmpty(sx - 2, sy) && b.cellEmpty(sx - 1, sy)) {
+                    
+                    Board copy = b;
+                    
+                    if (copy.activateMove(copy.getCell(sx, sy), copy.getCell(sx - 2, sy))) {
+                        b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx - 2, sy)});
+                    }
+
+                }
+        }
+
+        // Castling king (right) side
+        if (0 <= sx + 2 && sx + 2 < b.getBoardSize() && 0 <= sy && sy < b.getBoardSize()) {
+            if (!b.cellEmpty(sx + 3, sy) && b.getCell(sx + 3, sy).getChessPiece()->getPiece() == Piece::Rook && b.getCell(sx + 3, sy).getChessPiece()->getColour() == start.getChessPiece()->getColour()
+                && b.getCell(sx + 3, sy).getChessPiece()->getNumMoves() == 0 && b.cellEmpty(sx + 2, sy) && b.cellEmpty(sx + 1, sy)) {
+                    
+                    Board copy = b;
+                    
+                    if (copy.activateMove(copy.getCell(sx, sy), copy.getCell(sx + 2, sy))) {
+                        b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx + 2, sy)});
+                    }
+
+                }
+        }
+
+    }
+
 
     // dest top
     if (0 <= sx && sx < b.getBoardSize() && 0 <= sy - 1 && sy - 1 < b.getBoardSize()) {

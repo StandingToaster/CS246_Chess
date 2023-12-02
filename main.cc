@@ -10,18 +10,30 @@ using namespace std;
 int main() {    
 
     Board b;
-    b.setEmptyBoard();
+    b.setDefaultBoard();
 
-    b.setPieceOnBoard(new Pawn(Colour::Black), 0, 0);
-    b.setPieceOnBoard(new King(Colour::White), 0, 0);
+    // b.setPieceOnBoard(new King(Colour::Black), 0, 7);
+    // b.setPieceOnBoard(new Rook(Colour::Black), 2 , 7);
+    // // b.setPieceOnBoard(new Queen(Colour::White), 3, 7);
+    // b.setPieceOnBoard(new Rook(Colour::White), 0, 0);
+    // b.setPieceOnBoard(new King(Colour::White), 4, 0);
+    // cout << b << endl;
+
+    // b.activateMove(b.getCell(1,7), b.getCell(0,7));
+    // cout << b.activateMove(b.getCell(4,0), b.getCell(2,0)) << endl;
+    b.calculateAllLegalMoves();
+    b.printWhiteLegalMoves();
+
     cout << b << endl;
 
-    b.printBlackPieceCells();
-    b.printWhitePieceCells();
+    // b.calculateAllLegalMoves();
+    // b.printWhiteLegalMoves();
+    // b.printBlackPieceCells();
+    // b.printWhitePieceCells();
 
-    b.calculateAllLegalMoves();
-    b.printBlackLegalMoves();
-    b.printWhiteLegalMoves();
+    // b.calculateAllLegalMoves();
+    // b.printBlackLegalMoves();
+    // b.printWhiteLegalMoves();
     // b.setPieceOnBoard(new Pawn(Colour::Black), 0, 0);
     // b.printBlackPieceCells();
     // b.setPieceOnBoard(new Rook(Colour::Black), 6, 0);
