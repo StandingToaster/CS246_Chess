@@ -1083,6 +1083,7 @@ bool Knight::movePiece(Cell & start, Cell & destination, Board & b) {
             destination.deleteChessPiece();
             destination.addChessPiece(this);
             start.removeChessPiece();
+            numMoves++;
             return true;
         }
     }
@@ -1103,6 +1104,7 @@ bool Knight::movePiece(Cell & start, Cell & destination, Board & b) {
             destination.deleteChessPiece();
             destination.addChessPiece(this);
             start.removeChessPiece();
+            numMoves++;
             return true;
         }
     }
@@ -1123,6 +1125,7 @@ bool Knight::movePiece(Cell & start, Cell & destination, Board & b) {
             destination.deleteChessPiece();
             destination.addChessPiece(this);
             start.removeChessPiece();
+            numMoves++;
             return true;
         }
     }
@@ -1143,6 +1146,7 @@ bool Knight::movePiece(Cell & start, Cell & destination, Board & b) {
             destination.deleteChessPiece();
             destination.addChessPiece(this);
             start.removeChessPiece();
+            numMoves++;
             return true;
         }
     }
@@ -1163,6 +1167,7 @@ bool Knight::movePiece(Cell & start, Cell & destination, Board & b) {
             destination.deleteChessPiece();
             destination.addChessPiece(this);
             start.removeChessPiece();
+            numMoves++;
             return true;
         }
     }
@@ -1183,6 +1188,7 @@ bool Knight::movePiece(Cell & start, Cell & destination, Board & b) {
             destination.deleteChessPiece();
             destination.addChessPiece(this);
             start.removeChessPiece();
+            numMoves++;
             return true;
         }
     }
@@ -1203,6 +1209,7 @@ bool Knight::movePiece(Cell & start, Cell & destination, Board & b) {
             destination.deleteChessPiece();
             destination.addChessPiece(this);
             start.removeChessPiece();
+            numMoves++;
             return true;
         }
     }
@@ -1223,6 +1230,7 @@ bool Knight::movePiece(Cell & start, Cell & destination, Board & b) {
             destination.deleteChessPiece();
             destination.addChessPiece(this);
             start.removeChessPiece();
+            numMoves++;
             return true;
         }
     }
@@ -1465,6 +1473,7 @@ bool Bishop::movePiece(Cell & start, Cell & destination, Board & b) {
                     destination.deleteChessPiece();
                     destination.addChessPiece(this);
                     start.removeChessPiece();
+                    numMoves++;
                     return true;
                 }
             }
@@ -1498,6 +1507,7 @@ bool Bishop::movePiece(Cell & start, Cell & destination, Board & b) {
                     destination.deleteChessPiece();
                     destination.addChessPiece(this);
                     start.removeChessPiece();
+                    numMoves++;
                     return true;
                 }
             }
@@ -1532,6 +1542,7 @@ bool Bishop::movePiece(Cell & start, Cell & destination, Board & b) {
                     destination.deleteChessPiece();
                     destination.addChessPiece(this);
                     start.removeChessPiece();
+                    numMoves++;
                     return true;
                 }
             }
@@ -1567,6 +1578,7 @@ bool Bishop::movePiece(Cell & start, Cell & destination, Board & b) {
                     destination.deleteChessPiece();
                     destination.addChessPiece(this);
                     start.removeChessPiece();
+                    numMoves++;
                     return true;
                 }
             }
@@ -1876,6 +1888,7 @@ bool Queen::movePiece(Cell & start, Cell & destination, Board & b) {
                     destination.deleteChessPiece();
                     destination.addChessPiece(this);
                     start.removeChessPiece();
+                    numMoves++;
                     return true;
                 }
             }
@@ -1909,6 +1922,7 @@ bool Queen::movePiece(Cell & start, Cell & destination, Board & b) {
                     destination.deleteChessPiece();
                     destination.addChessPiece(this);
                     start.removeChessPiece();
+                    numMoves++;
                     return true;
                 }
             }
@@ -1943,6 +1957,7 @@ bool Queen::movePiece(Cell & start, Cell & destination, Board & b) {
                     destination.deleteChessPiece();
                     destination.addChessPiece(this);
                     start.removeChessPiece();
+                    numMoves++;
                     return true;
                 }
             }
@@ -1978,6 +1993,7 @@ bool Queen::movePiece(Cell & start, Cell & destination, Board & b) {
                     destination.deleteChessPiece();
                     destination.addChessPiece(this);
                     start.removeChessPiece();
+                    numMoves++;
                     return true;
                 }
             }
@@ -2017,6 +2033,7 @@ bool Queen::movePiece(Cell & start, Cell & destination, Board & b) {
                         destination.deleteChessPiece();
                         destination.addChessPiece(this);
                         start.removeChessPiece();
+                        numMoves++;
                         return true;
                     }
                 }
@@ -2045,6 +2062,7 @@ bool Queen::movePiece(Cell & start, Cell & destination, Board & b) {
                         destination.deleteChessPiece();
                         destination.addChessPiece(this);
                         start.removeChessPiece();
+                        numMoves++;
                         return true;
                     }
                 }
@@ -2078,6 +2096,7 @@ bool Queen::movePiece(Cell & start, Cell & destination, Board & b) {
                         destination.deleteChessPiece();
                         destination.addChessPiece(this);
                         start.removeChessPiece();
+                        numMoves++;
                         return true;
                     }
                 }
@@ -2106,6 +2125,7 @@ bool Queen::movePiece(Cell & start, Cell & destination, Board & b) {
                         destination.deleteChessPiece();
                         destination.addChessPiece(this);
                         start.removeChessPiece();
+                        numMoves++;
                         return true;
                     }
                 }
