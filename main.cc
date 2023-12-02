@@ -1,5 +1,6 @@
 #include <iostream>
 #include "board.h"
+#include "controller.h"
 #include "computer.h"
 #include "level1.h"
 #include "level2.h"
@@ -9,8 +10,12 @@ using namespace std;
 
 int main() {    
 
+
     Board b;
-    b.setDefaultBoard();
+    Controller c {&b, nullptr, nullptr};
+    c.playGame(cin, cout);
+    
+    // b.setDefaultBoard();
 
     // b.setPieceOnBoard(new King(Colour::Black), 0, 7);
     // b.setPieceOnBoard(new Rook(Colour::Black), 2 , 7);
@@ -21,10 +26,10 @@ int main() {
 
     // b.activateMove(b.getCell(1,7), b.getCell(0,7));
     // cout << b.activateMove(b.getCell(4,0), b.getCell(2,0)) << endl;
-    b.calculateAllLegalMoves();
-    b.printWhiteLegalMoves();
+    // b.calculateAllLegalMoves();
+    // b.printWhiteLegalMoves();
 
-    cout << b << endl;
+    // cout << b << endl;
 
     // b.calculateAllLegalMoves();
     // b.printWhiteLegalMoves();

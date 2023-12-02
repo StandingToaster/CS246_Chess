@@ -17,6 +17,8 @@ Controller(Board* init, Computer* p1, Computer* p2);
 //Manages the entire game for its duration. Returns true if the game is quit or ends.
 void playGame(istream &in, ostream &out);
 
+// Plays a human v human game of chess. 
+void humanVsHuman(istream & in, ostream & out);
 // ~Controller();
 
 };
