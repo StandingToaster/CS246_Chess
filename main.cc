@@ -14,16 +14,32 @@ int main() {
 
     // b.setPieceOnBoard(new Queen(Colour::Black), 1, 3);
     b.setPieceOnBoard(new King(Colour::Black), 0, 0);
+    b.setPieceOnBoard(new Pawn(Colour::Black), 7, 0);
+    // b.setPieceOnBoard(new Rook(Colour::Black), 6, 0);
 
-    b.setPieceOnBoard(new King(Colour::White), 7, 7);
-    b.setPieceOnBoard(new Queen(Colour::White), 1, 2);
+    b.setPieceOnBoard(new King(Colour::White), 6, 7);
+    b.setPieceOnBoard(new Pawn(Colour::White), 6, 1);
 
     cout << b << endl;
     
+    b.activateMove(b.getCell(7,0), b.getCell(7,2));
+    // b.activateMove(b.getCell(6,4), b.getCell(6,3));
+
+
+    // // b.activateMove(b.getCell(7,4), b.getCell(7,3));
+    cout << b << endl;
 
     b.calculateAllLegalMoves();
-    b.printBlackLegalMoves();
-    cout << b.stalemated() << endl;
+    b.printWhiteLegalMoves();
+
+    // cout << b.attackPossible(b.getCell(6,3), b.getCell(5,2)) << endl;
+    // cout << b << endl;
+
+    // b.activateMove(b.getCell(0,4), b.getCell(-1,5));
+    // cout << b << endl;
+    // b.calculateAllLegalMoves();
+    // b.printBlackLegalMoves();
+    // cout << b.stalemated() << endl;
     // cout << b.checkMated(Colour::Black);
     // cout << b.activateMove(b.getCell(1,3), b.getCell(0,4)) << endl << endl;
     

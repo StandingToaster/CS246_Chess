@@ -19,7 +19,9 @@ class ChessPiece {
     Colour colour;
     Piece piece;
     char display;
-    
+    int numMoves = 0;
+    bool movedTwo = false; // checking if pawn moved up/down 2 spaces last turn, used for en passant checking
+
     public:
         ChessPiece(Colour colour, Piece piece, char display);
         ChessPiece(const ChessPiece& other);
@@ -29,14 +31,16 @@ class ChessPiece {
         
         Colour getColour();
         Piece getPiece();
+        int getNumMoves();
+        bool getMovedTwo();
         // moves a piece based on the type of piece and its associated rules.
         virtual bool movePiece(Cell & start, Cell & destination, Board & b) = 0; // pure virtual
 
         // Determines simply if a piece on the start cell can attack a piece on the destination cell.
         virtual bool canAttack(Cell & start, Cell & destination, Board & b) = 0; // pure virtual
 
-        // Determines all legal moves for a piece located on the start cell and adds them to the list
-        // of 
+        // Determines all legal moves for a piece located on the start cell and adds them to the vector
+        // of black or white legal moves (depending on color of the piece)
         virtual void determineLegalMoves(Cell & start, Board & b) = 0; // pure virtual
 
         friend ostream& operator<<(ostream &out, const ChessPiece &cp);
@@ -44,8 +48,6 @@ class ChessPiece {
 };
 
 class Pawn : public ChessPiece {
-
-    int numMoves = 0;
 
     public:
     Pawn(Colour colour);
@@ -60,7 +62,7 @@ class Pawn : public ChessPiece {
 };
 
 class Rook : public ChessPiece {
-    int numMoves = 0;
+
     public:
     Rook(Colour colour);
     Rook(const Rook& other);
@@ -112,8 +114,6 @@ class Queen : public ChessPiece {
 };
 
 class King : public ChessPiece {
-
-    int numMoves = 0;
 
     public:
     King(Colour colour);

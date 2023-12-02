@@ -2,19 +2,22 @@
 #include "board.h"
 
 ChessPiece::ChessPiece(Colour colour, Piece piece, char display): colour{colour}, piece{piece}, display{display} {}
-ChessPiece::ChessPiece(const ChessPiece& other): colour{other.colour}, piece{other.piece}, display{other.display} {}
+ChessPiece::ChessPiece(const ChessPiece& other): colour{other.colour}, piece{other.piece}, display{other.display}, numMoves{other.numMoves}, movedTwo{other.movedTwo} {}
 ChessPiece& ChessPiece::operator=(const ChessPiece& other) {
     if (this == &other) return *this;
 
     colour = other.colour;
     piece = other.piece;
     display = other.display;
-
+    numMoves = other.numMoves;
+    movedTwo = other.movedTwo;
     return *this;
 }
 
 ChessPiece::~ChessPiece() {}
 
+int ChessPiece::getNumMoves() {return numMoves;}
+bool ChessPiece::getMovedTwo() {return movedTwo;}
 Colour ChessPiece::getColour() {return colour;}
 Piece ChessPiece::getPiece() {return piece;}
 
@@ -25,11 +28,10 @@ ostream& operator<<(ostream &out, const ChessPiece &cp) {
 
 
 Pawn::Pawn(Colour colour): ChessPiece{colour, Piece::Pawn, colour == Colour::White ? 'P' : 'p'} {}
-Pawn::Pawn(const Pawn& other): ChessPiece{other}, numMoves{other.numMoves} {}
+Pawn::Pawn(const Pawn& other): ChessPiece{other} {}
 Pawn& Pawn::operator=(const Pawn& other) {
     if (this == &other) return *this;
     ChessPiece::operator=(other);
-    numMoves = other.numMoves;
     return *this;
 }
 Pawn::~Pawn() {}
@@ -73,11 +75,44 @@ bool Pawn::movePiece(Cell & start, Cell & destination, Board & b) {
                 destination.addChessPiece(this);
                 start.removeChessPiece();
                 numMoves++;
+                if (movedTwo) {
+                    movedTwo = false;
+                }
                 return true;
             }
 
             
         }
+
+        // black pawn attacking bottom left diagonally (en passant), white pawn to the left of starting square
+        if (b.cellEmpty(sx - 1, sy + 1) && !b.cellEmpty(sx - 1, sy)
+            && b.getCell(sx - 1, sy).getChessPiece() != nullptr
+            && b.getCell(sx - 1, sy).getChessPiece()->getPiece() == Piece::Pawn   
+            && b.getCell(sx - 1, sy).getChessPiece()->getColour() == Colour::White 
+            && b.getCell(sx - 1, sy).getChessPiece()->getMovedTwo() == true // white pawn just moved up 2 squares
+            && dx == sx - 1 && dy == sy + 1 ) {
+                Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                copy.getCell(sx - 1, sy).deleteChessPiece();
+                ChessPiece * pawnCopy = new Pawn(*this);
+                copy.getCell(dx, dy).addChessPiece(pawnCopy);
+                copy.getCell(sx, sy).removeChessPiece();
+                copy.addBlackOrWhitePieceCell(&copy.getCell(dx,dy));
+                copy.removeBlackOrWhitePieceCell();
+
+                if (copy.checked(Colour::Black)) {
+                    return false;
+                } else {
+                    destination.deleteChessPiece();
+                    destination.addChessPiece(this);
+                    start.removeChessPiece();
+                    b.getCell(sx - 1, sy).deleteChessPiece();
+                    numMoves++;
+                    if (movedTwo) {
+                        movedTwo = false;
+                    }
+                    return true;
+                }
+            }
 
         // black pawn attacking bottom right diagonally. 
         if (!b.cellEmpty(sx + 1, sy + 1) && dx == sx + 1 && dy == sy + 1) {
@@ -96,8 +131,41 @@ bool Pawn::movePiece(Cell & start, Cell & destination, Board & b) {
                 destination.addChessPiece(this);
                 start.removeChessPiece();
                 numMoves++;
+                if (movedTwo) {
+                    movedTwo = false;
+                }
                 return true;
             }
+        }
+
+        // black pawn attacking bottom right diagonally (en passant), white pawn to the right of starting square
+        if (b.cellEmpty(sx + 1, sy + 1) && !b.cellEmpty(sx + 1, sy)
+            && b.getCell(sx + 1, sy).getChessPiece() != nullptr
+            && b.getCell(sx + 1, sy).getChessPiece()->getPiece() == Piece::Pawn   
+            && b.getCell(sx + 1, sy).getChessPiece()->getColour() == Colour::White 
+            && b.getCell(sx + 1, sy).getChessPiece()->getMovedTwo() == true // white pawn just moved down 2 squares
+            && dx == sx + 1 && dy == sy + 1 ) {
+                Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                copy.getCell(sx + 1, sy).deleteChessPiece();
+                ChessPiece * pawnCopy = new Pawn(*this);
+                copy.getCell(dx, dy).addChessPiece(pawnCopy);
+                copy.getCell(sx, sy).removeChessPiece();
+                copy.addBlackOrWhitePieceCell(&copy.getCell(dx,dy));
+                copy.removeBlackOrWhitePieceCell();
+
+                if (copy.checked(Colour::Black)) {
+                    return false;
+                } else {
+                    destination.deleteChessPiece();
+                    destination.addChessPiece(this);
+                    start.removeChessPiece();
+                    b.getCell(sx + 1, sy).deleteChessPiece();
+                    numMoves++;
+                    if (movedTwo) {
+                        movedTwo = false;
+                    }
+                    return true;
+                }
         }
 
         // space right below black pawn is dest
@@ -115,6 +183,9 @@ bool Pawn::movePiece(Cell & start, Cell & destination, Board & b) {
                 destination.addChessPiece(this);
                 start.removeChessPiece();
                 numMoves++;
+                if (movedTwo) {
+                    movedTwo = false;
+                }
                 return true;
             }
 
@@ -137,6 +208,7 @@ bool Pawn::movePiece(Cell & start, Cell & destination, Board & b) {
                     destination.addChessPiece(this);
                     start.removeChessPiece();
                     numMoves++;
+                    movedTwo = true;
                     return true;
                 }
             }
@@ -162,9 +234,42 @@ bool Pawn::movePiece(Cell & start, Cell & destination, Board & b) {
                 destination.addChessPiece(this);
                 start.removeChessPiece();
                 numMoves++;
+                if (movedTwo) {
+                    movedTwo = false;
+                }
                 return true;
             }
         }   
+
+        // white pawn attacking upper left diagonally (en passant), black pawn to the left of starting square
+        if (b.cellEmpty(sx - 1, sy - 1) && !b.cellEmpty(sx - 1, sy)
+            && b.getCell(sx - 1, sy).getChessPiece() != nullptr
+            && b.getCell(sx - 1, sy).getChessPiece()->getPiece() == Piece::Pawn   
+            && b.getCell(sx - 1, sy).getChessPiece()->getColour() == Colour::Black 
+            && b.getCell(sx - 1, sy).getChessPiece()->getMovedTwo() == true // black pawn just moved down 2 squares
+            && dx == sx - 1 && dy == sy - 1 ) {
+                Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                copy.getCell(sx - 1, sy).deleteChessPiece();
+                ChessPiece * pawnCopy = new Pawn(*this);
+                copy.getCell(dx, dy).addChessPiece(pawnCopy);
+                copy.getCell(sx, sy).removeChessPiece();
+                copy.addBlackOrWhitePieceCell(&copy.getCell(dx,dy));
+                copy.removeBlackOrWhitePieceCell();
+
+                if (copy.checked(Colour::White)) {
+                    return false;
+                } else {
+                    destination.deleteChessPiece();
+                    destination.addChessPiece(this);
+                    start.removeChessPiece();
+                    b.getCell(sx - 1, sy).deleteChessPiece();
+                    numMoves++;
+                    if (movedTwo) {
+                        movedTwo = false;
+                    }
+                    return true;
+                }
+        }
 
         // white pawn attacking upper right diagonally
         if (!b.cellEmpty(sx + 1, sy - 1) && dx == sx + 1 && dy == sy - 1) {
@@ -183,8 +288,41 @@ bool Pawn::movePiece(Cell & start, Cell & destination, Board & b) {
                 destination.addChessPiece(this);
                 start.removeChessPiece();
                 numMoves++;
+                if (movedTwo) {
+                    movedTwo = false;
+                }
                 return true;
             }
+        }
+
+        // white pawn attacking upper right diagonally (en passant), black pawn to the right of starting square
+        if (b.cellEmpty(sx + 1, sy - 1) && !b.cellEmpty(sx + 1, sy)
+            && b.getCell(sx + 1, sy).getChessPiece() != nullptr
+            && b.getCell(sx + 1, sy).getChessPiece()->getPiece() == Piece::Pawn   
+            && b.getCell(sx + 1, sy).getChessPiece()->getColour() == Colour::Black 
+            && b.getCell(sx + 1, sy).getChessPiece()->getMovedTwo() == true // black pawn just moved down 2 squares
+            && dx == sx + 1 && dy == sy - 1 ) {
+                Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                copy.getCell(sx + 1, sy).deleteChessPiece();
+                ChessPiece * pawnCopy = new Pawn(*this);
+                copy.getCell(dx, dy).addChessPiece(pawnCopy);
+                copy.getCell(sx, sy).removeChessPiece();
+                copy.addBlackOrWhitePieceCell(&copy.getCell(dx,dy));
+                copy.removeBlackOrWhitePieceCell();
+
+                if (copy.checked(Colour::White)) {
+                    return false;
+                } else {
+                    destination.deleteChessPiece();
+                    destination.addChessPiece(this);
+                    start.removeChessPiece();
+                    b.getCell(sx + 1, sy).deleteChessPiece();
+                    numMoves++;
+                    if (movedTwo) {
+                        movedTwo = false;
+                    }
+                    return true;
+                }
         }
 
         // space right above black pawn is dest
@@ -202,6 +340,9 @@ bool Pawn::movePiece(Cell & start, Cell & destination, Board & b) {
                 destination.addChessPiece(this);
                 start.removeChessPiece();
                 numMoves++;
+                if (movedTwo) {
+                    movedTwo = false;
+                }
                 return true;
             }
         }
@@ -222,6 +363,7 @@ bool Pawn::movePiece(Cell & start, Cell & destination, Board & b) {
                     destination.addChessPiece(this);
                     start.removeChessPiece();
                     numMoves++;
+                    movedTwo = true;
                     return true;
                 }
             }
@@ -260,10 +402,33 @@ bool Pawn::canAttack(Cell & start, Cell & destination, Board & b) {
             return true;
         }
 
+        // black pawn attacking bottom left diagonally (en passant), white pawn to the left of starting square
+        if (b.cellEmpty(sx - 1, sy + 1) && !b.cellEmpty(sx - 1, sy)
+            && b.getCell(sx - 1, sy).getChessPiece() != nullptr
+            && b.getCell(sx - 1, sy).getChessPiece()->getPiece() == Piece::Pawn   
+            && b.getCell(sx - 1, sy).getChessPiece()->getColour() == Colour::White 
+            && b.getCell(sx - 1, sy).getChessPiece()->getMovedTwo() == true // white pawn just moved up 2 squares
+            && dx == sx - 1 && dy == sy + 1 ) {
+                return true;
+        }
+
+
+
         // black pawn attacking bottom right diagonally. 
         if (!b.cellEmpty(sx + 1, sy + 1) && dx == sx + 1 && dy == sy + 1) {
             return true;
         }
+
+        // black pawn attacking bottom right diagonally (en passant), white pawn to the right of starting square
+        if (b.cellEmpty(sx + 1, sy + 1) && !b.cellEmpty(sx + 1, sy)
+            && b.getCell(sx + 1, sy).getChessPiece() != nullptr
+            && b.getCell(sx + 1, sy).getChessPiece()->getPiece() == Piece::Pawn   
+            && b.getCell(sx + 1, sy).getChessPiece()->getColour() == Colour::White 
+            && b.getCell(sx + 1, sy).getChessPiece()->getMovedTwo() == true // white pawn just moved up 2 squares
+            && dx == sx + 1 && dy == sy + 1 ) {
+                return true;
+        }
+
 
     } else if (start.getChessPiece()->getColour() == Colour::White) {
         
@@ -272,9 +437,29 @@ bool Pawn::canAttack(Cell & start, Cell & destination, Board & b) {
             return true;
         }   
 
+        // white pawn attacking upper left diagonally (en passant), black pawn to the left of starting square
+        if (b.cellEmpty(sx - 1, sy - 1) && !b.cellEmpty(sx - 1, sy)
+            && b.getCell(sx - 1, sy).getChessPiece() != nullptr
+            && b.getCell(sx - 1, sy).getChessPiece()->getPiece() == Piece::Pawn   
+            && b.getCell(sx - 1, sy).getChessPiece()->getColour() == Colour::Black 
+            && b.getCell(sx - 1, sy).getChessPiece()->getMovedTwo() == true // black pawn just moved down 2 squares
+            && dx == sx - 1 && dy == sy - 1 ) {
+                return true;
+        }
+
         // white pawn attacking upper right diagonally
         if (!b.cellEmpty(sx + 1, sy - 1) && dx == sx + 1 && dy == sy - 1) {
             return true;
+        }
+
+        // white pawn attacking upper right diagonally (en passant), black pawn to the right of starting square
+        if (b.cellEmpty(sx + 1, sy - 1) && !b.cellEmpty(sx + 1, sy)
+            && b.getCell(sx + 1, sy).getChessPiece() != nullptr
+            && b.getCell(sx + 1, sy).getChessPiece()->getPiece() == Piece::Pawn   
+            && b.getCell(sx + 1, sy).getChessPiece()->getColour() == Colour::Black 
+            && b.getCell(sx + 1, sy).getChessPiece()->getMovedTwo() == true // black pawn just moved down 2 squares
+            && dx == sx + 1 && dy == sy - 1 ) {
+                return true;
         }
     } 
 
@@ -310,6 +495,22 @@ void Pawn::determineLegalMoves(Cell & start, Board & b) {
             }
         }
 
+        // black pawn can attack bottom left diagonally (en passant), white pawn to the left of starting square
+        if (0 <= sx - 1 && sx - 1 < b.getBoardSize() && 0 <= sy + 1 && sy + 1 < b.getBoardSize()) {
+            if (b.cellEmpty(sx - 1, sy + 1) && !b.cellEmpty(sx - 1, sy)
+                && b.getCell(sx - 1, sy).getChessPiece() != nullptr
+                && b.getCell(sx - 1, sy).getChessPiece()->getPiece() == Piece::Pawn   
+                && b.getCell(sx - 1, sy).getChessPiece()->getColour() == Colour::White 
+                && b.getCell(sx - 1, sy).getChessPiece()->getMovedTwo() == true) { // white pawn just moved up 2 squares
+                
+                Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                
+                if (copy.activateMove(copy.getCell(sx, sy), copy.getCell(sx - 1, sy + 1))) {
+                    b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx - 1, sy + 1)});
+                }
+            }
+        }
+
         // black pawn can attack bottom right diagonally. 
         if (0 <= sx + 1 && sx + 1 < b.getBoardSize() && 0 <= sy + 1 && sy + 1 < b.getBoardSize()) {
             if (!b.cellEmpty(sx + 1, sy + 1) && b.getCell(sx + 1, sy + 1).getChessPiece()->getColour() != Colour::Black) {
@@ -321,6 +522,22 @@ void Pawn::determineLegalMoves(Cell & start, Board & b) {
                 }
 
 
+            }
+        }
+
+        // black pawn attacking bottom right diagonally (en passant), white pawn to the right of starting square
+        if (0 <= sx + 1 && sx + 1 < b.getBoardSize() && 0 <= sy + 1 && sy + 1 < b.getBoardSize()) {
+            if (b.cellEmpty(sx + 1, sy + 1) && !b.cellEmpty(sx + 1, sy)
+                && b.getCell(sx + 1, sy).getChessPiece() != nullptr
+                && b.getCell(sx + 1, sy).getChessPiece()->getPiece() == Piece::Pawn   
+                && b.getCell(sx + 1, sy).getChessPiece()->getColour() == Colour::White 
+                && b.getCell(sx + 1, sy).getChessPiece()->getMovedTwo() == true) { // white pawn just moved up 2 squares
+                    
+                    Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                    
+                    if (copy.activateMove(copy.getCell(sx, sy), copy.getCell(sx + 1, sy + 1))) {
+                        b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx + 1, sy + 1)});
+                    }
             }
         }
 
@@ -363,17 +580,55 @@ void Pawn::determineLegalMoves(Cell & start, Board & b) {
                 
             }   
         }
+
+        // white pawn attacking upper left diagonally (en passant), black pawn to the left of starting square
+        if (0 <= sx - 1 && sx - 1 < b.getBoardSize() && 0 <= sy - 1 && sy - 1 < b.getBoardSize()) {
+            if (b.cellEmpty(sx - 1, sy - 1) && !b.cellEmpty(sx - 1, sy)
+                && b.getCell(sx - 1, sy).getChessPiece() != nullptr
+                && b.getCell(sx - 1, sy).getChessPiece()->getPiece() == Piece::Pawn   
+                && b.getCell(sx - 1, sy).getChessPiece()->getColour() == Colour::Black 
+                && b.getCell(sx - 1, sy).getChessPiece()->getMovedTwo() == true) { // black pawn just moved down 2 squares
+                 
+                Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                
+                if (copy.activateMove(copy.getCell(sx, sy), copy.getCell(sx - 1, sy - 1))) {
+                    b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx - 1, sy - 1)});
+                }
+
+            }
+        
+        }
+
         // white pawn can attack upper right diagonally
         if (0 <= sx + 1 && sx + 1 < b.getBoardSize() && 0 <= sy - 1 && sy - 1 < b.getBoardSize()) {
             if (!b.cellEmpty(sx + 1, sy - 1) && b.getCell(sx + 1, sy - 1).getChessPiece()->getColour() != Colour::White) {
                 
                 Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                
                 if (copy.activateMove(copy.getCell(sx, sy), copy.getCell(sx + 1, sy - 1))) {
                     b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx + 1, sy - 1)});
                 }
 
             }
         }
+
+        // white pawn attacking upper right diagonally (en passant), black pawn to the right of starting square
+        if (0 <= sx + 1 && sx + 1 < b.getBoardSize() && 0 <= sy - 1 && sy - 1 < b.getBoardSize()) {
+            if (b.cellEmpty(sx + 1, sy - 1) && !b.cellEmpty(sx + 1, sy)
+                && b.getCell(sx + 1, sy).getChessPiece() != nullptr
+                && b.getCell(sx + 1, sy).getChessPiece()->getPiece() == Piece::Pawn   
+                && b.getCell(sx + 1, sy).getChessPiece()->getColour() == Colour::Black 
+                && b.getCell(sx + 1, sy).getChessPiece()->getMovedTwo() == true) { // black pawn just moved down 2 squares
+                
+                Board copy = b; // making copy of board and simulating move to ensure your own king doesn't become checked. 
+                
+                if (copy.activateMove(copy.getCell(sx, sy), copy.getCell(sx + 1, sy - 1))) {
+                    b.addBlackOrWhiteLegalMove(Move{start, b.getCell(sx + 1, sy - 1)});
+                }
+
+            }
+        }
+
         // space right above black pawn is empty
         if (b.cellEmpty(sx, sy - 1)) { 
             
@@ -409,11 +664,10 @@ void Pawn::determineLegalMoves(Cell & start, Board & b) {
 
 
 Rook::Rook(Colour colour): ChessPiece{colour, Piece::Rook, colour == Colour::White ? 'R' : 'r'} {}
-Rook::Rook(const Rook& other): ChessPiece{other}, numMoves{other.numMoves} {}
+Rook::Rook(const Rook& other): ChessPiece{other} {}
 Rook& Rook::operator=(const Rook& other) {
     if (this == &other) return *this;
     ChessPiece::operator=(other);
-    numMoves = other.numMoves;
     return *this;
 }
 Rook::~Rook() {}
@@ -2283,11 +2537,10 @@ void Queen::determineLegalMoves(Cell & start, Board & b) {
 }
 
 King::King(Colour colour): ChessPiece{colour, Piece::King, colour == Colour::White ? 'K' : 'k'} {}
-King::King(const King& other): ChessPiece{other}, numMoves{other.numMoves} {}
+King::King(const King& other): ChessPiece{other} {}
 King& King::operator=(const King& other) {
     if (this == &other) return *this;
     ChessPiece::operator=(other);
-    numMoves = other.numMoves;
     return *this;
 }
 King::~King() {}
