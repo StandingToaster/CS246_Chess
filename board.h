@@ -55,6 +55,7 @@ class Board {
 
     bool activateMove(Cell & start, Cell & destination);
     bool attackPossible(Cell & start, Cell & destination);
+    void promotePawn(Piece promoteTo);
 
     bool checked(Colour kingColour);
     bool checkMated(Colour kingColour);

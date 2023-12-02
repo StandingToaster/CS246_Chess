@@ -158,9 +158,21 @@ void Board::setDefaultBoard() {
 
 void Board::setPieceOnBoard(ChessPiece * piece, int x, int y) {
     if (0 <= x && x < boardSize && 0 <= y && y < boardSize) {
-        theBoard[y][x].addChessPiece(piece);
-        addBlackOrWhitePieceCell(&theBoard[y][x]);
-        removeBlackOrWhitePieceCell();
+        
+        if (cellEmpty(x, y)) {
+            theBoard[y][x].addChessPiece(piece);
+            addBlackOrWhitePieceCell(&theBoard[y][x]);
+            removeBlackOrWhitePieceCell();
+        }
+        
+        else if (!cellEmpty(x,y)) {
+            // printBlackPieceCells();
+            theBoard[y][x].deleteChessPiece();
+            // removeBlackOrWhitePieceCell();
+            theBoard[y][x].addChessPiece(piece);
+
+            // addBlackOrWhitePieceCell(&theBoard[y][x]);
+        }
     }
 
 }
@@ -284,6 +296,54 @@ bool Board::attackPossible(Cell & start, Cell & destination) {
         return false;
     }
 }
+
+void Board::promotePawn(Piece promoteTo) {
+
+    // promote black pawns, when y = boardsize - 1
+    for (int i = 0; i < boardSize; i++) {
+        if (theBoard[boardSize - 1][i].getChessPiece() != nullptr 
+        && theBoard[boardSize - 1][i].getChessPiece()->getColour() == Colour::Black
+        && theBoard[boardSize - 1][i].getChessPiece()->getPiece() == Piece::Pawn) {
+            
+            if (promoteTo == Piece::Rook) {
+                setPieceOnBoard(new Rook(Colour::Black), i, boardSize - 1 );
+            } else if (promoteTo == Piece::Knight) {
+                setPieceOnBoard(new Knight(Colour::Black), i, boardSize - 1 );
+            } else if (promoteTo == Piece::Bishop) {
+                setPieceOnBoard(new Bishop(Colour::Black), i, boardSize - 1 );
+            } else if (promoteTo == Piece::Queen) {
+                setPieceOnBoard(new Queen(Colour::Black), i, boardSize - 1 );
+            }
+
+            break; // there will only be one black pawn on the last row at any given time
+ 
+        }
+    }
+
+    // promote white pawns, when y = 0
+    for (int i = 0; i < boardSize; i++) {
+        if (theBoard[0][i].getChessPiece() != nullptr 
+        && theBoard[0][i].getChessPiece()->getColour() == Colour::White
+        && theBoard[0][i].getChessPiece()->getPiece() == Piece::Pawn) {
+            
+            
+            if (promoteTo == Piece::Rook) {
+                setPieceOnBoard(new Rook(Colour::White), i, 0);
+            } else if (promoteTo == Piece::Knight) {
+                setPieceOnBoard(new Knight(Colour::White), i, 0);
+            } else if (promoteTo == Piece::Bishop) {
+                setPieceOnBoard(new Bishop(Colour::White), i, 0);
+            } else if (promoteTo == Piece::Queen) {
+                setPieceOnBoard(new Queen(Colour::White), i, 0);
+            }
+
+            break; // there will only be one white pawn on the first row at any given time
+ 
+        }
+    }
+
+}
+
 
 bool Board::checked(Colour kingColour) {
     int kingX;

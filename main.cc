@@ -12,29 +12,52 @@ int main() {
     Board b;
     b.setEmptyBoard();
 
-    // b.setPieceOnBoard(new Queen(Colour::Black), 1, 3);
-    b.setPieceOnBoard(new King(Colour::Black), 0, 0);
-    b.setPieceOnBoard(new Pawn(Colour::Black), 7, 0);
-    // b.setPieceOnBoard(new Rook(Colour::Black), 6, 0);
-
-    b.setPieceOnBoard(new King(Colour::White), 6, 7);
-    b.setPieceOnBoard(new Pawn(Colour::White), 6, 1);
-
+    b.setPieceOnBoard(new Pawn(Colour::Black), 0, 0);
+    b.setPieceOnBoard(new King(Colour::White), 0, 0);
     cout << b << endl;
-    
-    b.activateMove(b.getCell(7,0), b.getCell(7,2));
-    // b.activateMove(b.getCell(6,4), b.getCell(6,3));
 
-
-    // // b.activateMove(b.getCell(7,4), b.getCell(7,3));
-    cout << b << endl;
+    b.printBlackPieceCells();
+    b.printWhitePieceCells();
 
     b.calculateAllLegalMoves();
+    b.printBlackLegalMoves();
     b.printWhiteLegalMoves();
+    // b.setPieceOnBoard(new Pawn(Colour::Black), 0, 0);
+    // b.printBlackPieceCells();
+    // b.setPieceOnBoard(new Rook(Colour::Black), 6, 0);
 
+    // b.setPieceOnBoard(new King(Colour::White), 6, 7);
+    // b.setPieceOnBoard(new Pawn(Colour::White), 6, 1);
+
+    
+
+    // b.activateMove(b.getCell(6,1), b.getCell(6,0));
+    // cout << b << endl;
+
+    // b.calculateAllLegalMoves();
+    // b.printWhiteLegalMoves();
+
+    
+    // // b.activateMove(b.getCell(6,4), b.getCell(6,3));
+
+
+    // // // b.activateMove(b.getCell(7,4), b.getCell(7,3));
+    b.promotePawn(Piece::Queen);
+    
+
+    // b.clearLegalMoves();
+    
+    
+    
     // cout << b.attackPossible(b.getCell(6,3), b.getCell(5,2)) << endl;
     // cout << b << endl;
 
+    // b.clearLegalMoves();
+    // b.calculateAllLegalMoves();
+    // b.printBlackLegalMoves();
+
+    // b.printBlackPieceCells();
+    // b.activateMove(b.getCell(6,0), b.getCell(0,0));
     // b.activateMove(b.getCell(0,4), b.getCell(-1,5));
     // cout << b << endl;
     // b.calculateAllLegalMoves();
