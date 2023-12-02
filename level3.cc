@@ -5,7 +5,7 @@ using namespace std;
 
 level3::level3(Board* in, Colour cur): Computer{in, cur} {}
 
-Move Level2Move(level3& comp, Move& move) {
+Move Level2Move(level3& comp) {
     Board* b = comp.getPointer();
     comp.readyTheBoard(b);
     vector<Move> validMoves = b->getLegalMoves(comp.getColour());
@@ -83,9 +83,11 @@ bool pieceIsAtThreat(Cell& c, Board& b) {
 
 
     Colour col = c.getChessPiece()->getColour();
+    Colour enemycol;
+    col == Colour::Black ? enemycol = Colour::White : enemycol = Colour::Black;
 
     //check if any of the enemy teams pieces can attack cell c
-    for (Cell* attacker : b.getOccupiedCells(col)) {
+    for (Cell* attacker : b.getOccupiedCells(enemycol)) {
         if(b.attackPossible(*attacker, c)) {
             return true;
         }
@@ -155,8 +157,6 @@ Move level3::generateMove() {
 
     // if loop exited, no protection move can be executed and computer will
     // now return move based on level2 computer logic
-    Move m;
-    Level2Move(*this, m);
+    return Level2Move(*this);
 
-    return m;
 }
