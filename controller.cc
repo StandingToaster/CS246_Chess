@@ -10,6 +10,68 @@ Controller::Controller(Board* init, Computer* p1, Computer* p2): currentBoard{in
 //     delete player2;
 // }
 
+void Controller::convertCoordinates(int &X, int &Y, string input) {
+    //Handles the logic for the 'letter' part of the coordinate, sets it to error code -1 if conditions not met.
+    if (input[0] == 'a') {
+        X = 0;
+    }
+    else if (input[0] == 'b') {
+        X = 1;
+    }
+    else if (input[0] == 'c') {
+        X = 2;
+    }
+    else if (input[0] == 'd') {
+        X = 3;
+    }
+    else if (input[0] == 'e') {
+        X = 4;
+    }
+    else if (input[0] == 'f') {
+        X = 5;
+    }
+    else if (input[0] == 'g') {
+        X = 6;
+    }
+    else if (input[0] == 'h') {
+        X = 7;
+    }
+    else {
+        X = -1;
+    }
+
+//Handles the logic for the 'number' part of the coordinate, sets it to error code -1 if conditions not met.
+if (input[1] == '8') {
+        Y = 0;
+    }
+    else if (input[1] == '7') {
+        Y = 1;
+    }
+    else if (input[1] == '6') {
+        Y = 2;
+    }
+    else if (input[1] == '5') {
+        Y = 3;
+    }
+    else if (input[1] == '4') {
+        Y = 4;
+    }
+    else if (input[1] == '3') {
+        Y = 5;
+    }
+    else if (input[1] == '2') {
+        Y = 6;
+    }
+    else if (input[1] == '1') {
+        Y = 7;
+    }
+    else {
+        Y = -1;
+    }
+
+    return;
+    }
+
 void Controller::playGame(istream &in, ostream &out) {
     string cmd;
     int currentPlayer = 1;
@@ -22,22 +84,32 @@ void Controller::playGame(istream &in, ostream &out) {
             string p2;
             while (in >> p1) {
                 if (p1 == "human") {
+                    delete player1;
+                    player1 = nullptr;
                     break;
                 }
 
                 else if (p1 == "computer1") {
+                    delete player1;
+                    player1 = new level1(currentBoard, Colour::White);
                     break;
                 }
 
                 else if (p1 == "computer2") {
+                    delete player1;
+                    player1 = new level2(currentBoard, Colour::White);
                     break;
                 }
 
                 else if (p1 == "computer3") {
+                    delete player1;
+                    player1 = new level3(currentBoard, Colour::White);
                     break;
                 }
 
-                else if (p1 == "computer3") {
+                else if (p1 == "computer4") {
+                    delete player1;
+                    //player1 = new level4(currentBoard, Colour::White);
                     break;
                 }
 
@@ -49,27 +121,38 @@ void Controller::playGame(istream &in, ostream &out) {
 
             while (in >> p2) {
                 if (p2 == "human") {
+                    delete player2;
+                    player2 = nullptr;
                     break;
                 }
 
                 else if (p2 == "computer1") {
+                      delete player2;
+                    player2 = new level1(currentBoard, Colour::Black);
                     break;
                 }
 
                 else if (p2 == "computer2") {
+                      delete player2;
+                    player2 = new level2(currentBoard, Colour::Black);
                     break;
                 }
 
                 else if (p2 == "computer3") {
+                    delete player2;
+                    player2 = new level3(currentBoard, Colour::Black);
                     break;
                 }
 
-                else if (p2 == "computer3") {
+                else if (p2 == "computer4") {
+                      delete player2;
+                    //player2 = new level4(currentBoard, Colour::Black);
                     break;
                 }
 
                 else {
                     out << "Please input human or computer[1-4]" << endl;
+                    continue;
                 }
 
             }
@@ -85,6 +168,25 @@ void Controller::playGame(istream &in, ostream &out) {
         }
         else if (cmd == "move") {
             //Accomadate for both cpu and humans
+            string m1;
+            string m2;
+            int sx;
+            int sy;
+            int dx;
+            int dy;
+            if (currentPlayer == 1) {
+            if (player1 == nullptr) {
+                cin >> m1;
+                cin >> m2;
+                convertCoordinates(sx, sy, m1);
+                convertCoordinates(dx, dy, m2);
+                if (sx == -1 || sy == -1 || dx == -1 || dy == -1) {
+                    cout << "Please input valid coordinates: [lowercase letter][1-7]" << endl;
+                    continue;
+                }
+                
+            }
+            }
         }
         else if (cmd == "setup") {
             //Sets up game as per specifications
@@ -94,6 +196,7 @@ void Controller::playGame(istream &in, ostream &out) {
         }
         else {
             out << "Invalid input! type -help for a list of commands." << endl;
+            continue;
         }
     }
 }

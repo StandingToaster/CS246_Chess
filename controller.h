@@ -2,7 +2,11 @@
 #define __CONTROLLER_H__
 #include "board.h"
 #include "computer.h"
-
+#include "level1.h"
+#include "level2.h"
+#include "level3.h"
+#include "level4.h"
+#include "human.h"
 using namespace std;
 
 class Controller {
@@ -20,6 +24,9 @@ void playGame(istream &in, ostream &out);
 // Plays a human v human game of chess. 
 void humanVsHuman(istream & in, ostream & out);
 // ~Controller();
+
+//Converts a string coordinate into integer values.
+void convertCoordinates(int &X, int &Y, string input);
 
 };
 
