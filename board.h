@@ -10,8 +10,6 @@ using namespace std;
 class Board {
 
     friend class Cell;
-
-    // Computer * c;
     
     const int boardSize = 8;
     vector<vector<Cell>> theBoard; // the actual chess board
@@ -34,7 +32,7 @@ class Board {
     int getBoardSize();
     bool cellEmpty(int x, int y); // Empty (true) if there is no chesspiece on it or coordinates are out of bounds
 
-    void setEmptyBoard(); // prepares the board (no chess piece on it yet)
+    void setEmptyBoard(); // prepares the board (no chess piece on it yet), or resets it to empty
     void setDefaultBoard(); // prepares board with a standard game start
     void setComputerLevel(int level);
 

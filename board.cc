@@ -100,6 +100,11 @@ void Board::setEmptyBoard() {
         }
         whiteFirst = !whiteFirst;
     }
+
+    blackPieceCells.clear();
+    whitePieceCells.clear();
+    clearLegalMoves();
+
 }
 
 void Board::setDefaultBoard() { 

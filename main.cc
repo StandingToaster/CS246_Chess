@@ -12,59 +12,85 @@ int main() {
 
 
     Board b;
-    //Controller c {&b};
-    //c.playGame(cin, cout);
+    Computer* whiteC = new level1(&b, Colour::White);
+    Computer* blackC = new level1(&b, Colour::Black);
 
     b.setDefaultBoard();
-
-    Computer* whiteC = new level3(&b, Colour::White);
-    Computer* blackC = new level3(&b, Colour::Black);
+    cout << b << endl;
 
     Move whiteMove = whiteC->generateMove();
     b.activateMove(b.getCell(whiteMove.getStart().getX(), whiteMove.getStart().getY()), b.getCell(whiteMove.getDest().getX(), whiteMove.getDest().getY()));
-    b.calculateAllLegalMoves();
     cout << b << endl;
 
     Move blackMove = blackC->generateMove();
     b.activateMove(b.getCell(blackMove.getStart().getX(), blackMove.getStart().getY()), b.getCell(blackMove.getDest().getX(), blackMove.getDest().getY()));
-    b.calculateAllLegalMoves();
     cout << b << endl;
 
-    whiteMove = whiteC->generateMove();
-    b.activateMove(b.getCell(whiteMove.getStart().getX(), whiteMove.getStart().getY()), b.getCell(whiteMove.getDest().getX(), whiteMove.getDest().getY()));
-    b.calculateAllLegalMoves();
+   
+    b.setDefaultBoard();
     cout << b << endl;
-    blackMove = blackC->generateMove();
-    b.activateMove(b.getCell(blackMove.getStart().getX(), blackMove.getStart().getY()), b.getCell(blackMove.getDest().getX(), blackMove.getDest().getY()));
-    b.calculateAllLegalMoves();
+    
+    whiteMove = whiteC->generateMove(); //SEG fault here, because getChessPiece() returns nullptr.
+    b.activateMove(b.getCell(whiteMove.getStart().getX(), whiteMove.getStart().getY()), b.getCell(whiteMove.getDest().getX(), whiteMove.getDest().getY()));
     cout << b << endl;
 
-    whiteMove = whiteC->generateMove();
-    b.activateMove(b.getCell(whiteMove.getStart().getX(), whiteMove.getStart().getY()), b.getCell(whiteMove.getDest().getX(), whiteMove.getDest().getY()));
-    b.calculateAllLegalMoves();
-    cout << b << endl;
-    blackMove = blackC->generateMove();
-    b.activateMove(b.getCell(blackMove.getStart().getX(), blackMove.getStart().getY()), b.getCell(blackMove.getDest().getX(), blackMove.getDest().getY()));
-    b.calculateAllLegalMoves();
-    cout << b << endl;
+    // blackMove = blackC->generateMove();
+    // b.activateMove(b.getCell(blackMove.getStart().getX(), blackMove.getStart().getY()), b.getCell(blackMove.getDest().getX(), blackMove.getDest().getY()));
+    // cout << b << endl;
 
-    whiteMove = whiteC->generateMove();
-    b.activateMove(b.getCell(whiteMove.getStart().getX(), whiteMove.getStart().getY()), b.getCell(whiteMove.getDest().getX(), whiteMove.getDest().getY()));
-    b.calculateAllLegalMoves();
-    cout << b << endl;
-    blackMove = blackC->generateMove();
-    b.activateMove(b.getCell(blackMove.getStart().getX(), blackMove.getStart().getY()), b.getCell(blackMove.getDest().getX(), blackMove.getDest().getY()));
-    b.calculateAllLegalMoves();
-    cout << b << endl;
+    //Controller c {&b};
+    //c.playGame(cin, cout);
 
-    whiteMove = whiteC->generateMove();
-    b.activateMove(b.getCell(whiteMove.getStart().getX(), whiteMove.getStart().getY()), b.getCell(whiteMove.getDest().getX(), whiteMove.getDest().getY()));
-    b.calculateAllLegalMoves();
-    cout << b << endl;
-    blackMove = blackC->generateMove();
-    b.activateMove(b.getCell(blackMove.getStart().getX(), blackMove.getStart().getY()), b.getCell(blackMove.getDest().getX(), blackMove.getDest().getY()));
-    b.calculateAllLegalMoves();
-    cout << b << endl;
+    // b.setDefaultBoard();
+
+    // Computer* whiteC = new level3(&b, Colour::White);
+    // Computer* blackC = new level3(&b, Colour::Black);
+
+    // Move whiteMove = whiteC->generateMove();
+    // b.activateMove(b.getCell(whiteMove.getStart().getX(), whiteMove.getStart().getY()), b.getCell(whiteMove.getDest().getX(), whiteMove.getDest().getY()));
+    // b.calculateAllLegalMoves();
+    // cout << b << endl;
+
+    // Move blackMove = blackC->generateMove();
+    // b.activateMove(b.getCell(blackMove.getStart().getX(), blackMove.getStart().getY()), b.getCell(blackMove.getDest().getX(), blackMove.getDest().getY()));
+    // b.calculateAllLegalMoves();
+    // cout << b << endl;
+
+    // whiteMove = whiteC->generateMove();
+    // b.activateMove(b.getCell(whiteMove.getStart().getX(), whiteMove.getStart().getY()), b.getCell(whiteMove.getDest().getX(), whiteMove.getDest().getY()));
+    // b.calculateAllLegalMoves();
+    // cout << b << endl;
+    // blackMove = blackC->generateMove();
+    // b.activateMove(b.getCell(blackMove.getStart().getX(), blackMove.getStart().getY()), b.getCell(blackMove.getDest().getX(), blackMove.getDest().getY()));
+    // b.calculateAllLegalMoves();
+    // cout << b << endl;
+
+    // whiteMove = whiteC->generateMove();
+    // b.activateMove(b.getCell(whiteMove.getStart().getX(), whiteMove.getStart().getY()), b.getCell(whiteMove.getDest().getX(), whiteMove.getDest().getY()));
+    // b.calculateAllLegalMoves();
+    // cout << b << endl;
+    // blackMove = blackC->generateMove();
+    // b.activateMove(b.getCell(blackMove.getStart().getX(), blackMove.getStart().getY()), b.getCell(blackMove.getDest().getX(), blackMove.getDest().getY()));
+    // b.calculateAllLegalMoves();
+    // cout << b << endl;
+
+    // whiteMove = whiteC->generateMove();
+    // b.activateMove(b.getCell(whiteMove.getStart().getX(), whiteMove.getStart().getY()), b.getCell(whiteMove.getDest().getX(), whiteMove.getDest().getY()));
+    // b.calculateAllLegalMoves();
+    // cout << b << endl;
+    // blackMove = blackC->generateMove();
+    // b.activateMove(b.getCell(blackMove.getStart().getX(), blackMove.getStart().getY()), b.getCell(blackMove.getDest().getX(), blackMove.getDest().getY()));
+    // b.calculateAllLegalMoves();
+    // cout << b << endl;
+
+    // whiteMove = whiteC->generateMove();
+    // b.activateMove(b.getCell(whiteMove.getStart().getX(), whiteMove.getStart().getY()), b.getCell(whiteMove.getDest().getX(), whiteMove.getDest().getY()));
+    // b.calculateAllLegalMoves();
+    // cout << b << endl;
+    // blackMove = blackC->generateMove();
+    // b.activateMove(b.getCell(blackMove.getStart().getX(), blackMove.getStart().getY()), b.getCell(blackMove.getDest().getX(), blackMove.getDest().getY()));
+    // b.calculateAllLegalMoves();
+    // cout << b << endl;
     
     // b.setDefaultBoard();
     // cout << b << endl;
