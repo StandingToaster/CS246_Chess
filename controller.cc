@@ -75,14 +75,17 @@ if (input[1] == '8') {
 void Controller::playGame(istream &in, ostream &out) {
     string cmd;
     int currentPlayer = 1;
-    while (in >> cmd) {
-        if (cmd == "resign" && currentPlayer == 1) {
+    while (getline(in, cmd)) {
+        string temp;
+        istringstream iss {temp};
+        iss >> temp;
+        if (temp == "resign") {
             //Increment score, output resign message based on colour.
         }
-        else if (cmd == "game") {
+        else if (temp == "game") {
             string p1;
             string p2;
-            while (in >> p1) {
+            while (iss >> p1) {
                 if (p1 == "human") {
                     delete player1;
                     player1 = nullptr;
@@ -119,7 +122,7 @@ void Controller::playGame(istream &in, ostream &out) {
 
             }
 
-            while (in >> p2) {
+            while (iss >> p2) {
                 if (p2 == "human") {
                     delete player2;
                     player2 = nullptr;
@@ -159,14 +162,14 @@ void Controller::playGame(istream &in, ostream &out) {
             
             // Create new game, follow specifications
             currentBoard->setDefaultBoard();
-            cout << *currentBoard << endl;
+            out << *currentBoard << endl;
 
             if (p1 == "human" && p2 == "human") {
-                humanVsHuman(cin, cout);
+                humanVsHuman(in, out);
             }
             
         }
-        else if (cmd == "move") {
+        else if (temp == "move") {
             //Accomadate for both cpu and humans
             string m1;
             string m2;
@@ -175,23 +178,66 @@ void Controller::playGame(istream &in, ostream &out) {
             int dx;
             int dy;
             if (currentPlayer == 1) {
-            if (player1 == nullptr) {
-                cin >> m1;
-                cin >> m2;
+            if (player1 == nullptr && iss >> m1 && iss >> m2) {
                 convertCoordinates(sx, sy, m1);
                 convertCoordinates(dx, dy, m2);
                 if (sx == -1 || sy == -1 || dx == -1 || dy == -1) {
-                    cout << "Please input valid coordinates: [lowercase letter][1-7]" << endl;
+                    out << "Please input valid coordinates: [a-h][1-7]" << endl;
                     continue;
                 }
-                
+                currentBoard->clearLegalMoves();
+                currentBoard->calculateAllLegalMoves();
+                currentBoard->activateMove(currentBoard->getCell(sx, sy), currentBoard->getCell(dx, dy));
+                currentBoard->calculateAllLegalMoves();
+                currentPlayer = 2;
+                continue;
             }
+            else {
+                Move temp = player1->generateMove();
+                sx = temp.getStart().getX();
+                sy = temp.getStart().getY();
+                dx = temp.getDest().getX();
+                dy = temp.getDest().getY();
+                currentBoard->clearLegalMoves();
+                currentBoard->calculateAllLegalMoves();
+                currentBoard->activateMove(currentBoard->getCell(sx, sy), currentBoard->getCell(dx, dy));
+                currentBoard->calculateAllLegalMoves();
+                currentPlayer = 2;
+            }
+            }
+            else {
+               if (player2 == nullptr && iss >> m1 && iss >> m2) {
+                convertCoordinates(sx, sy, m1);
+                convertCoordinates(dx, dy, m2);
+                if (sx == -1 || sy == -1 || dx == -1 || dy == -1) {
+                    out << "Please input valid coordinates: [a-h][1-7]" << endl;
+                    continue;
+                }
+                currentBoard->clearLegalMoves();
+                currentBoard->calculateAllLegalMoves();
+                currentBoard->activateMove(currentBoard->getCell(sx, sy), currentBoard->getCell(dx, dy));
+                currentBoard->calculateAllLegalMoves();
+                currentPlayer = 1;
+                continue;
+            }
+            else {
+                Move temp = player2->generateMove();
+                sx = temp.getStart().getX();
+                sy = temp.getStart().getY();
+                dx = temp.getDest().getX();
+                dy = temp.getDest().getY();
+                currentBoard->clearLegalMoves();
+                currentBoard->calculateAllLegalMoves();
+                currentBoard->activateMove(currentBoard->getCell(sx, sy), currentBoard->getCell(dx, dy));
+                currentBoard->calculateAllLegalMoves();
+                currentPlayer = 1;
+            } 
             }
         }
-        else if (cmd == "setup") {
+        else if (temp == "setup") {
             //Sets up game as per specifications
         }
-        else if (cmd == "-help") {
+        else if (temp == "-help") {
             //help specifications
         }
         else {
