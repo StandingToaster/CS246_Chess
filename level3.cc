@@ -5,7 +5,33 @@ using namespace std;
 
 level3::level3(Board* in, Colour cur): Computer{in, cur} {}
 
-Move Level2Move(level3& comp) {
+// determines whether a piece at cell c is under threat and returns false if there
+// is no piece at that cell
+bool pieceIsAtThreat(Cell& c, Board& b) {
+    // if no piece at cell return false
+    if (c.getChessPiece() == nullptr) {
+        return false;
+    }
+
+
+    Colour col = c.getChessPiece()->getColour();
+    Colour enemycol;
+    col == Colour::Black ? enemycol = Colour::White : enemycol = Colour::Black;
+
+    //check if any of the enemy teams pieces can attack cell c
+    for (Cell* attacker : b.getOccupiedCells(enemycol)) {
+        if(b.attackPossible(*attacker, c)) {
+            return true;
+        }
+    }
+    
+    // if loop exited piece is not under threat of attack
+    return false;
+}
+
+// returns a move similar to level2s logic but also ensures that a check/capture is not returned
+// if it results in the piece used being put under threat
+Move NonRiskyLevel2(level3& comp) {
     Board* b = comp.getPointer();
     comp.readyTheBoard(b);
     vector<Move> validMoves = b->getLegalMoves(comp.getColour());
@@ -32,7 +58,11 @@ Move Level2Move(level3& comp) {
 
         temp.activateMove(temp.getCell(sx, sy), temp.getCell(dx,dy));
         if (temp.checked(enemyColour)) {
-            return m;
+            
+            //ensure that the check doesnt result in putting piece at risk
+            if (pieceIsAtThreat(m.getDest(), temp)) {
+                return m;
+            }
         }
     }
 
@@ -45,7 +75,13 @@ Move Level2Move(level3& comp) {
         int dy = m.getDest().getY();
 
         if (b->attackPossible(b->getCell(sx, sy), b->getCell(dx,dy))) {
-            return m;
+            Board temp = *b;
+            temp.activateMove(temp.getCell(sx, sy), temp.getCell(dx,dy));
+
+            //ensure that the capture doesnt result in putting piece at risk
+            if (pieceIsAtThreat(m.getDest(), temp)) {
+                return m;
+            }
         }
     }
 
@@ -54,31 +90,6 @@ Move Level2Move(level3& comp) {
     int count = rand() % validMoves.size();
     return validMoves[count];
 
-}
-
-
-// determines whether a piece at cell c is under threat and returns false if there
-// is no piece at that cell
-bool pieceIsAtThreat(Cell& c, Board& b) {
-    // if no piece at cell return false
-    if (c.getChessPiece() == nullptr) {
-        return false;
-    }
-
-
-    Colour col = c.getChessPiece()->getColour();
-    Colour enemycol;
-    col == Colour::Black ? enemycol = Colour::White : enemycol = Colour::Black;
-
-    //check if any of the enemy teams pieces can attack cell c
-    for (Cell* attacker : b.getOccupiedCells(enemycol)) {
-        if(b.attackPossible(*attacker, c)) {
-            return true;
-        }
-    }
-    
-    // if loop exited piece is not under threat of attack
-    return false;
 }
 
 
@@ -142,6 +153,6 @@ Move level3::generateMove() {
 
     // if loop exited, no protection move can be executed and computer will
     // now return move based on level2 computer logic
-    return Level2Move(*this);
+    return NonRiskyLevel2(*this);
 
 }
