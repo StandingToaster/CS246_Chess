@@ -73,14 +73,14 @@ if (input[1] == '8') {
     }
 
 void Controller::playGame(istream &in, ostream &out) {
-    bool gameEnd = false;
+    bool gameEnd = true;
     string cmd;
     int currentPlayer = 1;
     while (getline(in, cmd)) {
         string temp;
         istringstream iss {cmd};
         iss >> temp;
-        if (temp == "resign") {
+        if (temp == "resign" && !gameEnd) {
             //Increment score, output resign message based on colour.
             if (player1 == nullptr && currentPlayer == 1) {
                 gameEnd = true;
@@ -222,7 +222,7 @@ void Controller::playGame(istream &in, ostream &out) {
             // Create new game, follow specifications
             currentBoard->setDefaultBoard();
             out << *currentBoard << endl;
-
+                gameEnd = false;
             if (p1 == "human" && p2 == "human") {
                 humanVsHuman(in, out);
             }
