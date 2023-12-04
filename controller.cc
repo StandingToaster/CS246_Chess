@@ -250,6 +250,10 @@ void Controller::playGame(istream &in, ostream &out) {
                 continue;
             }
             else {
+                if (player1 == nullptr) {
+                    out << "Please input valid coordinates: [a-h][1-7]" << endl;
+                    continue; 
+                }
                 Move temp = player1->generateMove();
                 sx = temp.getStart().getX();
                 sy = temp.getStart().getY();
@@ -284,6 +288,10 @@ void Controller::playGame(istream &in, ostream &out) {
                 continue;
             }
             else {
+                if (player2 == nullptr) {
+                    out << "Please input valid coordinates: [a-h][1-7]" << endl;
+                    continue; 
+                }
                 Move temp = player2->generateMove();
                 sx = temp.getStart().getX();
                 sy = temp.getStart().getY();
