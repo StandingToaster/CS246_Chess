@@ -126,6 +126,7 @@ bool protectPiece(Cell& c, Board& b, Move& m) {
         // simulate the move on a copy of the board
         temp.activateMove(validMove.getStart(), validMove.getDest());
 
+        // checks the threat status of both the original cell at threat and the destination
         if (!pieceIsAtThreat(c, temp) && !pieceIsAtThreat(validMove.getDest(), temp)) {
             m = validMove;
             return true;
