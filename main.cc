@@ -12,10 +12,9 @@ int main() {
 
 
     Board b;
-    b.setDefaultBoard();
-    Controller c {&b, nullptr, new level2{&b, Colour::White}};
-     cout << b << endl;
+    Controller c {&b, nullptr, nullptr};
     c.playGame(cin, cout);
+    
     // b.setDefaultBoard();
 
     // b.setPieceOnBoard(new King(Colour::Black), 0, 7);
