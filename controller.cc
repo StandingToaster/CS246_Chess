@@ -81,6 +81,34 @@ void Controller::playGame(istream &in, ostream &out) {
         iss >> temp;
         if (temp == "resign") {
             //Increment score, output resign message based on colour.
+            if (player1 == nullptr && currentPlayer == 1) {
+                out << "White resigns." << endl;
+                out << "Black Wins!" << endl;
+                out << "Current score: \n";
+                ++score2;
+                out << "Black: " << score2 << endl;
+                out << "White: " << score1 << endl;
+                currentBoard->setEmptyBoard();
+                currentPlayer = 0;
+                //Add play again message or quit.
+                continue;
+            }
+            else if (player2 == nullptr && currentPlayer == 2) {
+                out << "Black resigns." << endl;
+                out << "White Wins!" << endl;
+                out << "Current score: \n";
+                ++score1;
+                out << "Black: " << score2 << endl;
+                out << "White: " << score1 << endl;
+                currentBoard->setEmptyBoard();
+                currentPlayer = 0;
+                //Add play again message or quit.
+                continue;
+            }
+            else {
+                out << "You cannot resign yet!" << endl;
+                out << "Type -help for a list of commands" << endl;
+            }
         }
         else if (temp == "game") {
             string p1;
