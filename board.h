@@ -4,7 +4,7 @@
 #include <vector>
 #include <iostream>
 #include "computer.h"
-#include "window.h"
+#include "view.h"
 
 using namespace std;
 
@@ -14,7 +14,7 @@ class Board {
     
     const int boardSize = 8;
 
-    Xwindow xw;
+    // View v{boardSize};
 
     vector<vector<Cell>> theBoard; // the actual chess board
 
@@ -30,7 +30,7 @@ class Board {
     Board();
     Board(const Board& other);
     ~Board();
-
+    
     // !!!!!!!      ENSURE IN HARNESS THAT 0 <= X,Y < boardSize      !!!!!!!
     Cell & getCell(int x, int y); 
     int getBoardSize();
@@ -67,7 +67,7 @@ class Board {
     vector<Cell*> getOccupiedCells(Colour colour);
 
     friend ostream& operator<<(ostream &out, const Board &b);
-
+    
 };
 
 

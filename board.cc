@@ -33,7 +33,6 @@ Board::Board(const Board& other):boardSize(other.boardSize) {
         allWhiteLegalMoves[i] = other.allWhiteLegalMoves[i];
     }
     
-
 }
 
 
@@ -178,7 +177,6 @@ void Board::setPieceOnBoard(ChessPiece * piece, int x, int y) {
             // addBlackOrWhitePieceCell(&theBoard[y][x]);
         }
     }
-
 }
 
 void Board::removePieceFromBoard(int x, int y) {
@@ -198,7 +196,6 @@ void Board::addBlackOrWhitePieceCell(Cell * hasPiece) {
             whitePieceCells.emplace_back(hasPiece);
         }
     }
-
 }
 
 void Board::removeBlackOrWhitePieceCell() {

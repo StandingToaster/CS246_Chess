@@ -6,20 +6,20 @@
 #include "level2.h"
 #include "level3.h"
 #include "window.h"
+
 using namespace std;
 
 int main() {    
 
-
-    // Board b;
+    
+    Board b;
     // Controller * c = new Controller{&b};
     // c->playGame(cin, cout);
-    Xwindow xw;
+    
+    // Xwindow xw;
     while (true) {
         
-        
-        xw.fillRectangle(0,0,500,500,xw.White);
-        xw.drawString(250,250, "QUACK");
+        cout << "a" << endl;
     }
     
     // Computer* whiteC = new level1(&b, Colour::White);
