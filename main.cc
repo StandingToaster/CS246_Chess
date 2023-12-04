@@ -23,7 +23,7 @@ int main() {
 
     Move whiteMove = whiteC->generateMove();
 
-    b.activateMove(whiteMove.getStart(), whiteMove.getDest());
+    b.activateMove(b.getCell(whiteMove.getStart().getX(), whiteMove.getStart().getY()), b.getCell(whiteMove.getDest().getX(), whiteMove.getDest().getY()));
     b.calculateAllLegalMoves();
 
     cout << b << endl;
