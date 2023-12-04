@@ -73,6 +73,7 @@ if (input[1] == '8') {
     }
 
 void Controller::playGame(istream &in, ostream &out) {
+    bool gameEnd = false;
     string cmd;
     int currentPlayer = 1;
     while (getline(in, cmd)) {
@@ -82,6 +83,7 @@ void Controller::playGame(istream &in, ostream &out) {
         if (temp == "resign") {
             //Increment score, output resign message based on colour.
             if (player1 == nullptr && currentPlayer == 1) {
+                gameEnd = true;
                 out << "White resigns." << endl;
                 out << "Black Wins!" << endl;
                 out << "Current score: \n";
@@ -94,6 +96,7 @@ void Controller::playGame(istream &in, ostream &out) {
                 continue;
             }
             else if (player2 == nullptr && currentPlayer == 2) {
+                gameEnd = true;
                 out << "Black resigns." << endl;
                 out << "White Wins!" << endl;
                 out << "Current score: \n";
@@ -106,11 +109,39 @@ void Controller::playGame(istream &in, ostream &out) {
                 continue;
             }
             else {
+                if (player1 != nullptr && player2 != nullptr) {
+                    if (currentPlayer == 1) {
+                        gameEnd = true;
+                        out << "CPU White resigns." << endl;
+                        out << "CPU Black wins!" << endl;
+                        out << "Current score: \n";
+                         ++score2;
+                        out << "Black: " << score2 << endl;
+                         out << "White: " << score1 << endl;
+                            currentBoard->setEmptyBoard();
+                            currentPlayer = 0;
+                            continue;
+                             }
+                             else if (currentPlayer == 2) {
+                               gameEnd = true;
+                        out << "CPU Black resigns." << endl;
+                        out << "CPU White wins!" << endl;
+                        out << "Current score: \n";
+                         ++score1;
+                        out << "Black: " << score2 << endl;
+                         out << "White: " << score1 << endl;
+                            currentBoard->setEmptyBoard();
+                            currentPlayer = 0;
+                            continue; 
+                             }
+                }
+                gameEnd = false;
                 out << "You cannot resign yet!" << endl;
                 out << "Type -help for a list of commands" << endl;
+                continue;
             }
         }
-        else if (temp == "game") {
+        else if (temp == "game" && gameEnd) {
             string p1;
             string p2;
             while (iss >> p1) {
@@ -197,7 +228,7 @@ void Controller::playGame(istream &in, ostream &out) {
             }
             
         }
-        else if (temp == "move") {
+        else if (temp == "move" && !gameEnd) {
             //Accomadate for both cpu and humans
             string m1;
             string m2;
@@ -278,7 +309,7 @@ void Controller::playGame(istream &in, ostream &out) {
             }
             }
         }
-        else if (temp == "setup") {
+        else if (temp == "setup" && !gameEnd) {
             //Sets up game as per specifications
         }
         else if (temp == "-help") {
