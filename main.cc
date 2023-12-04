@@ -10,10 +10,11 @@ using namespace std;
 
 int main() {    
 
-
     Board b;
     Controller * c = new Controller{&b};
     c->playGame(cin, cout);
+
+
 
 
     // Computer* whiteC = new level1(&b, Colour::White);
