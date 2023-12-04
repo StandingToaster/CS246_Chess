@@ -115,31 +115,31 @@ void Controller::playGame(istream &in, ostream &out) {
             string p2;
             while (iss >> p1) {
                 if (p1 == "human") {
-                    delete player1;
+                    //delete player1;
                     player1 = nullptr;
                     break;
                 }
 
                 else if (p1 == "computer1") {
-                    delete player1;
+                   // delete player1;
                     player1 = new level1(currentBoard, Colour::White);
                     break;
                 }
 
                 else if (p1 == "computer2") {
-                    delete player1;
+                   //delete player1;
                     player1 = new level2(currentBoard, Colour::White);
                     break;
                 }
 
                 else if (p1 == "computer3") {
-                    delete player1;
+                    //delete player1;
                     player1 = new level3(currentBoard, Colour::White);
                     break;
                 }
 
                 else if (p1 == "computer4") {
-                    delete player1;
+                    //delete player1;
                     //player1 = new level4(currentBoard, Colour::White);
                     break;
                 }
@@ -152,31 +152,31 @@ void Controller::playGame(istream &in, ostream &out) {
 
             while (iss >> p2) {
                 if (p2 == "human") {
-                    delete player2;
+                    //delete player2;
                     player2 = nullptr;
                     break;
                 }
 
                 else if (p2 == "computer1") {
-                      delete player2;
+                      //delete player2;
                     player2 = new level1(currentBoard, Colour::Black);
                     break;
                 }
 
                 else if (p2 == "computer2") {
-                      delete player2;
+                      //delete player2;
                     player2 = new level2(currentBoard, Colour::Black);
                     break;
                 }
 
                 else if (p2 == "computer3") {
-                    delete player2;
+                   // delete player2;
                     player2 = new level3(currentBoard, Colour::Black);
                     break;
                 }
 
                 else if (p2 == "computer4") {
-                      delete player2;
+                      //delete player2;
                     //player2 = new level4(currentBoard, Colour::Black);
                     break;
                 }
