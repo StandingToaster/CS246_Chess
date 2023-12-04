@@ -223,6 +223,7 @@ void Controller::playGame(istream &in, ostream &out) {
             currentBoard->setDefaultBoard();
             out << *currentBoard << endl;
                 gameEnd = false;
+                currentPlayer = 1;
             if (p1 == "human" && p2 == "human") {
                 humanVsHuman(in, out);
             }
