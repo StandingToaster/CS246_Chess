@@ -355,6 +355,7 @@ void Controller::playGame(istream &in, ostream &out) {
         else if (temp == "setup" && gameEnd) {
             //Sets up game as per specifications
             currentBoard->setEmptyBoard();
+            currentBoard->clearLegalMoves();
             string SetupTemp;
             int numWhiteKings;
             int numBlackKings;
@@ -465,7 +466,20 @@ void Controller::playGame(istream &in, ostream &out) {
                            out << "Incorrect coordinates! Type -help for a list of commands." << endl;
                             continue; 
                         }
+                        else if (currentBoard->cellEmpty(dx, dy)) {
+                            out << "This cell is empty! Try again." << endl;
+                            continue;
+                        }
                         else {
+                            if (currentBoard->getCell(dx, dy).getChessPiece()->getPiece() == Piece::King && currentBoard->getCell(dx, dy).getChessPiece()->getColour() == Colour::Black) {
+                                --numBlackKings;
+                            }
+                            if (currentBoard->getCell(dx, dy).getChessPiece()->getPiece() == Piece::King && currentBoard->getCell(dx, dy).getChessPiece()->getColour() == Colour::White) {
+                                --numWhiteKings;
+                            }
+                            if ((dy == 0 || dy == 7) && currentBoard->getCell(dx,dy).getChessPiece()->getPiece() == Piece::Pawn) {
+                                --pawnAtEnd;
+                            }
                             currentBoard->removePieceFromBoard(dx, dy);
                             out <<*currentBoard << endl;
                             continue;
@@ -503,11 +517,17 @@ void Controller::playGame(istream &in, ostream &out) {
                     }
                 }
                 else if (cmd == "done") {
-                    if (pawnAtEnd > 0 || numBlackKings > 1 || numWhiteKings > 1 || currentBoard->checked(Colour::White) || currentBoard->checked(Colour::Black)) {
+                    currentBoard->clearLegalMoves();
+                    currentBoard->calculateAllLegalMoves();
+                    if (!(numBlackKings == 1 && numWhiteKings == 1) || pawnAtEnd > 0 || currentBoard->checked(Colour::White) || currentBoard->checked(Colour::Black)) {
                         out << "Conditions not satisfied to begin game. The board will be reset." << endl;
                         out << "Type -help for a list of commands." << endl;
                         currentBoard->setEmptyBoard();
                         out <<*currentBoard << endl;
+                        pawnAtEnd = 0;
+                        numBlackKings = 0;
+                        numWhiteKings = 0;
+                        currentBoard->clearLegalMoves();
                         continue;
                     }
                     else {
