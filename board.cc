@@ -422,7 +422,7 @@ bool Board::checkMated(Colour kingColour) {
             // cout << b_copy << endl;
 
             if (!b_copy.checked(Colour::Black)) {
-                cout << "NOT CHECKMATED" << endl;
+               // cout << "NOT CHECKMATED" << endl;
                 return false;
             }
         }
@@ -445,14 +445,14 @@ bool Board::checkMated(Colour kingColour) {
             // cout << b_copy << endl;
 
             if (!b_copy.checked(Colour::White)) {
-                cout << "NOT CHECKMATED" << endl;
+                //cout << "NOT CHECKMATED" << endl;
                 return false;
             }
         }
 
     }
 
-    cout << "CHECKMATE!" << endl;
+    //cout << "CHECKMATE!" << endl;
     return true;
 }
 
@@ -468,6 +468,74 @@ bool Board::stalemated() {
 
     // Check if white king is not checked and has no legal moves. 
     if (!checked(Colour::White) && allWhiteLegalMoves.size() == 0) {
+        return true;
+    }
+
+
+    int numBlackKing = 0;
+    int numBlackKnights = 0;
+    int numBlackBishops = 0;
+
+    int numWhiteKing = 0;
+    int numWhiteKnights = 0;
+    int numWhiteBishops = 0;
+
+    int numEmpty = 0;
+
+    // Determine num empty cells in theBoard 
+    for (int i = 0; i < boardSize; i++) {
+        for (int j = 0; j < boardSize; j++) {
+            if (cellEmpty(j, i)) {
+                numEmpty++;
+            }
+        }
+    }
+
+    for (long unsigned int i = 0; i < blackPieceCells.size(); i++) {
+        if (blackPieceCells[i]->getChessPiece()->getPiece() == Piece::King) {
+            numBlackKing++;
+        }
+
+        if (blackPieceCells[i]->getChessPiece()->getPiece() == Piece::Knight) {
+            numBlackKnights++;
+        }
+
+        if (blackPieceCells[i]->getChessPiece()->getPiece() == Piece::Bishop) {
+            numBlackBishops++;
+        }
+    }
+
+    for (long unsigned int i = 0; i < whitePieceCells.size(); i++) {
+        if (whitePieceCells[i]->getChessPiece()->getPiece() == Piece::King) {
+            numWhiteKing++;
+        }
+
+        if (blackPieceCells[i]->getChessPiece()->getPiece() == Piece::Knight) {
+            numWhiteKnights++;
+        }
+
+        if (blackPieceCells[i]->getChessPiece()->getPiece() == Piece::Bishop) {
+            numWhiteBishops++;
+        }
+    }
+
+    if (numBlackKing == 1 && numWhiteKing == 1 && numEmpty == 62) {
+        return true;
+    }
+        
+    if (numBlackKing == 1 && numBlackBishops == 1 && numWhiteKing == 1 && numEmpty == 61) {
+        return true;
+    }
+
+    if (numBlackKing == 1 && numBlackKnights == 1 && numWhiteKing == 1 && numEmpty == 61) {
+        return true;
+    }
+
+    if (numWhiteKing == 1 && numWhiteBishops == 1 && numBlackKing == 1 && numEmpty == 61) {
+        return true;
+    }
+
+    if (numWhiteKing == 1 && numWhiteKnights == 1 && numBlackKing == 1 && numEmpty == 61) {
         return true;
     }
 

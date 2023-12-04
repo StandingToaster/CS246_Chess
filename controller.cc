@@ -77,6 +77,40 @@ void Controller::playGame(istream &in, ostream &out) {
     string cmd;
     int currentPlayer = 0;
     while (getline(in, cmd)) {
+        if (!gameEnd && currentBoard->stalemated()) {
+            gameEnd = true;
+            out << "Stalemate!" << endl;
+            score1 += 0.5;
+            score2 += 0.5;
+           out << "Current score: \n";
+            out << "Black: " << score2 << endl;
+            out << "White: " << score1 << endl;
+            currentBoard->setEmptyBoard();
+            currentPlayer = 0;
+            continue; 
+        }
+        if (currentPlayer == 1 && currentBoard->checkMated(Colour::White) && !gameEnd) {
+            gameEnd = true;
+            out << "Checkmate! Black wins!" << endl;
+            score2++;
+            out << "Current score: \n";
+            out << "Black: " << score2 << endl;
+            out << "White: " << score1 << endl;
+            currentBoard->setEmptyBoard();
+            currentPlayer = 0;
+            continue;
+        }
+        if (currentPlayer == 2 && currentBoard->checkMated(Colour::Black) && !gameEnd) {
+            gameEnd = true;
+            out << "Checkmate! White wins!" << endl;
+            score1++;
+            out << "Current score: \n";
+            out << "Black: " << score2 << endl;
+            out << "White: " << score1 << endl;
+            currentBoard->setEmptyBoard();
+            currentPlayer = 0;
+            continue;
+        }
         string temp;
         istringstream iss {cmd};
         iss >> temp;
@@ -241,6 +275,9 @@ void Controller::playGame(istream &in, ostream &out) {
                 currentBoard->clearLegalMoves();
                 currentBoard->calculateAllLegalMoves();
                 if (notFailBit) {
+                     if (currentPlayer == 1 && currentBoard->checked(Colour::White) && !gameEnd) {
+            out << "White is in check." << endl;
+                     }
                 currentPlayer = 2;
                 out << *currentBoard << endl;
                 }
@@ -262,6 +299,9 @@ void Controller::playGame(istream &in, ostream &out) {
                 currentBoard->activateMove(currentBoard->getCell(sx, sy), currentBoard->getCell(dx, dy));
                 currentBoard->clearLegalMoves();
                 currentBoard->calculateAllLegalMoves();
+                 if (currentPlayer == 1 && currentBoard->checked(Colour::White) && !gameEnd) {
+            out << "White is in check." << endl;
+                     }
                 currentPlayer = 2;
                 out << *currentBoard << endl;
                 continue;
@@ -279,6 +319,9 @@ void Controller::playGame(istream &in, ostream &out) {
                 currentBoard->clearLegalMoves();
                 currentBoard->calculateAllLegalMoves();
                 if (notFailBit) {
+        if (currentPlayer == 2 && currentBoard->checked(Colour::Black) && !gameEnd) {
+            out << "Black is in check." << endl;
+        }
                 currentPlayer = 1;
                 out << *currentBoard << endl;
                 }
@@ -300,14 +343,23 @@ void Controller::playGame(istream &in, ostream &out) {
                 currentBoard->activateMove(currentBoard->getCell(sx, sy), currentBoard->getCell(dx, dy));
                 currentBoard->clearLegalMoves();
                 currentBoard->calculateAllLegalMoves();
+        if (currentPlayer == 2 && currentBoard->checked(Colour::Black) && !gameEnd) {
+            out << "Black is in check." << endl;
+                  }
                 currentPlayer = 1;
                 out << *currentBoard << endl;
                 continue;
             }
             }
         }
-        else if (temp == "setup" && !gameEnd) {
+        else if (temp == "setup" && gameEnd) {
             //Sets up game as per specifications
+            currentBoard->setEmptyBoard();
+            string SetupTemp;
+            while (getline(in, SetupTemp)) {    
+                
+            }
+            
         }
         else if (temp == "-help") {
             //help specifications

@@ -14,7 +14,7 @@ class Controller {
 Board* currentBoard;
 Computer* player1;
 Computer* player2;
-int score1, score2;
+float score1, score2;
 
 public:
 Controller(Board* init);
