@@ -245,9 +245,8 @@ void Controller::playGame(istream &in, ostream &out) {
                     out << "Please input valid coordinates: [a-h][1-7]" << endl;
                     continue;
                 }
-                currentBoard->clearLegalMoves();
-                currentBoard->calculateAllLegalMoves();
                 bool notFailBit = currentBoard->activateMove(currentBoard->getCell(sx, sy), currentBoard->getCell(dx, dy));
+                currentBoard->clearLegalMoves();
                 currentBoard->calculateAllLegalMoves();
                 if (notFailBit) {
                 currentPlayer = 2;
@@ -264,9 +263,8 @@ void Controller::playGame(istream &in, ostream &out) {
                 sy = temp.getStart().getY();
                 dx = temp.getDest().getX();
                 dy = temp.getDest().getY();
-                currentBoard->clearLegalMoves();
-                currentBoard->calculateAllLegalMoves();
                 currentBoard->activateMove(currentBoard->getCell(sx, sy), currentBoard->getCell(dx, dy));
+                currentBoard->clearLegalMoves();
                 currentBoard->calculateAllLegalMoves();
                 currentPlayer = 2;
                 out << *currentBoard << endl;
@@ -281,9 +279,8 @@ void Controller::playGame(istream &in, ostream &out) {
                     out << "Please input valid coordinates: [a-h][1-7]" << endl;
                     continue;
                 }
-                currentBoard->clearLegalMoves();
-                currentBoard->calculateAllLegalMoves();
                 bool notFailBit = currentBoard->activateMove(currentBoard->getCell(sx, sy), currentBoard->getCell(dx, dy));
+                currentBoard->clearLegalMoves();
                 currentBoard->calculateAllLegalMoves();
                 if (notFailBit) {
                 currentPlayer = 1;
@@ -300,9 +297,8 @@ void Controller::playGame(istream &in, ostream &out) {
                 sy = temp.getStart().getY();
                 dx = temp.getDest().getX();
                 dy = temp.getDest().getY();
-                currentBoard->clearLegalMoves();
-                currentBoard->calculateAllLegalMoves();
                 currentBoard->activateMove(currentBoard->getCell(sx, sy), currentBoard->getCell(dx, dy));
+                currentBoard->clearLegalMoves();
                 currentBoard->calculateAllLegalMoves();
                 currentPlayer = 1;
                 out << *currentBoard << endl;
