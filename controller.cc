@@ -144,81 +144,73 @@ void Controller::playGame(istream &in, ostream &out) {
         else if (temp == "game" && gameEnd) {
             string p1;
             string p2;
-            while (iss >> p1) {
+            if (iss >> p1) {
                 if (p1 == "human") {
                     //delete player1;
                     player1 = nullptr;
-                    break;
                 }
 
                 else if (p1 == "computer1") {
                    // delete player1;
                     player1 = new level1(currentBoard, Colour::White);
-                    break;
                 }
 
                 else if (p1 == "computer2") {
                    //delete player1;
                     player1 = new level2(currentBoard, Colour::White);
-                    break;
                 }
 
                 else if (p1 == "computer3") {
                     //delete player1;
                     player1 = new level3(currentBoard, Colour::White);
-                    break;
                 }
 
                 else if (p1 == "computer4") {
                     //delete player1;
                     //player1 = new level4(currentBoard, Colour::White);
-                    break;
                 }
-
                 else {
                     out << "Please input human or computer[1-4]" << endl;
+                    continue;
                 }
-
             }
-
-            while (iss >> p2) {
+            if (iss >> p2) {
                 if (p2 == "human") {
                     //delete player2;
                     player2 = nullptr;
-                    break;
                 }
 
                 else if (p2 == "computer1") {
                       //delete player2;
                     player2 = new level1(currentBoard, Colour::Black);
-                    break;
                 }
 
                 else if (p2 == "computer2") {
                       //delete player2;
                     player2 = new level2(currentBoard, Colour::Black);
-                    break;
                 }
 
                 else if (p2 == "computer3") {
                    // delete player2;
                     player2 = new level3(currentBoard, Colour::Black);
-                    break;
                 }
 
                 else if (p2 == "computer4") {
                       //delete player2;
                     //player2 = new level4(currentBoard, Colour::Black);
-                    break;
                 }
 
                 else {
                     out << "Please input human or computer[1-4]" << endl;
                     continue;
                 }
-
             }
-            
+
+            if (p2 == "") {
+                out << "Please input human or computer[1-4]" << endl;
+                    continue; 
+            }
+
             // Create new game, follow specifications
             currentBoard->setDefaultBoard();
             out << *currentBoard << endl;
