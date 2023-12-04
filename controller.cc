@@ -187,10 +187,15 @@ void Controller::playGame(istream &in, ostream &out) {
                 }
                 currentBoard->clearLegalMoves();
                 currentBoard->calculateAllLegalMoves();
-                currentBoard->activateMove(currentBoard->getCell(sx, sy), currentBoard->getCell(dx, dy));
+                bool notFailBit = currentBoard->activateMove(currentBoard->getCell(sx, sy), currentBoard->getCell(dx, dy));
                 currentBoard->calculateAllLegalMoves();
+                if (notFailBit) {
                 currentPlayer = 2;
                 out << *currentBoard << endl;
+                }
+                else {
+                    out << "This move is invalid. Try again!" << endl << "-help for list of commands" << endl;
+                }
                 continue;
             }
             else {
@@ -218,10 +223,15 @@ void Controller::playGame(istream &in, ostream &out) {
                 }
                 currentBoard->clearLegalMoves();
                 currentBoard->calculateAllLegalMoves();
-                currentBoard->activateMove(currentBoard->getCell(sx, sy), currentBoard->getCell(dx, dy));
+                bool notFailBit = currentBoard->activateMove(currentBoard->getCell(sx, sy), currentBoard->getCell(dx, dy));
                 currentBoard->calculateAllLegalMoves();
+                if (notFailBit) {
                 currentPlayer = 1;
                 out << *currentBoard << endl;
+                }
+                else {
+                    out << "This move is invalid. Try again!" << endl << "-help for list of commands" << endl;
+                }
                 continue;
             }
             else {
