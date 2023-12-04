@@ -354,6 +354,7 @@ void Controller::playGame(istream &in, ostream &out) {
         }
         else if (temp == "setup" && !gameEnd) {
             //Sets up game as per specifications
+            
         }
         else if (temp == "-help") {
             //help specifications
