@@ -12,10 +12,11 @@ int main() {
 
 
     Board b;
-    Controller c {&b, nullptr, nullptr};
-    c.playGame(cin, cout);
+    //Controller c {&b, nullptr, nullptr};
     
-    // b.setDefaultBoard();
+    b.setDefaultBoard();
+
+    cout << b;
 
     // b.setPieceOnBoard(new King(Colour::Black), 0, 7);
     // b.setPieceOnBoard(new Rook(Colour::Black), 2 , 7);
