@@ -75,7 +75,7 @@ if (input[1] == '8') {
 void Controller::playGame(istream &in, ostream &out) {
     bool gameEnd = true;
     string cmd;
-    int currentPlayer = 1;
+    int currentPlayer = 0;
     while (getline(in, cmd)) {
         string temp;
         istringstream iss {cmd};
