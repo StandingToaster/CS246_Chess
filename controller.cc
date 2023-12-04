@@ -250,9 +250,6 @@ void Controller::playGame(istream &in, ostream &out) {
             out << *currentBoard << endl;
                 gameEnd = false;
                 currentPlayer = 1;
-            if (p1 == "human" && p2 == "human") {
-                humanVsHuman(in, out);
-            }
             
         }
         else if (temp == "move" && !gameEnd) {
@@ -551,59 +548,4 @@ void Controller::playGame(istream &in, ostream &out) {
             continue;
         }
     }
-}
-
-
-
-
-void Controller::humanVsHuman(istream & in, ostream & out) {
-
-    string line;
-    Colour currentPlayer = Colour::White; // white always goes first
-
-    while (getline(in, line)) {
-
-        istringstream iss(line);
-
-        string cmd = "";
-        string start = "";
-        string dest = "";
-        string promoteTo = ""; // optional, for pawn promotion
-        Piece toPromote;
-
-        iss >> cmd >> start >> dest >> promoteTo;
-
-        if (cmd == "resign") {
-            if (currentPlayer == Colour::White) { // white player resigned, black wins
-                score2++;
-            } else { // black player resigned, white wins
-                score1++;
-            }
-            break;
-        }
-
-        else if (cmd == "move") {
-            
-            // To convert start/dest coordinates to ints, perhaps a <map> could work?
-                // Ensure start coordinates are proper, and convert them to integers
-                // Ensure dest coordinates are proper, and conver them to integers
-
-            // Ensure promoteTo string is valid with, and convert it into the Piece toPromote. 
-            
-            out << start << endl;
-            out << dest << endl;
-            out << promoteTo << endl;
-
-            break;
-
-            
-
-        }
-        
-        else { // cmd not found
-            cout << "Please input a valid command to play the game" << endl;
-        }
-
-    }
-
 }

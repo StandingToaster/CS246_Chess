@@ -1,1 +1,0 @@
-human.o: human.cc
