@@ -11,16 +11,17 @@ using namespace std;
 
 int main() {    
 
-    
+
     Board b;
-    // Controller * c = new Controller{&b};
-    // c->playGame(cin, cout);
-    
-    // Xwindow xw;
-    while (true) {
+    Controller * c = new Controller{&b};
+    c->playGame(cin, cout);
+    // //Xwindow xw;
+    // //while (true) {
         
-        cout << "a" << endl;
-    }
+        
+    //     xw.fillRectangle(0,0,500,500,xw.White);
+    //     xw.drawString(250,250, "QUACK");
+    // }
     
     // Computer* whiteC = new level1(&b, Colour::White);
     // Computer* blackC = new level1(&b, Colour::Black);
