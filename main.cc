@@ -13,7 +13,20 @@ int main() {
 
     Board b;
     Controller c {&b};
-    c.playGame(cin, cout);
+    //c.playGame(cin, cout);
+    
+    b.setDefaultBoard();
+    cout << b << endl;
+
+
+    Computer * whiteC = new level2(&b, Colour::White);
+
+    Move whiteMove = whiteC->generateMove();
+
+    b.activateMove(whiteMove.getStart(), whiteMove.getDest());
+    b.calculateAllLegalMoves();
+
+    cout << b << endl;
 
     
     // b.setDefaultBoard();
