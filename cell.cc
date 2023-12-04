@@ -87,7 +87,11 @@ ostream& operator<<(ostream &out, const Cell &c) {
     if (c.piece != nullptr) {
         out << *c.piece;
     } else {
-        out << ".";
+        if (c.colour == Colour::Black) {
+            out << "_";
+        } else {
+            out << " ";
+        }
     }
 
     return out;

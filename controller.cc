@@ -77,7 +77,7 @@ void Controller::playGame(istream &in, ostream &out) {
     int currentPlayer = 1;
     while (getline(in, cmd)) {
         string temp;
-        istringstream iss {temp};
+        istringstream iss {cmd};
         iss >> temp;
         if (temp == "resign") {
             //Increment score, output resign message based on colour.
