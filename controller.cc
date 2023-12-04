@@ -362,7 +362,8 @@ void Controller::playGame(istream &in, ostream &out) {
             while (getline(in, SetupTemp)) {    
                 istringstream iiss {SetupTemp};
                 string cmd;
-                if (iiss >> cmd && cmd == "+") {
+                iiss >> cmd;
+                if (cmd == "+") {
                     string piece;
                     int dx;
                     int dy;
@@ -376,46 +377,70 @@ void Controller::playGame(istream &in, ostream &out) {
                         if (piece == "K") {
                             currentBoard->setPieceOnBoard(new King{Colour::White}, dx, dy);
                             ++numWhiteKings;
+                            out <<*currentBoard << endl;
+                            continue;
                         }
                         else if (piece == "k") {
                             currentBoard->setPieceOnBoard(new King{Colour::Black}, dx, dy);
                             ++numBlackKings;
+                            out <<*currentBoard << endl;
+                            continue;
                         }
                         else if (piece == "Q") {
                             currentBoard->setPieceOnBoard(new Queen{Colour::White}, dx, dy);
+                            out <<*currentBoard << endl;
+                            continue;
                         }
                         else if (piece == "q") {
                             currentBoard->setPieceOnBoard(new Queen{Colour::Black}, dx, dy);
+                            out <<*currentBoard << endl;
+                            continue;
                         }
                         else if (piece == "N") {
                             currentBoard->setPieceOnBoard(new Knight{Colour::White}, dx, dy);
+                            out <<*currentBoard << endl;
+                            continue;
                         }
                         else if (piece == "n") {
                             currentBoard->setPieceOnBoard(new Knight{Colour::Black}, dx, dy);
+                            out <<*currentBoard << endl;
+                            continue;
                         }
                         else if (piece == "B") {
                             currentBoard->setPieceOnBoard(new Bishop{Colour::White}, dx ,dy);
+                            out <<*currentBoard << endl;
+                            continue;
                         }
                         else if (piece == "b") {
                             currentBoard->setPieceOnBoard(new Bishop{Colour::Black}, dx, dy);
+                            out <<*currentBoard << endl;
+                            continue;
                         }
                         else if (piece == "R") {
                             currentBoard->setPieceOnBoard(new Rook{Colour::White}, dx, dy);
+                            out <<*currentBoard << endl;
+                            continue;
                         }
                         else if (piece == "r") {
                             currentBoard->setPieceOnBoard(new Rook{Colour::Black}, dx ,dy);
+                            out <<*currentBoard << endl;
+                            continue;
                         }
                         else if (piece == "P") {
                             currentBoard->setPieceOnBoard(new Pawn{Colour::White}, dx ,dy);
+                            out <<*currentBoard << endl;
                             if (dy == 0 || dy == 7) {
                                 ++pawnAtEnd;
                             }
+                            continue;
                         }
                         else if (piece == "p") {
                             currentBoard->setPieceOnBoard(new Pawn{Colour::Black}, dx , dy);
+                            out <<*currentBoard << endl;
                             if (dy == 0 || dy == 7) {
                                 ++pawnAtEnd;
                             }
+                            continue;
                         }
                         else {
                             out << "Incorrect piece type." << endl;
@@ -426,7 +451,7 @@ void Controller::playGame(istream &in, ostream &out) {
                         }
                     }
                 }
-                else if (iiss >> cmd && cmd == "-") {
+                else if (cmd == "-") {
                     string coord;
                     int dx;
                     int dy;
@@ -438,6 +463,7 @@ void Controller::playGame(istream &in, ostream &out) {
                         }
                         else {
                             currentBoard->removePieceFromBoard(dx, dy);
+                            out <<*currentBoard << endl;
                             continue;
                         }
                     }
@@ -447,17 +473,19 @@ void Controller::playGame(istream &in, ostream &out) {
                         continue;
                     }
                 }
-                else if (iiss >> cmd && cmd == "-help") {
+                else if (cmd == "-help") {
                     //add help.
                 }
-                else if (iss >> cmd && cmd == "=") {
+                else if (cmd == "=") {
                     string colour;
                     if (iss >> colour) {
                         if (colour == "black") {
                             currentPlayer = 2;
+                            continue;
                         }
                         else if (colour == "white") {
                             currentPlayer = 1;
+                            continue;
                         }
                         else {
                             out << "Incorrect colour. Input black or white." << endl;
@@ -470,14 +498,16 @@ void Controller::playGame(istream &in, ostream &out) {
                         continue;
                     }
                 }
-                else if (iiss >> cmd && cmd == "done") {
+                else if (cmd == "done") {
                     if (pawnAtEnd > 0 || numBlackKings > 1 || numWhiteKings > 1 || currentBoard->checked(Colour::White) || currentBoard->checked(Colour::Black)) {
                         out << "Conditions not satisfied to begin game. The board will be reset." << endl;
                         out << "Type -help for a list of commands." << endl;
                         currentBoard->setEmptyBoard();
+                        out <<*currentBoard << endl;
                         continue;
                     }
                     else {
+                        out <<*currentBoard << endl;
                         gameEnd = false;
                         break;
                     }
