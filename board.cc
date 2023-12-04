@@ -3,7 +3,6 @@
 
 using namespace std;
 
-
 Board::Board() {}
 
 Board::Board(const Board& other):boardSize(other.boardSize) {
