@@ -4,6 +4,7 @@
 #include <vector>
 #include <iostream>
 #include "computer.h"
+#include "window.h"
 
 using namespace std;
 
@@ -12,6 +13,9 @@ class Board {
     friend class Cell;
     
     const int boardSize = 8;
+
+    Xwindow xw;
+
     vector<vector<Cell>> theBoard; // the actual chess board
 
     vector<Cell*> blackPieceCells; // at most 16, cells which hold black pieces

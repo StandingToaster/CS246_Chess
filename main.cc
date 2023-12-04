@@ -14,11 +14,14 @@ int main() {
     // Board b;
     // Controller * c = new Controller{&b};
     // c->playGame(cin, cout);
-
     Xwindow xw;
-
-    xw.fillRectangle(0,0,500,500,xw.Black);
-
+    while (true) {
+        
+        
+        xw.fillRectangle(0,0,500,500,xw.White);
+        xw.drawString(250,250, "QUACK");
+    }
+    
     // Computer* whiteC = new level1(&b, Colour::White);
     // Computer* blackC = new level1(&b, Colour::Black);
 
