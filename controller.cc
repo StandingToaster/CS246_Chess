@@ -111,12 +111,6 @@ void Controller::playGame(istream &in, ostream &out) {
             currentPlayer = 0;
             continue;
         }
-        if (currentPlayer == 1 && currentBoard->checked(Colour::White) && !gameEnd) {
-            out << "White is in check." << endl;
-        }
-        if (currentPlayer == 1 && currentBoard->checked(Colour::Black) && !gameEnd) {
-            out << "Black is in check" << endl;
-        }
         string temp;
         istringstream iss {cmd};
         iss >> temp;
@@ -281,6 +275,9 @@ void Controller::playGame(istream &in, ostream &out) {
                 currentBoard->clearLegalMoves();
                 currentBoard->calculateAllLegalMoves();
                 if (notFailBit) {
+                     if (currentPlayer == 1 && currentBoard->checked(Colour::White) && !gameEnd) {
+            out << "White is in check." << endl;
+                     }
                 currentPlayer = 2;
                 out << *currentBoard << endl;
                 }
@@ -302,6 +299,9 @@ void Controller::playGame(istream &in, ostream &out) {
                 currentBoard->activateMove(currentBoard->getCell(sx, sy), currentBoard->getCell(dx, dy));
                 currentBoard->clearLegalMoves();
                 currentBoard->calculateAllLegalMoves();
+                 if (currentPlayer == 1 && currentBoard->checked(Colour::White) && !gameEnd) {
+            out << "White is in check." << endl;
+                     }
                 currentPlayer = 2;
                 out << *currentBoard << endl;
                 continue;
@@ -319,6 +319,9 @@ void Controller::playGame(istream &in, ostream &out) {
                 currentBoard->clearLegalMoves();
                 currentBoard->calculateAllLegalMoves();
                 if (notFailBit) {
+        if (currentPlayer == 2 && currentBoard->checked(Colour::Black) && !gameEnd) {
+            out << "Black is in check." << endl;
+        }
                 currentPlayer = 1;
                 out << *currentBoard << endl;
                 }
@@ -340,6 +343,9 @@ void Controller::playGame(istream &in, ostream &out) {
                 currentBoard->activateMove(currentBoard->getCell(sx, sy), currentBoard->getCell(dx, dy));
                 currentBoard->clearLegalMoves();
                 currentBoard->calculateAllLegalMoves();
+        if (currentPlayer == 2 && currentBoard->checked(Colour::Black) && !gameEnd) {
+            out << "Black is in check." << endl;
+                  }
                 currentPlayer = 1;
                 out << *currentBoard << endl;
                 continue;
