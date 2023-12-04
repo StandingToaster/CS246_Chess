@@ -13,20 +13,20 @@ int main() {
 
     Board b;
     Controller c {&b};
-    //c.playGame(cin, cout);
+    c.playGame(cin, cout);
     
-    b.setDefaultBoard();
-    cout << b << endl;
+    // b.setDefaultBoard();
+    // cout << b << endl;
 
 
-    Computer * whiteC = new level2(&b, Colour::White);
+    // Computer * whiteC = new level2(&b, Colour::White);
 
-    Move whiteMove = whiteC->generateMove();
+    // Move whiteMove = whiteC->generateMove();
 
-    b.activateMove(b.getCell(whiteMove.getStart().getX(), whiteMove.getStart().getY()), b.getCell(whiteMove.getDest().getX(), whiteMove.getDest().getY()));
-    b.calculateAllLegalMoves();
+    // b.activateMove(b.getCell(whiteMove.getStart().getX(), whiteMove.getStart().getY()), b.getCell(whiteMove.getDest().getX(), whiteMove.getDest().getY()));
+    // b.calculateAllLegalMoves();
 
-    cout << b << endl;
+    // cout << b << endl;
 
     
     // b.setDefaultBoard();
