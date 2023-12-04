@@ -163,6 +163,10 @@ void Controller::playGame(istream &in, ostream &out) {
             // Create new game, follow specifications
             currentBoard->setDefaultBoard();
             out << *currentBoard << endl;
+
+            if (p1 == "human" && p2 == "human") {
+                humanVsHuman(in, out);
+            }
             
         }
         else if (temp == "move") {
