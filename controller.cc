@@ -2,7 +2,7 @@
 #include <sstream>
 using namespace std;
 
-Controller::Controller(Board* init, Computer* p1, Computer* p2): currentBoard{init}, player1{p1}, player2{p2}, score1{0}, score2{0} {}
+Controller::Controller(Board* init): currentBoard{init}, player1{nullptr}, player2{nullptr}, score1{0}, score2{0} {}
 
 // Controller::~Controller() {
 //     delete currentBoard;

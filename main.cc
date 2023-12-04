@@ -12,8 +12,9 @@ int main() {
 
 
     Board b;
-    Controller c {&b, nullptr, nullptr};
+    Controller c {&b};
     c.playGame(cin, cout);
+
     
     // b.setDefaultBoard();
 
@@ -59,7 +60,7 @@ int main() {
 
 
     // // // b.activateMove(b.getCell(7,4), b.getCell(7,3));
-    b.promotePawn(Piece::Queen);
+    //b.promotePawn(Piece::Queen);
     
 
     // b.clearLegalMoves();
