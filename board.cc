@@ -422,7 +422,7 @@ bool Board::checkMated(Colour kingColour) {
             // cout << b_copy << endl;
 
             if (!b_copy.checked(Colour::Black)) {
-                cout << "NOT CHECKMATED" << endl;
+               // cout << "NOT CHECKMATED" << endl;
                 return false;
             }
         }
@@ -445,14 +445,14 @@ bool Board::checkMated(Colour kingColour) {
             // cout << b_copy << endl;
 
             if (!b_copy.checked(Colour::White)) {
-                cout << "NOT CHECKMATED" << endl;
+                //cout << "NOT CHECKMATED" << endl;
                 return false;
             }
         }
 
     }
 
-    cout << "CHECKMATE!" << endl;
+    //cout << "CHECKMATE!" << endl;
     return true;
 }
 
