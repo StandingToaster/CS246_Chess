@@ -356,8 +356,136 @@ void Controller::playGame(istream &in, ostream &out) {
             //Sets up game as per specifications
             currentBoard->setEmptyBoard();
             string SetupTemp;
+            int numWhiteKings;
+            int numBlackKings;
+            int pawnAtEnd;
             while (getline(in, SetupTemp)) {    
-                
+                istringstream iiss {SetupTemp};
+                string cmd;
+                if (iiss >> cmd && cmd == "+") {
+                    string piece;
+                    int dx;
+                    int dy;
+                    string coord;
+                    if (iiss >> piece && iiss >> coord) {
+                        this->convertCoordinates(dx, dy, coord);
+                        if (dx == -1 || dy == -1) {
+                            out << "Incorrect coordinates! Type -help for a list of commands." << endl;
+                            continue;
+                        }
+                        if (piece == "K") {
+                            currentBoard->setPieceOnBoard(new King{Colour::White}, dx, dy);
+                            ++numWhiteKings;
+                        }
+                        else if (piece == "k") {
+                            currentBoard->setPieceOnBoard(new King{Colour::Black}, dx, dy);
+                            ++numBlackKings;
+                        }
+                        else if (piece == "Q") {
+                            currentBoard->setPieceOnBoard(new Queen{Colour::White}, dx, dy);
+                        }
+                        else if (piece == "q") {
+                            currentBoard->setPieceOnBoard(new Queen{Colour::Black}, dx, dy);
+                        }
+                        else if (piece == "N") {
+                            currentBoard->setPieceOnBoard(new Knight{Colour::White}, dx, dy);
+                        }
+                        else if (piece == "n") {
+                            currentBoard->setPieceOnBoard(new Knight{Colour::Black}, dx, dy);
+                        }
+                        else if (piece == "B") {
+                            currentBoard->setPieceOnBoard(new Bishop{Colour::White}, dx ,dy);
+                        }
+                        else if (piece == "b") {
+                            currentBoard->setPieceOnBoard(new Bishop{Colour::Black}, dx, dy);
+                        }
+                        else if (piece == "R") {
+                            currentBoard->setPieceOnBoard(new Rook{Colour::White}, dx, dy);
+                        }
+                        else if (piece == "r") {
+                            currentBoard->setPieceOnBoard(new Rook{Colour::Black}, dx ,dy);
+                        }
+                        else if (piece == "P") {
+                            currentBoard->setPieceOnBoard(new Pawn{Colour::White}, dx ,dy);
+                            if (dy == 0 || dy == 7) {
+                                ++pawnAtEnd;
+                            }
+                        }
+                        else if (piece == "p") {
+                            currentBoard->setPieceOnBoard(new Pawn{Colour::Black}, dx , dy);
+                            if (dy == 0 || dy == 7) {
+                                ++pawnAtEnd;
+                            }
+                        }
+                        else {
+                            out << "Incorrect piece type." << endl;
+                            out << "[P, B, R, N, Q, K] for White-Player" << endl;
+                            out << "[p, b, r, n, q, k] for Black-Player" << endl;
+                            out << "Type -help for a list of commands." << endl;
+                            continue;
+                        }
+                    }
+                }
+                else if (iiss >> cmd && cmd == "-") {
+                    string coord;
+                    int dx;
+                    int dy;
+                    if (iiss >> coord) {
+                        this->convertCoordinates(dx, dy, coord);
+                        if (dx == -1 || dy == -1) {
+                           out << "Incorrect coordinates! Type -help for a list of commands." << endl;
+                            continue; 
+                        }
+                        else {
+                            currentBoard->removePieceFromBoard(dx, dy);
+                            continue;
+                        }
+                    }
+                    else {
+                        out << "Incorrect format to remove a piece. Follow - [letter][number]" << endl;
+                        out << "Type -help for a list of commands." << endl;
+                        continue;
+                    }
+                }
+                else if (iiss >> cmd && cmd == "-help") {
+                    //add help.
+                }
+                else if (iss >> cmd && cmd == "=") {
+                    string colour;
+                    if (iss >> colour) {
+                        if (colour == "black") {
+                            currentPlayer = 2;
+                        }
+                        else if (colour == "white") {
+                            currentPlayer = 1;
+                        }
+                        else {
+                            out << "Incorrect colour. Input black or white." << endl;
+                            continue;
+                        }
+                    }
+                    else {
+                        out << "Incorect format to set current player. Follow = [colour]" << endl;
+                        out << "Type -help for a list of commands." << endl;
+                        continue;
+                    }
+                }
+                else if (iiss >> cmd && cmd == "done") {
+                    if (pawnAtEnd > 0 || numBlackKings > 1 || numWhiteKings > 1 || currentBoard->checked(Colour::White) || currentBoard->checked(Colour::Black)) {
+                        out << "Conditions not satisfied to begin game. The board will be reset." << endl;
+                        out << "Type -help for a list of commands." << endl;
+                        currentBoard->setEmptyBoard();
+                        continue;
+                    }
+                    else {
+                        gameEnd = false;
+                        break;
+                    }
+                }
+                else {
+                    out << "Invalid input! Type -help for a list of commands." << endl;
+                    continue;
+                }
             }
             
         }
