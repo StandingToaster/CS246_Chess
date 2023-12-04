@@ -352,8 +352,14 @@ void Controller::playGame(istream &in, ostream &out) {
             }
             }
         }
-        else if (temp == "setup" && !gameEnd) {
+        else if (temp == "setup" && gameEnd) {
             //Sets up game as per specifications
+            currentBoard->setEmptyBoard();
+            string SetupTemp;
+            while (getline(in, SetupTemp)) {    
+                
+            }
+            
         }
         else if (temp == "-help") {
             //help specifications
