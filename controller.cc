@@ -450,6 +450,10 @@ void Controller::playGame(istream &in, ostream &out) {
                             continue;
                         }
                     }
+                    else {
+                        out << "Unknown input. Try again." << endl;
+                        continue;
+                    }
                 }
                 else if (cmd == "-") {
                     string coord;
