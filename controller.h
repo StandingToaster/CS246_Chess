@@ -6,7 +6,6 @@
 #include "level2.h"
 #include "level3.h"
 #include "level4.h"
-#include "human.h"
 #include <sstream>
 using namespace std;
 
