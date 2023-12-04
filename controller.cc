@@ -204,6 +204,7 @@ void Controller::playGame(istream &in, ostream &out) {
                 currentBoard->calculateAllLegalMoves();
                 currentPlayer = 2;
             }
+            out << *currentBoard << endl;
             }
             else {
                if (player2 == nullptr && iss >> m1 && iss >> m2) {
@@ -231,7 +232,8 @@ void Controller::playGame(istream &in, ostream &out) {
                 currentBoard->activateMove(currentBoard->getCell(sx, sy), currentBoard->getCell(dx, dy));
                 currentBoard->calculateAllLegalMoves();
                 currentPlayer = 1;
-            } 
+            }
+            out << *currentBoard << endl; 
             }
         }
         else if (temp == "setup") {
