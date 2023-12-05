@@ -19,7 +19,7 @@ Move level2::generateMove() {
         enemyColour = Colour::White;
     }
 
-    //first, try returning a capturing move first
+    //first, try returning a capturing move
     for (Move m : validMoves) {
 
         int sx = m.getStart().getX();

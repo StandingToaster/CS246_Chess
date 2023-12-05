@@ -62,7 +62,7 @@ class Board {
     bool checked(Colour kingColour);
     bool checkMated(Colour kingColour);
     bool stalemated();
-    bool pieceIsAtThreat(Cell& c);
+    bool pieceIsAtThreat(int x, int y);
 
     vector<Move> getLegalMoves(Colour colour);
     vector<Cell*> getOccupiedCells(Colour colour);

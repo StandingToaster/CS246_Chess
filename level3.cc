@@ -5,30 +5,6 @@ using namespace std;
 
 level3::level3(Board* in, Colour cur): Computer{in, cur} {}
 
-// determines whether a piece at cell c is under threat and returns false if there
-// is no piece at that cell
-bool pieceIsAtThreat(Cell& c, Board& b) {
-    // if no piece at cell return false
-    if (c.getChessPiece() == nullptr) {
-        return false;
-    }
-
-
-    Colour col = c.getChessPiece()->getColour();
-    Colour enemycol;
-    col == Colour::Black ? enemycol = Colour::White : enemycol = Colour::Black;
-
-    //check if any of the enemy teams pieces can attack cell c
-    for (Cell* attacker : b.getOccupiedCells(enemycol)) {
-        if(b.attackPossible(*attacker, c)) {
-            return true;
-        }
-    }
-    
-    // if loop exited piece is not under threat of attack
-    return false;
-}
-
 // returns a move similar to level2s logic but also ensures that a check/capture is not returned
 // if it results in the piece used being put under threat
 Move NonRiskyLevel2(level3& comp) {
@@ -59,7 +35,7 @@ Move NonRiskyLevel2(level3& comp) {
             temp.activateMove(temp.getCell(sx, sy), temp.getCell(dx,dy));
 
             //ensure that the capture doesnt result in putting piece at risk
-            if (temp.pieceIsAtThreat(m.getDest())) {
+            if (temp.pieceIsAtThreat(dx, dy)) {
                 return m;
             }
         }
@@ -79,7 +55,7 @@ Move NonRiskyLevel2(level3& comp) {
         if (temp.checked(enemyColour)) {
             
             //ensure that the check doesnt result in putting piece at risk
-            if (temp.pieceIsAtThreat(m.getDest())) {
+            if (temp.pieceIsAtThreat(dx, dy)) {
                 return m;
             }
         }
@@ -111,19 +87,24 @@ vector<Move> PieceMoves(Cell& c, Board& b) {
 
 
 
-// determines if there is a way to protect cell c and mutates m if so
-bool protectPiece(Cell& c, Board& b, Move& m) {
-    Colour col = c.getChessPiece()->getColour();
+// determines if there is a way to protect cell at x,y and mutates m if so
+bool protectPiece(int x, int y, Board& b, Move& m) {
+    Colour col = b.getCell(x, y).getChessPiece()->getColour();
 
     // check for all moves that may result in protecting the original cell
     // without putting itself at risk
     for (Move validMove : b.getLegalMoves(col)) {
         Board temp = b;
+
+        int sx = validMove.getStart().getX();
+        int sy = validMove.getStart().getY();
+        int dx = validMove.getDest().getX();
+        int dy = validMove.getDest().getY();
         // simulate the move on a copy of the board
-        temp.activateMove(validMove.getStart(), validMove.getDest());
+        temp.activateMove(temp.getCell(sx, sy), temp.getCell(dx, dy));
 
         // checks the threat status of both the original cell at threat and the destination
-        if (!temp.pieceIsAtThreat(c) && !temp.pieceIsAtThreat(validMove.getDest())) {
+        if (!temp.pieceIsAtThreat(x, y) && !temp.pieceIsAtThreat(validMove.getDest().getX(), validMove.getDest().getY())) {
             m = validMove;
             return true;
         }
@@ -143,10 +124,11 @@ Move level3::generateMove() {
     // check if any piece is at risk of capture and if so try to output a move that
     // prevents it
     for (Cell* c : b->getOccupiedCells(myColour)) {
-        if (b->pieceIsAtThreat(*c)) {
+
+        if (b->pieceIsAtThreat(c->getX(), c->getY())) {
             Move m;
 
-            if (protectPiece(*c, *b, m)) {
+            if (protectPiece(c->getX(), c->getY(), *b, m)) {
                 return m;
             }
         }

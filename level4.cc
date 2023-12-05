@@ -25,31 +25,36 @@ int bestCapturemove(level4& comp, Move& move) {
     for (Move m : validMoves) {
         int currentScore = 0;
 
-        if (!b->attackPossible(m.getStart(), m.getDest())) continue; // skip move if it isnt an attack
+        int sx = m.getStart().getX();
+        int sy = m.getStart().getY();
+        int dx = m.getDest().getX();
+        int dy = m.getDest().getY();
+
+        if (!b->attackPossible(b->getCell(sx, sy), b->getCell(dx, dy))) continue; // skip move if it isnt an attack
         
         //add the value of the piece taken
-        if (m.getDest().getChessPiece()->getPiece() == Piece::Queen) {
+        if (b->getCell(dx, dy).getChessPiece()->getPiece() == Piece::Queen) {
             currentScore += 9;
-        } else if (m.getDest().getChessPiece()->getPiece() == Piece::Rook) {
+        } else if (b->getCell(dx, dy).getChessPiece()->getPiece() == Piece::Rook) {
             currentScore += 5;
-        } else if (m.getDest().getChessPiece()->getPiece() == Piece::Bishop ||
-                m.getDest().getChessPiece()->getPiece() == Piece::Knight) {
+        } else if (b->getCell(dx, dy).getChessPiece()->getPiece() == Piece::Bishop ||
+                b->getCell(dx, dy).getChessPiece()->getPiece() == Piece::Knight) {
             currentScore += 3;
         } else {
         currentScore += 1;
         }
-        
+
         Board temp = *b;
-        temp.activateMove(m.getStart(), m.getDest());
+        temp.activateMove(temp.getCell(sx, sy), temp.getCell(dx, dy));
 
         // subtract value of piece used if it put at risk by executing the capture
-        if (temp.pieceIsAtThreat(m.getDest())) {
-            if (m.getDest().getChessPiece()->getPiece() == Piece::Queen) {
+        if (temp.pieceIsAtThreat(m.getDest().getX(),m.getDest().getY())) {
+            if (temp.getCell(dx, dy).getChessPiece()->getPiece() == Piece::Queen) {
                 currentScore -= 9;
-            } else if (m.getDest().getChessPiece()->getPiece() == Piece::Rook) {
+            } else if (temp.getCell(dx, dy).getChessPiece()->getPiece() == Piece::Rook) {
             currentScore -= 5;
-            } else if (m.getDest().getChessPiece()->getPiece() == Piece::Bishop ||
-                m.getDest().getChessPiece()->getPiece() == Piece::Knight) {
+            } else if (temp.getCell(dx, dy).getChessPiece()->getPiece() == Piece::Bishop ||
+                temp.getCell(dx, dy).getChessPiece()->getPiece() == Piece::Knight) {
                 currentScore -= 3;
             } else {
                 currentScore -= 1;
@@ -71,30 +76,35 @@ int bestCapturemove(level4& comp, Move& move) {
 
 
 // finds the BEST way to protect the piece (trys not to sacrifice important)
-// pieces to protect the piece at cell c and returns the final score as an int
+// pieces to protect the piece at cell at x,y and returns the final score as an int
 // Move is mutated with this protection move
 // This function is meant to be called on a cell on a board that is under threat
 // of capture
 // -9 represents no way to protect piece
-int bestProtectPiece(Cell& c, Board& b, Move& m) {
-    Colour col = c.getChessPiece()->getColour();
+int bestProtectPiece(int x, int y, Board& b, Move& m) {
+    Colour col = b.getCell(x, y).getChessPiece()->getColour();
 
     int bestScore = -9;
 
     for (Move validMove : b.getLegalMoves(col)) {
         Board temp = b;
+
+        int sx = m.getStart().getX();
+        int sy = m.getStart().getY();
+        int dx = m.getDest().getX();
+        int dy = m.getDest().getY();
         // simulate the move on a copy of the board
-        temp.activateMove(validMove.getStart(), validMove.getDest());
+        temp.activateMove(temp.getCell(sx, sy), temp.getCell(dx, dy));
 
         int currentScore = -9;
 
         //add the value of the piece protected
-        if (c.getChessPiece()->getPiece() == Piece::Queen) {
+        if (b.getCell(x, y).getChessPiece()->getPiece() == Piece::Queen) {
             currentScore = 9;
-        } else if (c.getChessPiece()->getPiece() == Piece::Rook) {
+        } else if (b.getCell(x, y).getChessPiece()->getPiece() == Piece::Rook) {
             currentScore = 5;
-        } else if (c.getChessPiece()->getPiece() == Piece::Bishop ||
-                   c.getChessPiece()->getPiece() == Piece::Knight) {
+        } else if (b.getCell(x, y).getChessPiece()->getPiece() == Piece::Bishop ||
+                   b.getCell(x, y).getChessPiece()->getPiece() == Piece::Knight) {
             currentScore = 3;
         } else {
             currentScore = 1;
@@ -102,14 +112,14 @@ int bestProtectPiece(Cell& c, Board& b, Move& m) {
 
         // checks the threat status of both the original cell at threat and the destination
         // and adjusts currectScor accordingly
-        if (!temp.pieceIsAtThreat(c)) {
-            if (temp.pieceIsAtThreat(m.getDest())) {
-                if (m.getDest().getChessPiece()->getPiece() == Piece::Queen) {
+        if (!temp.pieceIsAtThreat(validMove.getDest().getX(), validMove.getDest().getY())) {
+            if (temp.pieceIsAtThreat(m.getDest().getX(), m.getDest().getY())) {
+                if (temp.getCell(dx, dy).getChessPiece()->getPiece() == Piece::Queen) {
                     currentScore -= 9;
-                } else if (m.getDest().getChessPiece()->getPiece() == Piece::Rook) {
+                } else if (temp.getCell(dx, dy).getChessPiece()->getPiece() == Piece::Rook) {
                 currentScore -= 5;
-                } else if (m.getDest().getChessPiece()->getPiece() == Piece::Bishop ||
-                    m.getDest().getChessPiece()->getPiece() == Piece::Knight) {
+                } else if (temp.getCell(dx, dy).getChessPiece()->getPiece() == Piece::Bishop ||
+                    temp.getCell(dx, dy).getChessPiece()->getPiece() == Piece::Knight) {
                     currentScore -= 3;
                 } else {
                     currentScore -= 1;
@@ -144,19 +154,21 @@ int bestProtectionMove(level4& comp, Move& move) {
     // prevents it
 
     int bestScore = -9;
+    Move bestMove = move;
 
     for (Cell* c : b->getOccupiedCells(myColour)) {
-        if (!b->pieceIsAtThreat(*c)) continue; // skip move if cell isnt under threat
+        if (!b->pieceIsAtThreat(c->getX(), c->getY())) continue; // skip move if cell isnt under threat
 
         Move currentMove;
         // this will potentiallymutate currentMove
-        int currentScore = bestProtectPiece(*c, *b, currentMove);
+        int currentScore = bestProtectPiece(c->getX(), c->getY(), *b, currentMove);
         if (currentScore > bestScore) {
-            move = currentMove;
+            bestMove = currentMove;
             bestScore = currentScore;
         }
     }
 
+    move = bestMove;
     return bestScore;
 }
 
@@ -181,11 +193,11 @@ Move level4::generateMove() {
     int cmScore = bestCapturemove(*this, cm);
     int pmScore = bestProtectionMove(*this, pm);
 
-    if (cmScore > 0 && cmScore > pmScore) { //cm is worth it and better than pm
+    if (cmScore > -1 && cmScore > pmScore) { //cm is worth it and better than pm
         return cm;
-    } else if (pmScore > 0 && pmScore > cmScore) { //pm is worth it and better than cm
+    } else if (pmScore > -1 && pmScore > cmScore) { //pm is worth it and better than cm
         return pm;
-    } else if (cmScore > 0 && pmScore > 0 && pmScore == cmScore) { //both worth but equal
+    } else if (cmScore > -1 && pmScore >= -1 && pmScore == cmScore) { //both worth but equal
         return cm;
     }
 
@@ -202,11 +214,12 @@ Move level4::generateMove() {
         if (temp.checked(enemyColour)) {
             
             //ensure that the check doesnt result in putting piece at risk
-            if (temp.pieceIsAtThreat(m.getDest())) {
+            if (temp.pieceIsAtThreat(m.getDest().getX(), m.getDest().getY())) {
                 return m;
             }
         }
     }
+
 
     //Now if no potential attack is detected or a check is possible, it will pick a RANDOM valid move.
     srand((unsigned) time(NULL));
