@@ -4,7 +4,7 @@
 #include <vector>
 #include <iostream>
 #include "computer.h"
-#include "view.h"
+
 
 using namespace std;
 
