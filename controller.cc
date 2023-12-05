@@ -758,7 +758,9 @@ void Controller::playGame(istream &in, ostream &out) {
                 else if (cmd == "-help") {
                     //add help.
                      out << "____________________________" << endl << endl;
-                    out << "*Welcome to the Setup Mode Manual*" << endl;
+                    out << "************************************" << endl;
+                    out << "* Welcome to the Setup Mode Manual *" << endl;
+                    out << "************************************" << endl;
                     out << " + [piece] [coordinate] : Adds a piece to the board." << endl;
                     out << " - [coordinate] : Removes a piece from the board." << endl;
                     out << " = [colour] : Set the current player to its appropriate colour." << endl;
@@ -770,13 +772,19 @@ void Controller::playGame(istream &in, ostream &out) {
                 //If set current player.
                 else if (cmd == "=") {
                     string colour;
-                    if (iss >> colour) {
+                    if (iiss >> colour) {
                         if (colour == "black") {
                             currentPlayer = 2;
+                            out << "____________________________" << endl << endl;
+                            out << "Current player now set to Black." << endl;
+                            out << "____________________________" << endl << endl;
                             continue;
                         }
                         else if (colour == "white") {
                             currentPlayer = 1;
+                            out << "____________________________" << endl << endl;
+                            out << "Current player now set to White." << endl;
+                            out << "____________________________" << endl << endl;
                             continue;
                         }
                         else {
@@ -845,7 +853,9 @@ void Controller::playGame(istream &in, ostream &out) {
         else if (temp == "-help") {
             //help specifications
             out << "____________________________" << endl << endl;
-            out << "**Welcome to the CS246 Chess Project Manual**" << endl;
+            out << "***********************************************" << endl;
+            out << "** Welcome to the CS246 Chess Project Manual** " << endl;
+            out << "***********************************************" << endl;
             out << "Created by Harsimran Kalsi, Hirav Thakur, Jinil Panawala." << endl;
             out << "Game is as is! It will have no more releases." << endl;
             out << "game [player1] [player2] : Creates a default game between White-Player and Black-Player." << endl;
