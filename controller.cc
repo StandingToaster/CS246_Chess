@@ -77,6 +77,7 @@ void Controller::playGame(istream &in, ostream &out) {
     string cmd;
     int currentPlayer = 0;
     while (getline(in, cmd)) {
+        //TO BE MOVED
         if (!gameEnd && currentBoard->stalemated()) {
             gameEnd = true;
             out << "Stalemate!" << endl;
@@ -89,33 +90,12 @@ void Controller::playGame(istream &in, ostream &out) {
             currentPlayer = 0;
             continue; 
         }
-        if (currentPlayer == 1 && currentBoard->checkMated(Colour::White) && !gameEnd) {
-            gameEnd = true;
-            out << "Checkmate! Black wins!" << endl;
-            score2++;
-            out << "Current score: \n";
-            out << "Black: " << score2 << endl;
-            out << "White: " << score1 << endl;
-            currentBoard->setEmptyBoard();
-            currentPlayer = 0;
-            continue;
-        }
-        if (currentPlayer == 2 && currentBoard->checkMated(Colour::Black) && !gameEnd) {
-            gameEnd = true;
-            out << "Checkmate! White wins!" << endl;
-            score1++;
-            out << "Current score: \n";
-            out << "Black: " << score2 << endl;
-            out << "White: " << score1 << endl;
-            currentBoard->setEmptyBoard();
-            currentPlayer = 0;
-            continue;
-        }
         string temp;
         istringstream iss {cmd};
         iss >> temp;
         if (temp == "resign" && !gameEnd) {
             //Increment score, output resign message based on colour.
+            //If the current player is white and a human
             if (player1 == nullptr && currentPlayer == 1) {
                 gameEnd = true;
                 out << "White resigns." << endl;
@@ -129,6 +109,7 @@ void Controller::playGame(istream &in, ostream &out) {
                 //Add play again message or quit.
                 continue;
             }
+            //If the current player is black and a human
             else if (player2 == nullptr && currentPlayer == 2) {
                 gameEnd = true;
                 out << "Black resigns." << endl;
@@ -143,7 +124,9 @@ void Controller::playGame(istream &in, ostream &out) {
                 continue;
             }
             else {
+                //If computer is asked to resign
                 if (player1 != nullptr && player2 != nullptr) {
+                    //If the computer is white.
                     if (currentPlayer == 1) {
                         gameEnd = true;
                         out << "CPU White resigns." << endl;
@@ -156,6 +139,7 @@ void Controller::playGame(istream &in, ostream &out) {
                             currentPlayer = 0;
                             continue;
                              }
+                             //if the computer is black.
                              else if (currentPlayer == 2) {
                                gameEnd = true;
                         out << "CPU Black resigns." << endl;
@@ -169,15 +153,18 @@ void Controller::playGame(istream &in, ostream &out) {
                             continue; 
                              }
                 }
+                //Error handling.
                 gameEnd = false;
                 out << "You cannot resign yet!" << endl;
                 out << "Type -help for a list of commands" << endl;
                 continue;
             }
         }
+        //Begin to setup game.
         else if (temp == "game" && gameEnd) {
             string p1;
             string p2;
+            //Read in White-Player
             if (iss >> p1) {
                 if (p1 == "human") {
                     //delete player1;
@@ -208,6 +195,7 @@ void Controller::playGame(istream &in, ostream &out) {
                     continue;
                 }
             }
+            //Read in Black-Player
             if (iss >> p2) {
                 if (p2 == "human") {
                     //delete player2;
@@ -252,6 +240,7 @@ void Controller::playGame(istream &in, ostream &out) {
                 currentPlayer = 1;
             
         }
+        //Move a piece
         else if (temp == "move" && !gameEnd) {
             //Accomadate for both cpu and humans
             string m1;
@@ -260,7 +249,9 @@ void Controller::playGame(istream &in, ostream &out) {
             int sy;
             int dx;
             int dy;
+            //If the current player is white.
             if (currentPlayer == 1) {
+                //If the player is human.
             if (player1 == nullptr && iss >> m1 && iss >> m2) {
                 convertCoordinates(sx, sy, m1);
                 convertCoordinates(dx, dy, m2);
@@ -271,9 +262,23 @@ void Controller::playGame(istream &in, ostream &out) {
                 bool notFailBit = currentBoard->activateMove(currentBoard->getCell(sx, sy), currentBoard->getCell(dx, dy));
                 currentBoard->clearLegalMoves();
                 currentBoard->calculateAllLegalMoves();
+                //If move succeeded.
                 if (notFailBit) {
-                     if (currentPlayer == 1 && currentBoard->checked(Colour::White) && !gameEnd) {
-            out << "White is in check." << endl;
+                    //Check for checkmate.
+                     if (currentBoard->checkMated(Colour::Black)) {
+            gameEnd = true;
+            out << "Checkmate! White wins!" << endl;
+            score1++;
+            out << "Current score: \n";
+            out << "Black: " << score2 << endl;
+            out << "White: " << score1 << endl;
+            currentBoard->setEmptyBoard();
+            currentPlayer = 0;
+            continue;
+        }
+                    //Check for checked.
+                     if (currentPlayer == 1 && currentBoard->checked(Colour::Black)) {
+            out << "Black is in check." << endl;
                      }
                 currentPlayer = 2;
                 out << *currentBoard << endl;
@@ -283,11 +288,13 @@ void Controller::playGame(istream &in, ostream &out) {
                 }
                 continue;
             }
+            //Error handling.
             else {
                 if (player1 == nullptr) {
                     out << "Please input valid coordinates: [a-h][1-7]" << endl;
                     continue; 
                 }
+                //AI Moves for white player
                 Move temp = player1->generateMove();
                 sx = temp.getStart().getX();
                 sy = temp.getStart().getY();
@@ -296,8 +303,21 @@ void Controller::playGame(istream &in, ostream &out) {
                 currentBoard->activateMove(currentBoard->getCell(sx, sy), currentBoard->getCell(dx, dy));
                 currentBoard->clearLegalMoves();
                 currentBoard->calculateAllLegalMoves();
-                 if (currentPlayer == 1 && currentBoard->checked(Colour::White) && !gameEnd) {
-            out << "White is in check." << endl;
+                //Check for checkmate.
+                 if (currentBoard->checkMated(Colour::Black)) {
+            gameEnd = true;
+            out << "Checkmate! White wins!" << endl;
+            score1++;
+            out << "Current score: \n";
+            out << "Black: " << score2 << endl;
+            out << "White: " << score1 << endl;
+            currentBoard->setEmptyBoard();
+            currentPlayer = 0;
+            continue;
+        }
+                //Check for check.
+                 if (currentBoard->checked(Colour::Black)) {
+            out << "Black is in check." << endl;
                      }
                 currentPlayer = 2;
                 out << *currentBoard << endl;
@@ -305,6 +325,7 @@ void Controller::playGame(istream &in, ostream &out) {
             }
             }
             else {
+                //Move for black. If the player is a human.
                if (player2 == nullptr && iss >> m1 && iss >> m2) {
                 convertCoordinates(sx, sy, m1);
                 convertCoordinates(dx, dy, m2);
@@ -315,9 +336,22 @@ void Controller::playGame(istream &in, ostream &out) {
                 bool notFailBit = currentBoard->activateMove(currentBoard->getCell(sx, sy), currentBoard->getCell(dx, dy));
                 currentBoard->clearLegalMoves();
                 currentBoard->calculateAllLegalMoves();
+                //Checks for checkmate.
                 if (notFailBit) {
-        if (currentPlayer == 2 && currentBoard->checked(Colour::Black) && !gameEnd) {
-            out << "Black is in check." << endl;
+                    if (currentBoard->checkMated(Colour::White)) {
+            gameEnd = true;
+            out << "Checkmate! Black wins!" << endl;
+            score2++;
+            out << "Current score: \n";
+            out << "Black: " << score2 << endl;
+            out << "White: " << score1 << endl;
+            currentBoard->setEmptyBoard();
+            currentPlayer = 0;
+            continue;
+        }
+        //Check for check.
+        if (currentBoard->checked(Colour::White)) {
+            out << "White is in check." << endl;
         }
                 currentPlayer = 1;
                 out << *currentBoard << endl;
@@ -327,6 +361,7 @@ void Controller::playGame(istream &in, ostream &out) {
                 }
                 continue;
             }
+            //AI is Black.
             else {
                 if (player2 == nullptr) {
                     out << "Please input valid coordinates: [a-h][1-7]" << endl;
@@ -340,8 +375,19 @@ void Controller::playGame(istream &in, ostream &out) {
                 currentBoard->activateMove(currentBoard->getCell(sx, sy), currentBoard->getCell(dx, dy));
                 currentBoard->clearLegalMoves();
                 currentBoard->calculateAllLegalMoves();
-        if (currentPlayer == 2 && currentBoard->checked(Colour::Black) && !gameEnd) {
-            out << "Black is in check." << endl;
+                if (currentBoard->checkMated(Colour::White)) {
+            gameEnd = true;
+            out << "Checkmate! Black wins!" << endl;
+            score2++;
+            out << "Current score: \n";
+            out << "Black: " << score2 << endl;
+            out << "White: " << score1 << endl;
+            currentBoard->setEmptyBoard();
+            currentPlayer = 0;
+            continue;
+        }
+        if (currentBoard->checked(Colour::White)) {
+            out << "White is in check." << endl;
                   }
                 currentPlayer = 1;
                 out << *currentBoard << endl;
@@ -349,18 +395,25 @@ void Controller::playGame(istream &in, ostream &out) {
             }
             }
         }
+        //Setup
+        //TEST THIS
         else if (temp == "setup" && gameEnd) {
             //Sets up game as per specifications
             currentBoard->setEmptyBoard();
             currentBoard->clearLegalMoves();
+            //input bit
             string SetupTemp;
+            //Tracks no. Kings on the Board.
             int numWhiteKings;
             int numBlackKings;
+            //Tracks no. of illegal pawn placements.
             int pawnAtEnd;
+            //Pulls line by line
             while (getline(in, SetupTemp)) {    
                 istringstream iiss {SetupTemp};
                 string cmd;
                 iiss >> cmd;
+                //If add new piece
                 if (cmd == "+") {
                     string piece;
                     int dx;
@@ -453,6 +506,7 @@ void Controller::playGame(istream &in, ostream &out) {
                         continue;
                     }
                 }
+                //If remove a piece.
                 else if (cmd == "-") {
                     string coord;
                     int dx;
@@ -491,6 +545,7 @@ void Controller::playGame(istream &in, ostream &out) {
                 else if (cmd == "-help") {
                     //add help.
                 }
+                //If set current player.
                 else if (cmd == "=") {
                     string colour;
                     if (iss >> colour) {
@@ -513,9 +568,12 @@ void Controller::playGame(istream &in, ostream &out) {
                         continue;
                     }
                 }
+                //DONE IS CAUSING ERRORS
+                //Break out of setup
                 else if (cmd == "done") {
                     currentBoard->clearLegalMoves();
                     currentBoard->calculateAllLegalMoves();
+                    //REVIEW THESE CHECKS
                     if (!(numBlackKings == 1 && numWhiteKings == 1) || pawnAtEnd > 0 || currentBoard->checked(Colour::White) || currentBoard->checked(Colour::Black)) {
                         out << "Conditions not satisfied to begin game. The board will be reset." << endl;
                         out << "Type -help for a list of commands." << endl;
@@ -533,6 +591,7 @@ void Controller::playGame(istream &in, ostream &out) {
                         break;
                     }
                 }
+                //ERROR HANDLING
                 else {
                     out << "Invalid input! Type -help for a list of commands." << endl;
                     continue;
