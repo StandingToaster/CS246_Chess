@@ -38,7 +38,7 @@ class Board {
 
     void setEmptyBoard(); // prepares the board (no chess piece on it yet), or resets it to empty
     void setDefaultBoard(); // prepares board with a standard game start
-    void setComputerLevel(int level);
+    
 
     void setPieceOnBoard(ChessPiece * piece, int x, int y); // Places a chess piece on a specific square of the board.
     void removePieceFromBoard(int x, int y); // Removes chess piece from the specified square 
