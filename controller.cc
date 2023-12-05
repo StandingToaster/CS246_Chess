@@ -10,6 +10,26 @@ Controller::Controller(Board* init): currentBoard{init}, player1{nullptr}, playe
 //     delete player2;
 // }
 
+
+bool Controller::isItOccupied(int & Wking, int & Bking, int & Pawn, int x, int y) {
+    if(!currentBoard->cellEmpty(x, y)) {
+        if (currentBoard->getCell(x, y).getChessPiece()->getPiece() == Piece::King && currentBoard->getCell(x, y).getChessPiece()->getColour() == Colour::Black) {
+            --Bking;
+        }
+        if (currentBoard->getCell(x, y).getChessPiece()->getPiece() == Piece::King && currentBoard->getCell(x, y).getChessPiece()->getColour() == Colour::White) {
+            --Wking;
+        }
+        if (currenBoard->getCell(x, y).getChessPiece()->getPiece() == Piece::Pawn && (y == 0 || y == 7)) {
+            --Pawn;
+        }
+        currentBoard->removePieceFromBoard(x, y);
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
 int Controller::getScore1() {
     return this->score1;
 }
@@ -570,6 +590,7 @@ void Controller::playGame(istream &in, ostream &out) {
                             continue;
                         }
                         if (piece == "K") {
+                            isItOccupied(numWhiteKings, numBlackKings, pawnAtEnd, dx, dy);
                             currentBoard->setPieceOnBoard(new King{Colour::White}, dx, dy);
                             ++numWhiteKings;
                              out << "____________________________" << endl << endl;
@@ -578,6 +599,7 @@ void Controller::playGame(istream &in, ostream &out) {
                             continue;
                         }
                         else if (piece == "k") {
+                            isItOccupied(numWhiteKings, numBlackKings, pawnAtEnd, dx, dy);
                             currentBoard->setPieceOnBoard(new King{Colour::Black}, dx, dy);
                             ++numBlackKings;
                              out << "____________________________" << endl << endl;
@@ -586,6 +608,7 @@ void Controller::playGame(istream &in, ostream &out) {
                             continue;
                         }
                         else if (piece == "Q") {
+                            isItOccupied(numWhiteKings, numBlackKings, pawnAtEnd, dx, dy);
                             currentBoard->setPieceOnBoard(new Queen{Colour::White}, dx, dy);
                              out << "____________________________" << endl << endl;
                             out <<*currentBoard << endl;
@@ -593,6 +616,7 @@ void Controller::playGame(istream &in, ostream &out) {
                             continue;
                         }
                         else if (piece == "q") {
+                            isItOccupied(numWhiteKings, numBlackKings, pawnAtEnd, dx, dy);
                             currentBoard->setPieceOnBoard(new Queen{Colour::Black}, dx, dy);
                              out << "____________________________" << endl << endl;
                             out <<*currentBoard << endl;
@@ -600,6 +624,7 @@ void Controller::playGame(istream &in, ostream &out) {
                             continue;
                         }
                         else if (piece == "N") {
+                            isItOccupied(numWhiteKings, numBlackKings, pawnAtEnd, dx, dy);
                             currentBoard->setPieceOnBoard(new Knight{Colour::White}, dx, dy);
                              out << "____________________________" << endl << endl;
                             out <<*currentBoard << endl;
@@ -607,6 +632,7 @@ void Controller::playGame(istream &in, ostream &out) {
                             continue;
                         }
                         else if (piece == "n") {
+                            isItOccupied(numWhiteKings, numBlackKings, pawnAtEnd, dx, dy);
                             currentBoard->setPieceOnBoard(new Knight{Colour::Black}, dx, dy);
                              out << "____________________________" << endl << endl;
                             out <<*currentBoard << endl;
@@ -614,6 +640,7 @@ void Controller::playGame(istream &in, ostream &out) {
                             continue;
                         }
                         else if (piece == "B") {
+                            isItOccupied(numWhiteKings, numBlackKings, pawnAtEnd, dx, dy);
                             currentBoard->setPieceOnBoard(new Bishop{Colour::White}, dx ,dy);
                              out << "____________________________" << endl << endl;
                             out <<*currentBoard << endl;
@@ -621,6 +648,7 @@ void Controller::playGame(istream &in, ostream &out) {
                             continue;
                         }
                         else if (piece == "b") {
+                            isItOccupied(numWhiteKings, numBlackKings, pawnAtEnd, dx, dy);
                             currentBoard->setPieceOnBoard(new Bishop{Colour::Black}, dx, dy);
                              out << "____________________________" << endl << endl;
                             out <<*currentBoard << endl;
@@ -628,6 +656,7 @@ void Controller::playGame(istream &in, ostream &out) {
                             continue;
                         }
                         else if (piece == "R") {
+                            isItOccupied(numWhiteKings, numBlackKings, pawnAtEnd, dx, dy);
                             currentBoard->setPieceOnBoard(new Rook{Colour::White}, dx, dy);
                              out << "____________________________" << endl << endl;
                             out <<*currentBoard << endl;
@@ -635,6 +664,7 @@ void Controller::playGame(istream &in, ostream &out) {
                             continue;
                         }
                         else if (piece == "r") {
+                            isItOccupied(numWhiteKings, numBlackKings, pawnAtEnd, dx, dy);
                             currentBoard->setPieceOnBoard(new Rook{Colour::Black}, dx ,dy);
                              out << "____________________________" << endl << endl;
                             out <<*currentBoard << endl;
@@ -642,6 +672,7 @@ void Controller::playGame(istream &in, ostream &out) {
                             continue;
                         }
                         else if (piece == "P") {
+                            isItOccupied(numWhiteKings, numBlackKings, pawnAtEnd, dx, dy);
                             currentBoard->setPieceOnBoard(new Pawn{Colour::White}, dx ,dy);
                              out << "____________________________" << endl << endl;
                             out <<*currentBoard << endl;
@@ -652,6 +683,7 @@ void Controller::playGame(istream &in, ostream &out) {
                             continue;
                         }
                         else if (piece == "p") {
+                            isItOccupied(numWhiteKings, numBlackKings, pawnAtEnd, dx, dy);
                             currentBoard->setPieceOnBoard(new Pawn{Colour::Black}, dx , dy);
                              out << "____________________________" << endl << endl;
                             out <<*currentBoard << endl;
@@ -662,15 +694,19 @@ void Controller::playGame(istream &in, ostream &out) {
                             continue;
                         }
                         else {
+                            out << "____________________________" << endl << endl;
                             out << "Incorrect piece type." << endl;
                             out << "[P, B, R, N, Q, K] for White-Player" << endl;
                             out << "[p, b, r, n, q, k] for Black-Player" << endl;
                             out << "Type -help for a list of commands." << endl;
+                            out << "____________________________" << endl << endl;
                             continue;
                         }
                     }
                     else {
+                        out << "____________________________" << endl << endl;
                         out << "Unknown input. Try again." << endl;
+                        out << "____________________________" << endl << endl;
                         continue;
                     }
                 }

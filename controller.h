@@ -33,6 +33,9 @@ int getScore1();
 //Retrieves Black score.
 int getScore2();
 
+//Checks whether the cell is occupied, if it is, delete it!.
+bool isItOccupied(int & Wking, int & Bking, int & Pawn, int x, int y);
+
 };
 
 #endif
