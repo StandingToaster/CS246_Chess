@@ -644,7 +644,7 @@ void Controller::playGame(istream &in, ostream &out) {
                             currentPlayer == 1;
                         }
                         player1 = nullptr;
-                        pl;ayer2 = nullptr;
+                        player2 = nullptr;
                         break;
                     }
                 }
