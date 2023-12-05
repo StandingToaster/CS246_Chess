@@ -54,6 +54,12 @@ int main() {
     // Controller * c = new Controller{&b};
     // c->playGame(cin, cout);
 
+    cout << "Final Score:" << endl;
+    cout << "White: " <<  c->score1 << endl;
+    cout << "Black: " << c->score2 << endl;
+
+    return 0;
+
 
 
 
