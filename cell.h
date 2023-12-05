@@ -25,13 +25,13 @@ class Cell {
     int getX();
     int getY();
     ChessPiece * getChessPiece();
-    void setCoords(int x, int y);
-    void setColour(Colour c);
-    void addChessPiece(ChessPiece * piece);
-    void removeChessPiece();
-    void deleteChessPiece();
+    void setCoords(int x, int y); // sets x, y coordinates of this cell
+    void setColour(Colour c); 
+    void addChessPiece(ChessPiece * piece); // adds a chess piece to this cell, deletes the currently residing chess piece.
+    void removeChessPiece(); // simply sets piece to nullptr
+    void deleteChessPiece(); // deletes piece
 
-    friend ostream& operator<<(ostream &out, const Cell &c);
+    friend ostream& operator<<(ostream &out, const Cell &c); // outputs the display of the chess piece, or " " if colour is white, and "_" if colour is black 
 
 };
 
