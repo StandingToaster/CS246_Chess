@@ -1,2 +1,1 @@
-board.o: board.cc board.h cell.h chesspiece.h computer.h move.h view.h \
- window.h
+board.o: board.cc board.h cell.h chesspiece.h computer.h move.h

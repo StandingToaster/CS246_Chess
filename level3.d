@@ -1,2 +1,2 @@
 level3.o: level3.cc level3.h computer.h move.h cell.h chesspiece.h \
- board.h view.h window.h
+ board.h
