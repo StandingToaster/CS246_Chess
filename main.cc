@@ -55,8 +55,8 @@ int main() {
     // c->playGame(cin, cout);
 
     cout << "Final Score:" << endl;
-    cout << "White: " <<  c->score1 << endl;
-    cout << "Black: " << c->score2 << endl;
+    cout << "White: " <<  c->getScore1() << endl;
+    cout << "Black: " << c->getScore2() << endl;
 
     return 0;
 
