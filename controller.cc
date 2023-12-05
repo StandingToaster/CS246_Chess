@@ -594,6 +594,13 @@ void Controller::playGame(istream &in, ostream &out) {
                 }
                 else if (cmd == "-help") {
                     //add help.
+                    out << "*Welcome to the Setup Mode Manual*" << endl;
+                    out << " + [piece] [coordinate] : Adds a piece to the board." << endl;
+                    out << " - [coordinate] : Removes a piece from the board." << endl;
+                    out << " = [colour] : Set the current player to its appropriate colour." << endl;
+                    out << "done : Exits setup mode." << endl;
+                    out << "*END OF SETUP HELP*" << endl;
+                    continue;
                 }
                 //If set current player.
                 else if (cmd == "=") {
@@ -666,6 +673,16 @@ void Controller::playGame(istream &in, ostream &out) {
         }
         else if (temp == "-help") {
             //help specifications
+            out << "**Welcome to the CS246 Chess Project Manual**" << end;
+            out << "Created by Harsimran Kalsi, Hirav Thakur, Jinil Panawala." << endl;
+            out << "Game is as is! It will have no more releases." << endl;
+            out << "game [player1] [player2] : Creates a default game between White-Player and Black-Player." << endl;
+            out << "player[1-2] can be human or computer[1-4]." << endl;
+            out << "move [start coordinate] [end coordinate] : Moves a piece for humans." << endl;
+            out << "move : Moves a piece for Computer." << endl;
+            out << "setup : Enters setup mode." << endl;
+            out << "**END OF HEL**" << endl;
+            continue;
         }
         else {
             out << "Invalid input! type -help for a list of commands." << endl;
