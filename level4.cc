@@ -193,11 +193,11 @@ Move level4::generateMove() {
     int cmScore = bestCapturemove(*this, cm);
     int pmScore = bestProtectionMove(*this, pm);
 
-    if (cmScore > -1 && cmScore > pmScore) { //cm is worth it and better than pm
+    if (cmScore >= -3 && cmScore > pmScore) { //cm is worth it and better than pm
         return cm;
-    } else if (pmScore > -1 && pmScore > cmScore) { //pm is worth it and better than cm
+    } else if (pmScore >= -3 && pmScore > cmScore) { //pm is worth it and better than cm
         return pm;
-    } else if (cmScore > -1 && pmScore >= -1 && pmScore == cmScore) { //both worth but equal
+    } else if (cmScore >= -3 && pmScore >= -3 && pmScore == cmScore) { //both worth but equal
         return cm;
     }
 
@@ -219,6 +219,10 @@ Move level4::generateMove() {
             }
         }
     }
+
+    if (cmScore > -9 && cmScore >= pmScore) {
+        return cm; 
+    } else if (pmScore > -9 && pmScore > cmScore)
 
 
     //Now if no potential attack is detected or a check is possible, it will pick a RANDOM valid move.
