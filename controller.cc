@@ -253,6 +253,8 @@ void Controller::playGame(istream &in, ostream &out) {
             if (currentPlayer == 1) {
                 //If the player is human.
             if (player1 == nullptr && iss >> m1 && iss >> m2) {
+                //handle pawn promotion
+                string m3;
                 convertCoordinates(sx, sy, m1);
                 convertCoordinates(dx, dy, m2);
                 if (sx == -1 || sy == -1 || dx == -1 || dy == -1) {
@@ -262,6 +264,24 @@ void Controller::playGame(istream &in, ostream &out) {
                 bool notFailBit = currentBoard->activateMove(currentBoard->getCell(sx, sy), currentBoard->getCell(dx, dy));
                 currentBoard->clearLegalMoves();
                 currentBoard->calculateAllLegalMoves();
+                if (iss >> m3) {
+                    if (m3 == "Q") {
+                        currentBoard->promotePawn(Piece::Queen);
+                    }
+                    else if (m3 == "B") {
+                        currentBoard->promotePawn(Piece::Bishop);
+                    }
+                    else if (m3 == "N") {
+                        currentBoard->promotePawn(Piece::Knight);
+                    }
+                    else if (m3 == "R") {
+                        currentBoard->promotePawn(Piece::Rook);
+                    }
+                    else {
+                        out << "Pawn promotion failed! Try again." << endl;
+                         continue;
+                    }
+                }
                 //If move succeeded.
                 if (notFailBit) {
                     //Check for checkmate.
@@ -303,6 +323,7 @@ void Controller::playGame(istream &in, ostream &out) {
                 currentBoard->activateMove(currentBoard->getCell(sx, sy), currentBoard->getCell(dx, dy));
                 currentBoard->clearLegalMoves();
                 currentBoard->calculateAllLegalMoves();
+                currentBoard->promotePawn(Piece::Queen);
                 //Check for checkmate.
                  if (currentBoard->checkMated(Colour::Black)) {
             gameEnd = true;
@@ -327,6 +348,7 @@ void Controller::playGame(istream &in, ostream &out) {
             else {
                 //Move for black. If the player is a human.
                if (player2 == nullptr && iss >> m1 && iss >> m2) {
+                string m3;
                 convertCoordinates(sx, sy, m1);
                 convertCoordinates(dx, dy, m2);
                 if (sx == -1 || sy == -1 || dx == -1 || dy == -1) {
@@ -336,6 +358,24 @@ void Controller::playGame(istream &in, ostream &out) {
                 bool notFailBit = currentBoard->activateMove(currentBoard->getCell(sx, sy), currentBoard->getCell(dx, dy));
                 currentBoard->clearLegalMoves();
                 currentBoard->calculateAllLegalMoves();
+                if (iss >> m3) {
+                    if (m3 == "q") {
+                        currentBoard->promotePawn(Piece::Queen);
+                    }
+                    else if (m3 == "b") {
+                        currentBoard->promotePawn(Piece::Bishop);
+                    }
+                    else if (m3 == "n") {
+                        currentBoard->promotePawn(Piece::Knight);
+                    }
+                    else if (m3 == "r") {
+                        currentBoard->promotePawn(Piece::Rook);
+                    }
+                    else {
+                        out << "Pawn promotion failed! Try again." << endl;
+                         continue;
+                    }
+                }
                 //Checks for checkmate.
                 if (notFailBit) {
                     if (currentBoard->checkMated(Colour::White)) {
@@ -375,6 +415,7 @@ void Controller::playGame(istream &in, ostream &out) {
                 currentBoard->activateMove(currentBoard->getCell(sx, sy), currentBoard->getCell(dx, dy));
                 currentBoard->clearLegalMoves();
                 currentBoard->calculateAllLegalMoves();
+                currentBoard->promotePawn(Piece::Queen);
                 if (currentBoard->checkMated(Colour::White)) {
             gameEnd = true;
             out << "Checkmate! Black wins!" << endl;
