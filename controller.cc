@@ -264,7 +264,9 @@ void Controller::playGame(istream &in, ostream &out) {
                 bool notFailBit = currentBoard->activateMove(currentBoard->getCell(sx, sy), currentBoard->getCell(dx, dy));
                 currentBoard->clearLegalMoves();
                 currentBoard->calculateAllLegalMoves();
-                if (iss >> m3) {
+                //If move succeeded.
+                if (notFailBit) {
+                     if (iss >> m3) {
                     if (m3 == "Q") {
                         currentBoard->promotePawn(Piece::Queen);
                     }
@@ -282,8 +284,6 @@ void Controller::playGame(istream &in, ostream &out) {
                          continue;
                     }
                 }
-                //If move succeeded.
-                if (notFailBit) {
                     //Check for checkmate.
                      if (currentBoard->checkMated(Colour::Black)) {
             gameEnd = true;
@@ -300,6 +300,8 @@ void Controller::playGame(istream &in, ostream &out) {
                      if (currentPlayer == 1 && currentBoard->checked(Colour::Black)) {
             out << "Black is in check." << endl;
                      }
+                     currentBoard->clearLegalMoves();
+                currentBoard->calculateAllLegalMoves();
                 currentPlayer = 2;
                 out << *currentBoard << endl;
                 }
@@ -324,6 +326,8 @@ void Controller::playGame(istream &in, ostream &out) {
                 currentBoard->clearLegalMoves();
                 currentBoard->calculateAllLegalMoves();
                 currentBoard->promotePawn(Piece::Queen);
+                 currentBoard->clearLegalMoves();
+                currentBoard->calculateAllLegalMoves();
                 //Check for checkmate.
                  if (currentBoard->checkMated(Colour::Black)) {
             gameEnd = true;
@@ -358,7 +362,9 @@ void Controller::playGame(istream &in, ostream &out) {
                 bool notFailBit = currentBoard->activateMove(currentBoard->getCell(sx, sy), currentBoard->getCell(dx, dy));
                 currentBoard->clearLegalMoves();
                 currentBoard->calculateAllLegalMoves();
-                if (iss >> m3) {
+                //Checks for checkmate.
+                if (notFailBit) {
+                      if (iss >> m3) {
                     if (m3 == "q") {
                         currentBoard->promotePawn(Piece::Queen);
                     }
@@ -376,8 +382,6 @@ void Controller::playGame(istream &in, ostream &out) {
                          continue;
                     }
                 }
-                //Checks for checkmate.
-                if (notFailBit) {
                     if (currentBoard->checkMated(Colour::White)) {
             gameEnd = true;
             out << "Checkmate! Black wins!" << endl;
@@ -393,6 +397,8 @@ void Controller::playGame(istream &in, ostream &out) {
         if (currentBoard->checked(Colour::White)) {
             out << "White is in check." << endl;
         }
+        currentBoard->clearLegalMoves();
+                currentBoard->calculateAllLegalMoves();
                 currentPlayer = 1;
                 out << *currentBoard << endl;
                 }
@@ -416,6 +422,8 @@ void Controller::playGame(istream &in, ostream &out) {
                 currentBoard->clearLegalMoves();
                 currentBoard->calculateAllLegalMoves();
                 currentBoard->promotePawn(Piece::Queen);
+                currentBoard->clearLegalMoves();
+                currentBoard->calculateAllLegalMoves();
                 if (currentBoard->checkMated(Colour::White)) {
             gameEnd = true;
             out << "Checkmate! Black wins!" << endl;
