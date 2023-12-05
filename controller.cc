@@ -228,7 +228,7 @@ void Controller::playGame(istream &in, ostream &out) {
 
                 else if (p1 == "computer4") {
                     //delete player1;
-                    //player1 = new level4(currentBoard, Colour::White);
+                    player1 = new level4(currentBoard, Colour::White);
                 }
                 else {
                      out << "____________________________" << endl << endl;
@@ -261,7 +261,7 @@ void Controller::playGame(istream &in, ostream &out) {
 
                 else if (p2 == "computer4") {
                      //delete player2;
-                    //player2 = new level4(currentBoard, Colour::Black);
+                    player2 = new level4(currentBoard, Colour::Black);
                 }
 
                 else {
