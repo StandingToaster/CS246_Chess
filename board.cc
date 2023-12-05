@@ -506,11 +506,11 @@ bool Board::stalemated() {
             numWhiteKing++;
         }
 
-        if (blackPieceCells[i]->getChessPiece()->getPiece() == Piece::Knight) {
+        if (whitePieceCells[i]->getChessPiece()->getPiece() == Piece::Knight) {
             numWhiteKnights++;
         }
 
-        if (blackPieceCells[i]->getChessPiece()->getPiece() == Piece::Bishop) {
+        if (whitePieceCells[i]->getChessPiece()->getPiece() == Piece::Bishop) {
             numWhiteBishops++;
         }
     }

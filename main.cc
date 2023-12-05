@@ -17,20 +17,33 @@ int main() {
 
     b.setEmptyBoard();
 
-    b.setPieceOnBoard(new King(Colour::Black), 4, 5);
-    b.setPieceOnBoard(new King(Colour::White), 0, 1);
+
+    b.setPieceOnBoard(new King(Colour::Black), 0, 7);
+    b.setPieceOnBoard(new King(Colour::White), 0, 2);
 
     // b.setPieceOnBoard(new King(Colour::Black), 7, 0);
     // b.setPieceOnBoard(new King(Colour::White), 0, 7);
-    b.setPieceOnBoard(new Pawn(Colour::Black), 7, 6);
+    b.setPieceOnBoard(new Pawn(Colour::White), 0, 1);
 
     cout << b << endl;
 
+    
     cout << b.checked(Colour::Black) << endl;
     cout << b.checked(Colour::White) << endl;
 
-    // b.clearLegalMoves();
+    b.clearLegalMoves();
     b.calculateAllLegalMoves();
+    cout << b.stalemated() << endl;
+
+    // b.activateMove(b.getCell(0,1), b.getCell(0,0));
+    // cout << b << endl;
+    // b.clearLegalMoves();
+    // b.calculateAllLegalMoves();
+
+    // b.promotePawn(Piece::Queen);
+    // cout << b << endl;
+    // b.clearLegalMoves();
+    // b.calculateAllLegalMoves();
     // b.printBlackLegalMoves();
     // b.printWhiteLegalMoves();
 
