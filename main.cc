@@ -15,48 +15,57 @@ int main() {
     Board b;
 
 
-    b.setEmptyBoard();
+    // b.setEmptyBoard();
 
     
-    b.setPieceOnBoard(new King(Colour::Black), 0, 0);
-    b.setPieceOnBoard(new King(Colour::White), 4, 7);
+    // b.setPieceOnBoard(new King(Colour::Black), 0, 0);
+    // b.setPieceOnBoard(new King(Colour::White), 4, 7);
 
-    // b.setPieceOnBoard(new King(Colour::Black), 7, 0);
-    // b.setPieceOnBoard(new King(Colour::White), 0, 7);
-    b.setPieceOnBoard(new Rook(Colour::White), 0, 7);
+    // // b.setPieceOnBoard(new King(Colour::Black), 7, 0);
+    // // b.setPieceOnBoard(new King(Colour::White), 0, 7);
+    // b.setPieceOnBoard(new Rook(Colour::White), 0, 7);
 
-    cout << b << endl;
+    // cout << b << endl;
 
-    cout << b.checked(Colour::Black) << endl;
-    cout << b.checked(Colour::White) << endl;
+    // cout << b.checked(Colour::Black) << endl;
+    // cout << b.checked(Colour::White) << endl;
 
-    // b.clearLegalMoves();
-    // // b.calculateAllLegalMoves();
-    // cout << b.stalemated() << endl;
+    // // b.clearLegalMoves();
+    // // // b.calculateAllLegalMoves();
+    // // cout << b.stalemated() << endl;
 
-    // whitePieceCells[0].getChessPiece()
+    // // whitePieceCells[0].getChessPiece()
 
-    b.activateMove(b.getCell(4,7), b.getCell(2,7));
-    cout << b << endl;
-    b.clearLegalMoves();
-    b.printWhitePieceCells();
-    b.calculateAllLegalMoves();
-    b.printWhiteLegalMoves();
-    b.printBlackLegalMoves();
-    // b.promotePawn(Piece::Queen);
+    // b.activateMove(b.getCell(4,7), b.getCell(2,7));
     // cout << b << endl;
     // b.clearLegalMoves();
+    // b.printWhitePieceCells();
     // b.calculateAllLegalMoves();
-    // b.printBlackLegalMoves();
     // b.printWhiteLegalMoves();
+    // b.printBlackLegalMoves();
+    // // b.promotePawn(Piece::Queen);
+    // // cout << b << endl;
+    // // b.clearLegalMoves();
+    // // b.calculateAllLegalMoves();
+    // // b.printBlackLegalMoves();
+    // // b.printWhiteLegalMoves();
 
     
-    // Controller * c = new Controller{&b};
-    // c->playGame(cin, cout);
+    Controller * c = new Controller{&b};
+    cout << "############################" << endl;
+    cout << "#     Welcome to Chess     #" << endl;
+    cout << "############################" << endl;
+    cout << endl << "Created by Harsimran Kalsi, Hirav Thakur, Jinil Panawala." << endl;
+    cout << "Use -help for the game manual." << endl;
+    cout << "____________________________" << endl << endl;
+
+    c->playGame(cin, cout);
 
     cout << "Final Score:" << endl;
     cout << "White: " <<  c->getScore1() << endl;
     cout << "Black: " << c->getScore2() << endl;
+    cout << "____________________________" << endl;
+    cout << "Goodbye!" << endl;
 
     return 0;
 
