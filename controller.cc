@@ -281,6 +281,7 @@ void Controller::playGame(istream &in, ostream &out) {
                     }
                     else {
                         out << "Pawn promotion failed! Try again." << endl;
+                        out << *currentBoard << endl;
                          continue;
                     }
                 }
@@ -379,6 +380,7 @@ void Controller::playGame(istream &in, ostream &out) {
                     }
                     else {
                         out << "Pawn promotion failed! Try again." << endl;
+                        out << *currentBoard << endl;
                          continue;
                     }
                 }
