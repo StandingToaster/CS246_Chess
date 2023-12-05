@@ -267,6 +267,7 @@ void Controller::playGame(istream &in, ostream &out) {
                 //If move succeeded.
                 if (notFailBit) {
                      if (iss >> m3) {
+                        out << m3 << endl;
                     if (m3 == "Q") {
                         currentBoard->promotePawn(Piece::Queen);
                     }
@@ -649,7 +650,7 @@ void Controller::playGame(istream &in, ostream &out) {
                         out <<*currentBoard << endl;
                         gameEnd = false;
                         if (currentPlayer == 0) {
-                            currentPlayer == 1;
+                            currentPlayer = 1;
                         }
                         player1 = nullptr;
                         player2 = nullptr;

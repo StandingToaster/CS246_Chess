@@ -15,25 +15,25 @@ int main() {
     Board b;
 
 
-    b.setEmptyBoard();
+    // b.setEmptyBoard();
 
 
-    b.setPieceOnBoard(new King(Colour::Black), 0, 7);
-    b.setPieceOnBoard(new King(Colour::White), 0, 2);
+    // b.setPieceOnBoard(new King(Colour::Black), 0, 7);
+    // b.setPieceOnBoard(new King(Colour::White), 0, 2);
 
-    // b.setPieceOnBoard(new King(Colour::Black), 7, 0);
-    // b.setPieceOnBoard(new King(Colour::White), 0, 7);
-    b.setPieceOnBoard(new Pawn(Colour::White), 0, 1);
+    // // b.setPieceOnBoard(new King(Colour::Black), 7, 0);
+    // // b.setPieceOnBoard(new King(Colour::White), 0, 7);
+    // b.setPieceOnBoard(new Pawn(Colour::White), 0, 1);
 
-    cout << b << endl;
+    // cout << b << endl;
 
     
-    cout << b.checked(Colour::Black) << endl;
-    cout << b.checked(Colour::White) << endl;
+    // cout << b.checked(Colour::Black) << endl;
+    // cout << b.checked(Colour::White) << endl;
 
-    b.clearLegalMoves();
-    b.calculateAllLegalMoves();
-    cout << b.stalemated() << endl;
+    // b.clearLegalMoves();
+    // // b.calculateAllLegalMoves();
+    // cout << b.stalemated() << endl;
 
     // b.activateMove(b.getCell(0,1), b.getCell(0,0));
     // cout << b << endl;
@@ -48,8 +48,8 @@ int main() {
     // b.printWhiteLegalMoves();
 
     
-    // Controller * c = new Controller{&b};
-    // c->playGame(cin, cout);
+    Controller * c = new Controller{&b};
+    c->playGame(cin, cout);
 
 
 
