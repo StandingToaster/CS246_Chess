@@ -17,15 +17,17 @@ int main() {
 
     b.setEmptyBoard();
 
-    b.setPieceOnBoard(new King(Colour::Black), 0, 0);
-    b.setPieceOnBoard(new King(Colour::Black), 7, 7);
+    b.setPieceOnBoard(new King(Colour::Black), 4, 5);
+    b.setPieceOnBoard(new King(Colour::White), 0, 1);
+    // b.setPieceOnBoard(new Pawn(Colour::Black), 7, 6);
 
     cout << b << endl;
 
     cout << b.checked(Colour::Black) << endl;
     cout << b.checked(Colour::White) << endl;
 
-
+    b.clearLegalMoves();
+    b.calculateAllLegalMoves();
 
     // Controller * c = new Controller{&b};
     // c->playGame(cin, cout);
