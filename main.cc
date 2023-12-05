@@ -13,8 +13,26 @@ int main() {
 
 
     Board b;
-    Controller * c = new Controller{&b};
-    c->playGame(cin, cout);
+
+
+    b.setEmptyBoard();
+
+    b.setPieceOnBoard(new King(Colour::Black), 0, 0);
+    b.setPieceOnBoard(new King(Colour::Black), 7, 7);
+
+    cout << b << endl;
+
+    cout << b.checked(Colour::Black) << endl;
+    cout << b.checked(Colour::White) << endl;
+
+
+
+    // Controller * c = new Controller{&b};
+    // c->playGame(cin, cout);
+
+
+
+
     // //Xwindow xw;
     // //while (true) {
         

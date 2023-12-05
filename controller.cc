@@ -404,10 +404,10 @@ void Controller::playGame(istream &in, ostream &out) {
             //input bit
             string SetupTemp;
             //Tracks no. Kings on the Board.
-            int numWhiteKings;
-            int numBlackKings;
+            int numWhiteKings = 0;
+            int numBlackKings = 0;
             //Tracks no. of illegal pawn placements.
-            int pawnAtEnd;
+            int pawnAtEnd = 0;
             //Pulls line by line
             while (getline(in, SetupTemp)) {    
                 istringstream iiss {SetupTemp};
@@ -533,6 +533,7 @@ void Controller::playGame(istream &in, ostream &out) {
                             }
                             currentBoard->removePieceFromBoard(dx, dy);
                             out <<*currentBoard << endl;
+                            
                             continue;
                         }
                     }
@@ -571,8 +572,17 @@ void Controller::playGame(istream &in, ostream &out) {
                 //DONE IS CAUSING ERRORS
                 //Break out of setup
                 else if (cmd == "done") {
-                    currentBoard->clearLegalMoves();
-                    currentBoard->calculateAllLegalMoves();
+                    // currentBoard->clearLegalMoves();
+                    // currentBoard->calculateAllLegalMoves();
+
+                    currentBoard->printBlackPieceCells();
+                    currentBoard->printWhitePieceCells();
+
+                    cout << "Num black kings: " << numBlackKings << endl;
+                    cout << "Num white kings: " << numWhiteKings << endl;
+                    cout << "Num pawn at end: " << pawnAtEnd << endl;
+                    cout << "White checked: " << currentBoard->checked(Colour::White) << endl;
+                    cout << "Black checked: " << currentBoard->checked(Colour::Black) << endl;
                     //REVIEW THESE CHECKS
                     if (!(numBlackKings == 1 && numWhiteKings == 1) || pawnAtEnd > 0 || currentBoard->checked(Colour::White) || currentBoard->checked(Colour::Black)) {
                         out << "Conditions not satisfied to begin game. The board will be reset." << endl;
@@ -586,6 +596,7 @@ void Controller::playGame(istream &in, ostream &out) {
                         continue;
                     }
                     else {
+                        cout << "SUCCESSFUL" << endl;
                         out <<*currentBoard << endl;
                         gameEnd = false;
                         break;
