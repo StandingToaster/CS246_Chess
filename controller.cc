@@ -713,6 +713,7 @@ void Controller::playGame(istream &in, ostream &out) {
             out << "move [start coordinate] [end coordinate] : Moves a piece for humans." << endl;
             out << "move : Moves a piece for Computer." << endl;
             out << "setup : Enters setup mode." << endl;
+            out << "status : Check the game's status." << endl;
             out << "**END OF HELP**" << endl;
             continue;
         }
