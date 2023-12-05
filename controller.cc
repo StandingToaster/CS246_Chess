@@ -10,6 +10,14 @@ Controller::Controller(Board* init): currentBoard{init}, player1{nullptr}, playe
 //     delete player2;
 // }
 
+int Controller::getScore1() {
+    return this->score1;
+}
+
+int Controller::getScore2() {
+    return this->score2;
+}
+
 void Controller::convertCoordinates(int &X, int &Y, string input) {
     //Handles the logic for the 'letter' part of the coordinate, sets it to error code -1 if conditions not met.
     if (input[0] == 'a') {
@@ -305,6 +313,7 @@ void Controller::playGame(istream &in, ostream &out) {
                 currentBoard->calculateAllLegalMoves();
                 currentPlayer = 2;
                 out << *currentBoard << endl;
+                out << "Black's turn." << endl;
                 }
                 else {
                     out << "This move is invalid. Try again!" << endl << "-help for list of commands" << endl;
@@ -347,6 +356,7 @@ void Controller::playGame(istream &in, ostream &out) {
                      }
                 currentPlayer = 2;
                 out << *currentBoard << endl;
+                out << "Black's turn." << endl;
                 continue;
             }
             }
@@ -403,6 +413,7 @@ void Controller::playGame(istream &in, ostream &out) {
                 currentBoard->calculateAllLegalMoves();
                 currentPlayer = 1;
                 out << *currentBoard << endl;
+                out << "White's turn." << endl;
                 }
                 else {
                     out << "This move is invalid. Try again!" << endl << "-help for list of commands" << endl;
@@ -442,12 +453,31 @@ void Controller::playGame(istream &in, ostream &out) {
                   }
                 currentPlayer = 1;
                 out << *currentBoard << endl;
+                out << "White's turn." << endl;
                 continue;
             }
             }
         }
-        //Setup
-        //TEST THIS
+            //Displays status.
+        else if (temp == "status") {
+            string play1 = "";
+            string play2 = "";
+            if (player1 == nullptr) {
+                play1 = "human";
+            }
+            else {
+                play1 = "computer";
+            }
+            if (player2 == nullptr) {
+                play2 = "human";
+            }
+            else {
+                play2 = "computer";
+            }
+            out << "White: The current score is " << score1 << " and is currently a " << play1 << "." << endl;
+            out << "Black: The current score is " << score2 << " and is currently a " << play2 <<  "." << endl;
+        }
+        //SETUP
         else if (temp == "setup" && gameEnd) {
             //Sets up game as per specifications
             currentBoard->setEmptyBoard();

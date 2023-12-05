@@ -21,12 +21,17 @@ Controller(Board* init);
 //Manages the entire game for its duration. Returns true if the game is quit or ends.
 void playGame(istream &in, ostream &out);
 
-// Plays a human v human game of chess. 
-void humanVsHuman(istream & in, ostream & out);
+
 // ~Controller();
 
 //Converts a string coordinate into integer values.
 void convertCoordinates(int &X, int &Y, string input);
+
+//Retrieves White score.
+int getScore1();
+
+//Retrieves Black score.
+int getScore2();
 
 };
 
