@@ -98,24 +98,4 @@ ostream& operator<<(ostream &out, const Cell &c) {
 
 }
 
-/* old cell ouput logic
-if (c.colour == Colour::White) {
-        if (c.piece != nullptr) {
-            out << *c.piece;
-        } else {
-            out << " ";
-        }
-    } else {
-        if (c.piece != nullptr) {
-            out << *c.piece;
-        } else {
-            out << "_";
-        }
-    }
-
-    return out;
-
-*/
-
-
 
