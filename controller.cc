@@ -267,16 +267,16 @@ void Controller::playGame(istream &in, ostream &out) {
                 //If move succeeded.
                 if (notFailBit) {
                      if (iss >> m3) {
-                    if (m3 == "Q") {
+                    if (m3 == "Q" && (dy == 0 || dy == 7)) {
                         currentBoard->promotePawn(Piece::Queen);
                     }
-                    else if (m3 == "B") {
+                    else if (m3 == "B" && (dy == 0 || dy == 7)) {
                         currentBoard->promotePawn(Piece::Bishop);
                     }
-                    else if (m3 == "N") {
+                    else if (m3 == "N" && (dy == 0 || dy == 7)) {
                         currentBoard->promotePawn(Piece::Knight);
                     }
-                    else if (m3 == "R") {
+                    else if (m3 == "R" && (dy == 0 || dy == 7)) {
                         currentBoard->promotePawn(Piece::Rook);
                     }
                     else {
@@ -365,16 +365,16 @@ void Controller::playGame(istream &in, ostream &out) {
                 //Checks for checkmate.
                 if (notFailBit) {
                       if (iss >> m3) {
-                    if (m3 == "q") {
+                    if (m3 == "q" && (dy == 0 || dy == 7)) {
                         currentBoard->promotePawn(Piece::Queen);
                     }
-                    else if (m3 == "b") {
+                    else if (m3 == "b" && (dy == 0 || dy == 7)) {
                         currentBoard->promotePawn(Piece::Bishop);
                     }
-                    else if (m3 == "n") {
+                    else if (m3 == "n" && (dy == 0 || dy == 7)) {
                         currentBoard->promotePawn(Piece::Knight);
                     }
-                    else if (m3 == "r") {
+                    else if (m3 == "r" && (dy == 0 || dy == 7)) {
                         currentBoard->promotePawn(Piece::Rook);
                     }
                     else {
@@ -673,7 +673,7 @@ void Controller::playGame(istream &in, ostream &out) {
         }
         else if (temp == "-help") {
             //help specifications
-            out << "**Welcome to the CS246 Chess Project Manual**" << end;
+            out << "**Welcome to the CS246 Chess Project Manual**" << endl;
             out << "Created by Harsimran Kalsi, Hirav Thakur, Jinil Panawala." << endl;
             out << "Game is as is! It will have no more releases." << endl;
             out << "game [player1] [player2] : Creates a default game between White-Player and Black-Player." << endl;
@@ -681,7 +681,7 @@ void Controller::playGame(istream &in, ostream &out) {
             out << "move [start coordinate] [end coordinate] : Moves a piece for humans." << endl;
             out << "move : Moves a piece for Computer." << endl;
             out << "setup : Enters setup mode." << endl;
-            out << "**END OF HEL**" << endl;
+            out << "**END OF HELP**" << endl;
             continue;
         }
         else {
