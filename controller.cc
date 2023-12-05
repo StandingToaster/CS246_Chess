@@ -19,7 +19,7 @@ bool Controller::isItOccupied(int & Wking, int & Bking, int & Pawn, int x, int y
         if (currentBoard->getCell(x, y).getChessPiece()->getPiece() == Piece::King && currentBoard->getCell(x, y).getChessPiece()->getColour() == Colour::White) {
             --Wking;
         }
-        if (currenBoard->getCell(x, y).getChessPiece()->getPiece() == Piece::Pawn && (y == 0 || y == 7)) {
+        if (currentBoard->getCell(x, y).getChessPiece()->getPiece() == Piece::Pawn && (y == 0 || y == 7)) {
             --Pawn;
         }
         currentBoard->removePieceFromBoard(x, y);
@@ -30,11 +30,11 @@ bool Controller::isItOccupied(int & Wking, int & Bking, int & Pawn, int x, int y
     }
 }
 
-int Controller::getScore1() {
+float Controller::getScore1() {
     return this->score1;
 }
 
-int Controller::getScore2() {
+float Controller::getScore2() {
     return this->score2;
 }
 
@@ -800,8 +800,6 @@ void Controller::playGame(istream &in, ostream &out) {
                     // currentBoard->clearLegalMoves();
                     // currentBoard->calculateAllLegalMoves();
 
-                    currentBoard->printBlackPieceCells();
-                    currentBoard->printWhitePieceCells();
 
                     //REVIEW THESE CHECKS
                     if (!(numBlackKings == 1 && numWhiteKings == 1) || pawnAtEnd > 0 || currentBoard->checked(Colour::White) || currentBoard->checked(Colour::Black)) {

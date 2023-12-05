@@ -28,10 +28,10 @@ void playGame(istream &in, ostream &out);
 void convertCoordinates(int &X, int &Y, string input);
 
 //Retrieves White score.
-int getScore1();
+float getScore1();
 
 //Retrieves Black score.
-int getScore2();
+float getScore2();
 
 //Checks whether the cell is occupied, if it is, delete it!.
 bool isItOccupied(int & Wking, int & Bking, int & Pawn, int x, int y);
