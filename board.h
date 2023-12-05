@@ -55,9 +55,9 @@ class Board {
     void printWhiteLegalMoves(); // Used for testing purposes
 
 
-    bool activateMove(Cell & start, Cell & destination);
-    bool attackPossible(Cell & start, Cell & destination);
-    void promotePawn(Piece promoteTo);
+    bool activateMove(Cell & start, Cell & destination); // moves the chess piece located at start to the destination cell and captures any chess piece on destination, if possible.
+    bool attackPossible(Cell & start, Cell & destination); // determines whether a chess piece on start can attack and capture a chess piece on destination.
+    void promotePawn(Piece promoteTo); // Promotes a pawn on the first or last row of the board to the Piece promoteTo. 
 
     bool checked(Colour kingColour);
     bool checkMated(Colour kingColour);
@@ -67,7 +67,7 @@ class Board {
     vector<Move> getLegalMoves(Colour colour);
     vector<Cell*> getOccupiedCells(Colour colour);
 
-    friend ostream& operator<<(ostream &out, const Board &b);
+    friend ostream& operator<<(ostream &out, const Board &b); // prints the board to the screen
     
 };
 
