@@ -599,6 +599,11 @@ void Controller::playGame(istream &in, ostream &out) {
                         cout << "SUCCESSFUL" << endl;
                         out <<*currentBoard << endl;
                         gameEnd = false;
+                        if (currentPlayer == 0) {
+                            currentPlayer == 1;
+                        }
+                        player1 = nullptr;
+                        pl;ayer2 = nullptr;
                         break;
                     }
                 }
