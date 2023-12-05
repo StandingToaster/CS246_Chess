@@ -539,6 +539,30 @@ bool Board::stalemated() {
 
 }
 
+// determines whether a piece at cell c is under threat and returns false if there
+// is no piece at that cell
+bool Board::pieceIsAtThreat(Cell& c) {
+    // if no piece at cell return false
+    if (c.getChessPiece() == nullptr) {
+        return false;
+    }
+
+
+    Colour col = c.getChessPiece()->getColour();
+    Colour enemycol;
+    col == Colour::Black ? enemycol = Colour::White : enemycol = Colour::Black;
+
+    //check if any of the enemy teams pieces can attack cell c
+    for (Cell* attacker : this->getOccupiedCells(enemycol)) {
+        if(this->attackPossible(*attacker, c)) {
+            return true;
+        }
+    }
+    
+    // if loop exited piece is not under threat of attack
+    return false;
+}
+
 
 
 ostream& operator<<(ostream &out, const Board &b) {

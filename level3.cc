@@ -46,27 +46,7 @@ Move NonRiskyLevel2(level3& comp) {
         enemyColour = Colour::White;
     }
 
-
-    //first, try finding a checking move
-    for (Move m : validMoves) {
-        Board temp = *b;
-
-        int sx = m.getStart().getX();
-        int sy = m.getStart().getY();
-        int dx = m.getDest().getX();
-        int dy = m.getDest().getY();
-
-        temp.activateMove(temp.getCell(sx, sy), temp.getCell(dx,dy));
-        if (temp.checked(enemyColour)) {
-            
-            //ensure that the check doesnt result in putting piece at risk
-            if (pieceIsAtThreat(m.getDest(), temp)) {
-                return m;
-            }
-        }
-    }
-
-    //then, try returning a capturing move first
+    //first, try returning a capturing move first
     for (Move m : validMoves) {
 
         int sx = m.getStart().getX();
@@ -79,11 +59,32 @@ Move NonRiskyLevel2(level3& comp) {
             temp.activateMove(temp.getCell(sx, sy), temp.getCell(dx,dy));
 
             //ensure that the capture doesnt result in putting piece at risk
-            if (pieceIsAtThreat(m.getDest(), temp)) {
+            if (temp.pieceIsAtThreat(m.getDest())) {
                 return m;
             }
         }
     }
+
+
+    //then, try finding a checking move
+    for (Move m : validMoves) {
+        Board temp = *b;
+
+        int sx = m.getStart().getX();
+        int sy = m.getStart().getY();
+        int dx = m.getDest().getX();
+        int dy = m.getDest().getY();
+
+        temp.activateMove(temp.getCell(sx, sy), temp.getCell(dx,dy));
+        if (temp.checked(enemyColour)) {
+            
+            //ensure that the check doesnt result in putting piece at risk
+            if (temp.pieceIsAtThreat(m.getDest())) {
+                return m;
+            }
+        }
+    }
+
 
     //Now if no potential attack is detected or a check is possible, it will pick a RANDOM valid move.
     srand((unsigned) time(NULL));
@@ -122,7 +123,7 @@ bool protectPiece(Cell& c, Board& b, Move& m) {
         temp.activateMove(validMove.getStart(), validMove.getDest());
 
         // checks the threat status of both the original cell at threat and the destination
-        if (!pieceIsAtThreat(c, temp) && !pieceIsAtThreat(validMove.getDest(), temp)) {
+        if (!temp.pieceIsAtThreat(c) && !temp.pieceIsAtThreat(validMove.getDest())) {
             m = validMove;
             return true;
         }
@@ -142,7 +143,7 @@ Move level3::generateMove() {
     // check if any piece is at risk of capture and if so try to output a move that
     // prevents it
     for (Cell* c : b->getOccupiedCells(myColour)) {
-        if (pieceIsAtThreat(*c, *b)) {
+        if (b->pieceIsAtThreat(*c)) {
             Move m;
 
             if (protectPiece(*c, *b, m)) {
