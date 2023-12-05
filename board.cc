@@ -518,7 +518,7 @@ bool Board::stalemated() {
     if (numBlackKing == 1 && numWhiteKing == 1 && numEmpty == 62) {
         return true;
     }
-        
+
     if (numBlackKing == 1 && numBlackBishops == 1 && numWhiteKing == 1 && numEmpty == 61) {
         return true;
     }
