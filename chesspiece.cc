@@ -2616,7 +2616,9 @@ bool King::movePiece(Cell & start, Cell & destination, Board & b) {
                     numMoves++;
 
                     b.getCell(sx - 1, sy).addChessPiece(b.getCell(sx - 4, sy).getChessPiece());
+                    b.addBlackOrWhitePieceCell(&b.getCell(sx - 1, sy));   
                     b.getCell(sx - 4, sy).removeChessPiece();
+                    b.removeBlackOrWhitePieceCell();
                     b.getCell(sx - 1, sy).getChessPiece()->incrementNumMoves();
                     return true;
                 }
@@ -2652,7 +2654,9 @@ bool King::movePiece(Cell & start, Cell & destination, Board & b) {
                     numMoves++;
 
                     b.getCell(sx + 1, sy).addChessPiece(b.getCell(sx + 3, sy).getChessPiece());
+                    b.addBlackOrWhitePieceCell(&b.getCell(sx + 1, sy));  
                     b.getCell(sx + 3, sy).removeChessPiece();
+                    b.removeBlackOrWhitePieceCell();
                     b.getCell(sx + 1, sy).getChessPiece()->incrementNumMoves();
                     return true;
                 }

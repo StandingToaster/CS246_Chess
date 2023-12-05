@@ -18,7 +18,7 @@ int main() {
     b.setEmptyBoard();
 
     
-    b.setPieceOnBoard(new King(Colour::Black), 7, 0);
+    b.setPieceOnBoard(new King(Colour::Black), 0, 0);
     b.setPieceOnBoard(new King(Colour::White), 4, 7);
 
     // b.setPieceOnBoard(new King(Colour::Black), 7, 0);
@@ -30,16 +30,19 @@ int main() {
     cout << b.checked(Colour::Black) << endl;
     cout << b.checked(Colour::White) << endl;
 
-    b.clearLegalMoves();
-    b.calculateAllLegalMoves();
-    cout << b.stalemated() << endl;
+    // b.clearLegalMoves();
+    // // b.calculateAllLegalMoves();
+    // cout << b.stalemated() << endl;
+
+    // whitePieceCells[0].getChessPiece()
 
     b.activateMove(b.getCell(4,7), b.getCell(2,7));
     cout << b << endl;
     b.clearLegalMoves();
     b.printWhitePieceCells();
     b.calculateAllLegalMoves();
-
+    b.printWhiteLegalMoves();
+    b.printBlackLegalMoves();
     // b.promotePawn(Piece::Queen);
     // cout << b << endl;
     // b.clearLegalMoves();

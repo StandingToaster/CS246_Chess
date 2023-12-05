@@ -267,20 +267,21 @@ void Controller::playGame(istream &in, ostream &out) {
                 //If move succeeded.
                 if (notFailBit) {
                      if (iss >> m3) {
-                    if (m3 == "Q") {
+                    if (m3 == "Q" && (dy == 0 || dy == 7)) {
                         currentBoard->promotePawn(Piece::Queen);
                     }
-                    else if (m3 == "B") {
+                    else if (m3 == "B" && (dy == 0 || dy == 7)) {
                         currentBoard->promotePawn(Piece::Bishop);
                     }
-                    else if (m3 == "N") {
+                    else if (m3 == "N" && (dy == 0 || dy == 7)) {
                         currentBoard->promotePawn(Piece::Knight);
                     }
-                    else if (m3 == "R") {
+                    else if (m3 == "R" && (dy == 0 || dy == 7)) {
                         currentBoard->promotePawn(Piece::Rook);
                     }
                     else {
                         out << "Pawn promotion failed! Try again." << endl;
+                        out << *currentBoard << endl;
                          continue;
                     }
                 }
@@ -365,20 +366,21 @@ void Controller::playGame(istream &in, ostream &out) {
                 //Checks for checkmate.
                 if (notFailBit) {
                       if (iss >> m3) {
-                    if (m3 == "q") {
+                    if (m3 == "q" && (dy == 0 || dy == 7)) {
                         currentBoard->promotePawn(Piece::Queen);
                     }
-                    else if (m3 == "b") {
+                    else if (m3 == "b" && (dy == 0 || dy == 7)) {
                         currentBoard->promotePawn(Piece::Bishop);
                     }
-                    else if (m3 == "n") {
+                    else if (m3 == "n" && (dy == 0 || dy == 7)) {
                         currentBoard->promotePawn(Piece::Knight);
                     }
-                    else if (m3 == "r") {
+                    else if (m3 == "r" && (dy == 0 || dy == 7)) {
                         currentBoard->promotePawn(Piece::Rook);
                     }
                     else {
                         out << "Pawn promotion failed! Try again." << endl;
+                        out << *currentBoard << endl;
                          continue;
                     }
                 }
@@ -594,6 +596,13 @@ void Controller::playGame(istream &in, ostream &out) {
                 }
                 else if (cmd == "-help") {
                     //add help.
+                    out << "*Welcome to the Setup Mode Manual*" << endl;
+                    out << " + [piece] [coordinate] : Adds a piece to the board." << endl;
+                    out << " - [coordinate] : Removes a piece from the board." << endl;
+                    out << " = [colour] : Set the current player to its appropriate colour." << endl;
+                    out << "done : Exits setup mode." << endl;
+                    out << "*END OF SETUP HELP*" << endl;
+                    continue;
                 }
                 //If set current player.
                 else if (cmd == "=") {
@@ -649,7 +658,7 @@ void Controller::playGame(istream &in, ostream &out) {
                         out <<*currentBoard << endl;
                         gameEnd = false;
                         if (currentPlayer == 0) {
-                            currentPlayer == 1;
+                            currentPlayer = 1;
                         }
                         player1 = nullptr;
                         player2 = nullptr;
@@ -666,6 +675,16 @@ void Controller::playGame(istream &in, ostream &out) {
         }
         else if (temp == "-help") {
             //help specifications
+            out << "**Welcome to the CS246 Chess Project Manual**" << endl;
+            out << "Created by Harsimran Kalsi, Hirav Thakur, Jinil Panawala." << endl;
+            out << "Game is as is! It will have no more releases." << endl;
+            out << "game [player1] [player2] : Creates a default game between White-Player and Black-Player." << endl;
+            out << "player[1-2] can be human or computer[1-4]." << endl;
+            out << "move [start coordinate] [end coordinate] : Moves a piece for humans." << endl;
+            out << "move : Moves a piece for Computer." << endl;
+            out << "setup : Enters setup mode." << endl;
+            out << "**END OF HELP**" << endl;
+            continue;
         }
         else {
             out << "Invalid input! type -help for a list of commands." << endl;

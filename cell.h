@@ -25,17 +25,11 @@ class Cell {
     int getX();
     int getY();
     ChessPiece * getChessPiece();
-    // bool compareCells(Cell & c1, Cell & c2);
     void setCoords(int x, int y);
     void setColour(Colour c);
     void addChessPiece(ChessPiece * piece);
     void removeChessPiece();
     void deleteChessPiece();
-
-
-    // ChessPiece & getChessPiece();
-
-    // void promotePawn(char display);
 
     friend ostream& operator<<(ostream &out, const Cell &c);
 
