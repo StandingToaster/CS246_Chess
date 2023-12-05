@@ -252,6 +252,7 @@ void Controller::playGame(istream &in, ostream &out) {
                 currentPlayer = 1;
             
         }
+
         else if (temp == "move" && !gameEnd) {
             //Accomadate for both cpu and humans
             string m1;
@@ -538,7 +539,7 @@ void Controller::playGame(istream &in, ostream &out) {
                     continue;
                 }
             }
-            
+
         }
         else if (temp == "-help") {
             //help specifications
