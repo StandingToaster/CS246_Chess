@@ -5,7 +5,6 @@ using namespace std;
 Controller::Controller(Board* init): currentBoard{init}, player1{nullptr}, player2{nullptr}, score1{0}, score2{0} {}
 
 // Controller::~Controller() {
-//     delete currentBoard;
 //     delete player1;
 //     delete player2;
 // }

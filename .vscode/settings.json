@@ -3,5 +3,7 @@
         "iostream": "cpp",
         "ostream": "cpp",
         "iosfwd": "cpp"
-    }
+    },
+    "conf.marmoset.course": "CS246",
+    "conf.marmoset.semester": "Fall 2023"
 }
