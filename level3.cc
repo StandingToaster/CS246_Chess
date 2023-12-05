@@ -35,7 +35,7 @@ Move NonRiskyLevel2(level3& comp) {
             temp.activateMove(temp.getCell(sx, sy), temp.getCell(dx,dy));
 
             //ensure that the capture doesnt result in putting piece at risk
-            if (temp.pieceIsAtThreat(dx, dy)) {
+            if (!temp.pieceIsAtThreat(dx, dy)) {
                 return m;
             }
         }
@@ -55,7 +55,7 @@ Move NonRiskyLevel2(level3& comp) {
         if (temp.checked(enemyColour)) {
             
             //ensure that the check doesnt result in putting piece at risk
-            if (temp.pieceIsAtThreat(dx, dy)) {
+            if (!temp.pieceIsAtThreat(dx, dy)) {
                 return m;
             }
         }

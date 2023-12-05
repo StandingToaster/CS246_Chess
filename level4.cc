@@ -30,6 +30,7 @@ int bestCapturemove(level4& comp, Move& move) {
         int dx = m.getDest().getX();
         int dy = m.getDest().getY();
 
+
         if (!b->attackPossible(b->getCell(sx, sy), b->getCell(dx, dy))) continue; // skip move if it isnt an attack
         
         //add the value of the piece taken
@@ -41,7 +42,7 @@ int bestCapturemove(level4& comp, Move& move) {
                 b->getCell(dx, dy).getChessPiece()->getPiece() == Piece::Knight) {
             currentScore += 3;
         } else {
-        currentScore += 1;
+            currentScore += 1;
         }
 
         Board temp = *b;
@@ -86,6 +87,8 @@ int bestProtectPiece(int x, int y, Board& b, Move& m) {
 
     int bestScore = -9;
 
+    if (b.getCell(x,y).getChessPiece() == nullptr) return bestScore; //safety check
+
     for (Move validMove : b.getLegalMoves(col)) {
         Board temp = b;
 
@@ -95,6 +98,8 @@ int bestProtectPiece(int x, int y, Board& b, Move& m) {
         int dy = m.getDest().getY();
         // simulate the move on a copy of the board
         temp.activateMove(temp.getCell(sx, sy), temp.getCell(dx, dy));
+
+        if (temp.pieceIsAtThreat(x, y)) continue; // skip if the move didnt protect piece at x,y
 
         int currentScore = -9;
 
@@ -112,18 +117,16 @@ int bestProtectPiece(int x, int y, Board& b, Move& m) {
 
         // checks the threat status of both the original cell at threat and the destination
         // and adjusts currectScor accordingly
-        if (!temp.pieceIsAtThreat(validMove.getDest().getX(), validMove.getDest().getY())) {
-            if (temp.pieceIsAtThreat(m.getDest().getX(), m.getDest().getY())) {
-                if (temp.getCell(dx, dy).getChessPiece()->getPiece() == Piece::Queen) {
-                    currentScore -= 9;
-                } else if (temp.getCell(dx, dy).getChessPiece()->getPiece() == Piece::Rook) {
-                currentScore -= 5;
-                } else if (temp.getCell(dx, dy).getChessPiece()->getPiece() == Piece::Bishop ||
-                    temp.getCell(dx, dy).getChessPiece()->getPiece() == Piece::Knight) {
-                    currentScore -= 3;
-                } else {
-                    currentScore -= 1;
-                }
+        if (temp.pieceIsAtThreat(m.getDest().getX(), m.getDest().getY())) {
+            if (temp.getCell(dx, dy).getChessPiece()->getPiece() == Piece::Queen) {
+                currentScore -= 9;
+            } else if (temp.getCell(dx, dy).getChessPiece()->getPiece() == Piece::Rook) {
+            currentScore -= 5;
+            } else if (temp.getCell(dx, dy).getChessPiece()->getPiece() == Piece::Bishop ||
+                temp.getCell(dx, dy).getChessPiece()->getPiece() == Piece::Knight) {
+                currentScore -= 3;
+            } else {
+                currentScore -= 1;
             }
         }
 
@@ -160,7 +163,7 @@ int bestProtectionMove(level4& comp, Move& move) {
         if (!b->pieceIsAtThreat(c->getX(), c->getY())) continue; // skip move if cell isnt under threat
 
         Move currentMove;
-        // this will potentiallymutate currentMove
+        // this will potentially mutate currentMove
         int currentScore = bestProtectPiece(c->getX(), c->getY(), *b, currentMove);
         if (currentScore > bestScore) {
             bestMove = currentMove;
@@ -193,11 +196,11 @@ Move level4::generateMove() {
     int cmScore = bestCapturemove(*this, cm);
     int pmScore = bestProtectionMove(*this, pm);
 
-    if (cmScore >= -3 && cmScore > pmScore) { //cm is worth it and better than pm
+    if (cmScore >= 0 && cmScore > pmScore) { //cm is worth it and better than pm
         return cm;
-    } else if (pmScore >= -3 && pmScore > cmScore) { //pm is worth it and better than cm
+    } else if (pmScore >= 0 && pmScore > cmScore) { //pm is worth it and better than cm
         return pm;
-    } else if (cmScore >= -3 && pmScore >= -3 && pmScore == cmScore) { //both worth but equal
+    } else if (cmScore >= 0 && pmScore >= 0 && pmScore == cmScore) { //both worth but equal
         return cm;
     }
 
@@ -214,15 +217,11 @@ Move level4::generateMove() {
         if (temp.checked(enemyColour)) {
             
             //ensure that the check doesnt result in putting piece at risk
-            if (temp.pieceIsAtThreat(m.getDest().getX(), m.getDest().getY())) {
+            if (!temp.pieceIsAtThreat(m.getDest().getX(), m.getDest().getY())) {
                 return m;
             }
         }
     }
-
-    if (cmScore > -9 && cmScore >= pmScore) {
-        return cm; 
-    } else if (pmScore > -9 && pmScore > cmScore)
 
 
     //Now if no potential attack is detected or a check is possible, it will pick a RANDOM valid move.
