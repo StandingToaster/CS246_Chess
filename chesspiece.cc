@@ -2588,9 +2588,8 @@ bool King::movePiece(Cell & start, Cell & destination, Board & b) {
     if (start.getChessPiece()->getNumMoves() == 0 && !b.checked(start.getChessPiece()->getColour()))  { 
 
         // Castling queen (left) side
-        if (!b.cellEmpty(sx - 4, sy) && b.getCell(sx - 4, sy).getChessPiece()->getPiece() == Piece::Rook && b.getCell(sx - 4, sy).getChessPiece()->getColour() == start.getChessPiece()->getColour()
-            && b.getCell(sx - 4, sy).getChessPiece()->getNumMoves() == 0 && b.cellEmpty(sx - 3, sy) && b.cellEmpty(sx - 2, sy) && b.cellEmpty(sx - 1, sy) 
-            && dx == sx - 2 && dy == sy) {
+        if (dx == sx - 2 && dy == sy && !b.cellEmpty(sx - 4, sy) && b.getCell(sx - 4, sy).getChessPiece()->getPiece() == Piece::Rook && b.getCell(sx - 4, sy).getChessPiece()->getColour() == start.getChessPiece()->getColour()
+            && b.getCell(sx - 4, sy).getChessPiece()->getNumMoves() == 0 && b.cellEmpty(sx - 3, sy) && b.cellEmpty(sx - 2, sy) && b.cellEmpty(sx - 1, sy)) {
 
                 Board copy1 = b;
                 // copy1.getCell(dx, dy).deleteChessPiece();
@@ -2625,9 +2624,8 @@ bool King::movePiece(Cell & start, Cell & destination, Board & b) {
         }   
 
         // Castling king (right) side
-        if (!b.cellEmpty(sx + 3, sy) && b.getCell(sx + 3, sy).getChessPiece()->getPiece() == Piece::Rook && b.getCell(sx + 3, sy).getChessPiece()->getColour() == start.getChessPiece()->getColour()
-            && b.getCell(sx + 3, sy).getChessPiece()->getNumMoves() == 0 && b.cellEmpty(sx + 2, sy) && b.cellEmpty(sx + 1, sy)
-            && dx == sx + 2 && dy == sy) {
+        if (dx == sx + 2 && dy == sy && !b.cellEmpty(sx + 3, sy) && b.getCell(sx + 3, sy).getChessPiece()->getPiece() == Piece::Rook && b.getCell(sx + 3, sy).getChessPiece()->getColour() == start.getChessPiece()->getColour()
+            && b.getCell(sx + 3, sy).getChessPiece()->getNumMoves() == 0 && b.cellEmpty(sx + 2, sy) && b.cellEmpty(sx + 1, sy)) {
 
                 Board copy1 = b;
                 // copy1.getCell(dx, dy).deleteChessPiece();
